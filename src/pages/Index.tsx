@@ -1,12 +1,153 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, Sparkles, Leaf, Heart } from "lucide-react";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import ProductCard from "@/components/ProductCard";
+import { products } from "@/data/products";
+import heroImage from "@/assets/hero-image.jpg";
 
 const Index = () => {
+  const navigate = useNavigate();
+  const featuredProducts = products.filter((p) => p.featured);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen flex flex-col">
+      <Header />
+
+      {/* Hero Section */}
+      <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0">
+          <img
+            src={heroImage}
+            alt="AfroChic Beauty"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-chocolate/60 via-chocolate/30 to-transparent" />
+        </div>
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl animate-fade-in-up">
+            <h1 className="text-5xl md:text-7xl font-light tracking-tight text-cream mb-6 leading-tight">
+              Beauty Designed
+              <br />
+              <span className="font-semibold">For You</span>
+            </h1>
+            <p className="text-lg md:text-xl text-cream/90 mb-8 max-w-xl">
+              Premium cosmetics celebrating the richness and diversity of melanin-rich skin.
+              Crafted with natural ingredients from the heart of Kenya.
+            </p>
+            <Button
+              size="lg"
+              onClick={() => navigate("/products")}
+              className="group bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-lg rounded-full shadow-elevated hover:shadow-soft transition-all"
+            >
+              Explore Collection
+              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Products */}
+      <section className="py-20 container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16 animate-fade-in-up">
+          <h2 className="text-4xl md:text-5xl font-light tracking-tight mb-4">
+            Best Sellers
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Discover our most loved products, handpicked for their transformative results
+          </p>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          {featuredProducts.map((product, index) => (
+            <div
+              key={product.id}
+              className="animate-fade-in-up"
+              style={{ animationDelay: `${index * 100}ms` }}
+            >
+              <ProductCard product={product} />
+            </div>
+          ))}
+        </div>
+        <div className="text-center">
+          <Button
+            variant="outline"
+            size="lg"
+            onClick={() => navigate("/products")}
+            className="rounded-full px-8 border-2"
+          >
+            View All Products
+          </Button>
+        </div>
+      </section>
+
+      {/* Brand Values */}
+      <section className="py-20 bg-muted/30">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div className="text-center space-y-4 animate-fade-in-up">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-accent/10 mb-4">
+                <Sparkles className="h-8 w-8 text-accent" />
+              </div>
+              <h3 className="text-xl font-semibold">Premium Quality</h3>
+              <p className="text-muted-foreground">
+                High-performance formulas crafted with the finest ingredients
+              </p>
+            </div>
+            <div
+              className="text-center space-y-4 animate-fade-in-up"
+              style={{ animationDelay: "100ms" }}
+            >
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-sage/10 mb-4">
+                <Leaf className="h-8 w-8 text-sage" />
+              </div>
+              <h3 className="text-xl font-semibold">Natural Ingredients</h3>
+              <p className="text-muted-foreground">
+                Ethically sourced botanicals and nourishing African oils
+              </p>
+            </div>
+            <div
+              className="text-center space-y-4 animate-fade-in-up"
+              style={{ animationDelay: "200ms" }}
+            >
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
+                <Heart className="h-8 w-8 text-primary" />
+              </div>
+              <h3 className="text-xl font-semibold">Made for Melanin</h3>
+              <p className="text-muted-foreground">
+                Specifically designed to enhance and celebrate diverse skin tones
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Brand Story Teaser */}
+      <section className="py-20 container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto text-center space-y-6 animate-fade-in-up">
+          <h2 className="text-4xl md:text-5xl font-light tracking-tight">
+            Rooted in Heritage,
+            <br />
+            <span className="font-semibold">Crafted for Today</span>
+          </h2>
+          <p className="text-lg text-muted-foreground leading-relaxed">
+            AfroChic was born from a simple belief: beauty products should celebrate, not
+            compromise, the richness of African skin. Our formulas blend traditional African
+            botanicals with modern science to create cosmetics that truly understand and
+            enhance melanin-rich beauty.
+          </p>
+          <Button
+            variant="outline"
+            size="lg"
+            onClick={() => navigate("/about")}
+            className="rounded-full px-8 border-2"
+          >
+            Read Our Story
+          </Button>
+        </div>
+      </section>
+
+      <Footer />
     </div>
   );
 };
