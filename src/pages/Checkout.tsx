@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -8,24 +8,89 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { CreditCard, Smartphone } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 const Checkout = () => {
   const navigate = useNavigate();
   const { items, total, clearCart } = useCart();
+  const { user } = useAuth();
   const [paymentMethod, setPaymentMethod] = useState<"card" | "mpesa">("card");
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!user) {
+      toast.error("Please sign in to checkout");
+      navigate("/auth");
+    }
+  }, [user, navigate]);
 
   if (items.length === 0) {
     navigate("/cart");
     return null;
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Payment integration will be added later
-    toast.success("Order placed successfully!");
-    clearCart();
-    navigate("/");
+    if (!user) return;
+
+    setLoading(true);
+
+    try {
+      const formData = new FormData(e.target as HTMLFormElement);
+      const shippingAddress = {
+        full_name: `${formData.get("firstName")} ${formData.get("lastName")}`,
+        email: formData.get("email") as string,
+        phone: formData.get("phone") as string,
+        address_line: formData.get("address") as string,
+        city: formData.get("city") as string,
+        postal_code: formData.get("postalCode") as string || null
+      };
+
+      // Create order
+      const { data: order, error: orderError } = await supabase
+        .from("orders")
+        .insert({
+          user_id: user.id,
+          status: "pending",
+          payment_method: paymentMethod,
+          subtotal: total,
+          shipping_fee: 500,
+          total: total + 500,
+          shipping_address: shippingAddress
+        })
+        .select()
+        .single();
+
+      if (orderError) throw orderError;
+
+      // Create order items
+      const orderItems = items.map(item => ({
+        order_id: order.id,
+        product_id: item.id,
+        product_name: item.name,
+        product_image: item.image,
+        shade: item.shade,
+        price: item.price,
+        quantity: item.quantity
+      }));
+
+      const { error: itemsError } = await supabase
+        .from("order_items")
+        .insert(orderItems);
+
+      if (itemsError) throw itemsError;
+
+      toast.success("Order placed successfully!");
+      clearCart();
+      navigate("/account");
+    } catch (error) {
+      console.error("Order error:", error);
+      toast.error("Failed to place order. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -192,9 +257,10 @@ const Checkout = () => {
                 <Button
                   type="submit"
                   size="lg"
+                  disabled={loading}
                   className="w-full mt-6 rounded-full py-6 shadow-elevated hover:shadow-soft transition-all"
                 >
-                  Place Order
+                  {loading ? "Processing..." : "Place Order"}
                 </Button>
               </div>
             </div>

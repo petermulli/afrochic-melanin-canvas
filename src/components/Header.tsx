@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { NavLink } from "./NavLink";
 import { Button } from "./ui/button";
-import { ShoppingCart, Menu, X } from "lucide-react";
+import { ShoppingCart, Menu, X, User } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { items } = useCart();
+  const { user } = useAuth();
   const cartCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
@@ -34,6 +36,11 @@ const Header = () => {
               Our Story
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
             </NavLink>
+            <NavLink to={user ? "/account" : "/auth"}>
+              <Button variant="ghost" size="icon" className="hover:bg-muted">
+                <User className="h-5 w-5" />
+              </Button>
+            </NavLink>
             <NavLink to="/cart" className="relative">
               <Button variant="ghost" size="icon" className="relative hover:bg-muted">
                 <ShoppingCart className="h-5 w-5" />
@@ -48,6 +55,11 @@ const Header = () => {
 
           {/* Mobile Menu Button */}
           <div className="flex items-center space-x-2 md:hidden">
+            <NavLink to={user ? "/account" : "/auth"}>
+              <Button variant="ghost" size="icon" className="hover:bg-muted">
+                <User className="h-5 w-5" />
+              </Button>
+            </NavLink>
             <NavLink to="/cart" className="relative">
               <Button variant="ghost" size="icon" className="relative hover:bg-muted">
                 <ShoppingCart className="h-5 w-5" />
@@ -85,6 +97,13 @@ const Header = () => {
               onClick={() => setMobileMenuOpen(false)}
             >
               Our Story
+            </NavLink>
+            <NavLink
+              to={user ? "/account" : "/auth"}
+              className="block py-2 text-base font-medium text-foreground/80 hover:text-foreground transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {user ? "My Account" : "Sign In"}
             </NavLink>
           </div>
         )}
