@@ -82,12 +82,32 @@ const Checkout = () => {
 
       if (itemsError) throw itemsError;
 
-      toast.success("Order placed successfully!");
-      clearCart();
-      navigate("/account");
-    } catch (error) {
+      // Process payment
+      if (paymentMethod === "mpesa") {
+        const { data, error } = await supabase.functions.invoke("process-payment", {
+          body: {
+            amount: total + 500,
+            phone: shippingAddress.phone,
+            orderId: order.id,
+            paymentMethod: "mpesa",
+          },
+        });
+
+        if (error) throw error;
+
+        if (data.success) {
+          clearCart();
+          toast.success(data.message);
+          navigate("/account");
+        } else {
+          throw new Error(data.error || "Payment failed");
+        }
+      } else {
+        toast.error("Card payments not yet configured. Please use M-PESA.");
+      }
+    } catch (error: any) {
       console.error("Order error:", error);
-      toast.error("Failed to place order. Please try again.");
+      toast.error(error.message || "Failed to place order. Please try again.");
     } finally {
       setLoading(false);
     }
