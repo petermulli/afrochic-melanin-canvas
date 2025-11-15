@@ -73,17 +73,37 @@ const Admin = () => {
 
   const updateOrderStatus = async (orderId: string, newStatus: string) => {
     try {
-      const { error } = await supabase
+      // Update order status in database
+      const { error: updateError } = await supabase
         .from("orders")
         .update({ status: newStatus })
         .eq("id", orderId);
 
-      if (error) throw error;
+      if (updateError) throw updateError;
 
-      setOrders(orders.map(order => 
-        order.id === orderId ? { ...order, status: newStatus } : order
+      // Send email notification via edge function
+      try {
+        const { error: emailError } = await supabase.functions.invoke("send-order-status-email", {
+          body: {
+            orderId: orderId,
+            newStatus: newStatus,
+          },
+        });
+
+        if (emailError) {
+          console.error("Error sending email:", emailError);
+          toast.warning("Order updated but email notification failed");
+        } else {
+          toast.success("Order status updated and customer notified");
+        }
+      } catch (emailError) {
+        console.error("Error invoking email function:", emailError);
+        toast.warning("Order updated but email notification failed");
+      }
+
+      setOrders(orders.map(o => 
+        o.id === orderId ? { ...o, status: newStatus } : o
       ));
-      toast.success("Order status updated successfully");
     } catch (error: any) {
       console.error("Error updating order status:", error);
       toast.error("Failed to update order status");
