@@ -4,11 +4,13 @@ import { Button } from "./ui/button";
 import { ShoppingCart, Menu, X, User } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { useAuth } from "@/contexts/AuthContext";
+import { useAdmin } from "@/hooks/useAdmin";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { items } = useCart();
   const { user } = useAuth();
+  const { isAdmin } = useAdmin();
   const cartCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
@@ -36,6 +38,15 @@ const Header = () => {
               Our Story
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
             </NavLink>
+            {isAdmin && (
+              <NavLink
+                to="/admin"
+                className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors relative group"
+              >
+                Admin
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
+              </NavLink>
+            )}
             <NavLink to={user ? "/account" : "/auth"}>
               <Button variant="ghost" size="icon" className="hover:bg-muted">
                 <User className="h-5 w-5" />
@@ -105,6 +116,15 @@ const Header = () => {
             >
               {user ? "My Account" : "Sign In"}
             </NavLink>
+            {isAdmin && (
+              <NavLink
+                to="/admin"
+                className="block py-2 text-base font-medium text-foreground/80 hover:text-foreground transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Admin Dashboard
+              </NavLink>
+            )}
           </div>
         )}
       </nav>
