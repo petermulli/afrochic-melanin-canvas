@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import OrderDetailsModal from "@/components/OrderDetailsModal";
+import SalesAnalytics from "@/components/SalesAnalytics";
 import { useAdmin } from "@/hooks/useAdmin";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -150,6 +151,10 @@ const Admin = () => {
       <Header />
       <main className="flex-1 container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
+        
+        <div className="mb-8">
+          <SalesAnalytics />
+        </div>
         
         <div className="bg-card rounded-lg shadow-lg p-6">
           <h2 className="text-2xl font-semibold mb-4">Order Management</h2>
