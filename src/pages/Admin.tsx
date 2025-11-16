@@ -4,9 +4,11 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import OrderDetailsModal from "@/components/OrderDetailsModal";
 import SalesAnalytics from "@/components/SalesAnalytics";
+import InventoryManagement from "@/components/InventoryManagement";
 import { useAdmin } from "@/hooks/useAdmin";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Table,
   TableBody,
@@ -152,12 +154,20 @@ const Admin = () => {
       <main className="flex-1 container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
         
-        <div className="mb-8">
-          <SalesAnalytics />
-        </div>
-        
-        <div className="bg-card rounded-lg shadow-lg p-6">
-          <h2 className="text-2xl font-semibold mb-4">Order Management</h2>
+        <Tabs defaultValue="analytics" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="analytics">Analytics</TabsTrigger>
+            <TabsTrigger value="orders">Orders</TabsTrigger>
+            <TabsTrigger value="inventory">Inventory</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="analytics">
+            <SalesAnalytics />
+          </TabsContent>
+          
+          <TabsContent value="orders">
+            <div className="bg-card rounded-lg shadow-lg p-6">
+              <h2 className="text-2xl font-semibold mb-4">Order Management</h2>
           
           {orders.length === 0 ? (
             <p className="text-muted-foreground">No orders found</p>
@@ -230,7 +240,13 @@ const Admin = () => {
               </Table>
             </div>
           )}
-        </div>
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="inventory">
+            <InventoryManagement />
+          </TabsContent>
+        </Tabs>
       </main>
       <Footer />
       
