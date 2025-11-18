@@ -38,6 +38,13 @@ const Header = () => {
               Our Story
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
             </NavLink>
+            <NavLink
+              to="/learn-more"
+              className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors relative group"
+            >
+              Learn More
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
+            </NavLink>
             {isAdmin && (
               <NavLink
                 to="/admin"
@@ -108,6 +115,13 @@ const Header = () => {
               onClick={() => setMobileMenuOpen(false)}
             >
               Our Story
+            </NavLink>
+            <NavLink
+              to="/learn-more"
+              className="block py-2 text-base font-medium text-foreground/80 hover:text-foreground transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Learn More
             </NavLink>
             <NavLink
               to={user ? "/account" : "/auth"}
