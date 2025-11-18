@@ -18,7 +18,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-import { Loader2, Plus, Package, ArrowUpCircle, ArrowDownCircle, Edit, AlertTriangle } from "lucide-react";
+import { Loader2, Plus, Package, ArrowUpCircle, ArrowDownCircle, Edit, AlertTriangle, Download } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 interface InventoryItem {
   id: string;
@@ -42,6 +43,7 @@ interface InventoryMovement {
 
 const InventoryManagement = () => {
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
+  const [movements, setMovements] = useState<InventoryMovement[]>([]);
   const [loading, setLoading] = useState(true);
   const [addDialogOpen, setAddDialogOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
@@ -66,6 +68,7 @@ const InventoryManagement = () => {
 
   useEffect(() => {
     fetchInventory();
+    fetchMovements();
   }, []);
 
   const fetchInventory = async () => {
@@ -82,6 +85,20 @@ const InventoryManagement = () => {
       toast.error("Failed to fetch inventory");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchMovements = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("inventory_movements")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+      setMovements(data || []);
+    } catch (error: any) {
+      console.error("Error fetching movements:", error);
     }
   };
 
@@ -148,6 +165,7 @@ const InventoryManagement = () => {
       setSelectedItem(null);
       setMovementData({ movement_type: "in", quantity: 0, notes: "" });
       fetchInventory();
+      fetchMovements();
     } catch (error: any) {
       console.error("Error recording stock movement:", error);
       toast.error("Failed to record stock movement");
@@ -196,6 +214,73 @@ const InventoryManagement = () => {
     return <Badge className="bg-green-500">In Stock</Badge>;
   };
 
+  const downloadCSV = (data: string, filename: string) => {
+    const blob = new Blob([data], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", filename);
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const exportStockLevels = () => {
+    const headers = ["Product ID", "Product Name", "Quantity", "Status", "Reorder Level", "Reorder Quantity", "Unit Price", "Total Value"];
+    const rows = inventory.map(item => [
+      item.product_id,
+      item.product_name,
+      item.quantity,
+      item.quantity === 0 ? "Out of Stock" : item.quantity <= item.reorder_level ? "Low Stock" : "In Stock",
+      item.reorder_level,
+      item.reorder_quantity,
+      item.unit_price,
+      (item.quantity * item.unit_price).toFixed(2),
+    ]);
+    
+    const csv = [headers, ...rows].map(row => row.join(",")).join("\n");
+    downloadCSV(csv, `inventory-stock-levels-${new Date().toISOString().split("T")[0]}.csv`);
+    toast.success("Stock levels report exported");
+  };
+
+  const exportMovementsHistory = () => {
+    const headers = ["Date", "Product ID", "Movement Type", "Quantity", "Notes"];
+    const rows = movements.map(movement => [
+      new Date(movement.created_at).toLocaleString(),
+      movement.product_id,
+      movement.movement_type,
+      movement.quantity,
+      movement.notes || "",
+    ]);
+    
+    const csv = [headers, ...rows].map(row => row.map(cell => `"${cell}"`).join(",")).join("\n");
+    downloadCSV(csv, `inventory-movements-${new Date().toISOString().split("T")[0]}.csv`);
+    toast.success("Movements history exported");
+  };
+
+  const exportValuationReport = () => {
+    const totalValue = inventory.reduce((sum, item) => sum + (item.quantity * item.unit_price), 0);
+    const headers = ["Product ID", "Product Name", "Quantity", "Unit Price (KES)", "Total Value (KES)", "% of Total"];
+    const rows = inventory.map(item => {
+      const itemValue = item.quantity * item.unit_price;
+      return [
+        item.product_id,
+        item.product_name,
+        item.quantity,
+        item.unit_price.toFixed(2),
+        itemValue.toFixed(2),
+        ((itemValue / totalValue) * 100).toFixed(2) + "%",
+      ];
+    });
+    
+    rows.push(["", "", "", "TOTAL", totalValue.toFixed(2), "100%"]);
+    
+    const csv = [headers, ...rows].map(row => row.join(",")).join("\n");
+    downloadCSV(csv, `inventory-valuation-${new Date().toISOString().split("T")[0]}.csv`);
+    toast.success("Valuation report exported");
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center p-8">
@@ -226,14 +311,34 @@ const InventoryManagement = () => {
               <CardTitle>Inventory Management</CardTitle>
               <CardDescription>Track and manage product stock levels</CardDescription>
             </div>
-            <Dialog open={addDialogOpen} onOpenChange={setAddDialogOpen}>
-              <DialogTrigger asChild>
-                <Button>
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add Product
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
+            <div className="flex gap-2">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline">
+                    <Download className="h-4 w-4 mr-2" />
+                    Export Reports
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={exportStockLevels}>
+                    Stock Levels Report
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={exportMovementsHistory}>
+                    Movements History
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={exportValuationReport}>
+                    Valuation Report
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <Dialog open={addDialogOpen} onOpenChange={setAddDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button>
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Product
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
                 <DialogHeader>
                   <DialogTitle>Add New Inventory Item</DialogTitle>
                   <DialogDescription>Add a new product to inventory tracking</DialogDescription>
@@ -299,6 +404,7 @@ const InventoryManagement = () => {
                 </div>
               </DialogContent>
             </Dialog>
+            </div>
           </div>
         </CardHeader>
         <CardContent>
