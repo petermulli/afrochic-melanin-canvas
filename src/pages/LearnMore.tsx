@@ -4,66 +4,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles, Heart, Leaf, Sun } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { blogPosts } from "@/data/blogPosts";
 
 const LearnMore = () => {
   const navigate = useNavigate();
-
-  const articles = [
-    {
-      id: 1,
-      title: "Understanding Your Skin Type",
-      excerpt: "Discover the secrets to identifying your unique skin type and choosing products that work perfectly for you.",
-      category: "Skincare",
-      image: "https://images.unsplash.com/photo-1596755389378-c31d21fd1273?w=800&q=80",
-      readTime: "5 min read",
-      icon: Sparkles,
-    },
-    {
-      id: 2,
-      title: "The Power of Natural Ingredients",
-      excerpt: "Explore how indigenous African botanicals can transform your beauty routine with their healing properties.",
-      category: "Ingredients",
-      image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=800&q=80",
-      readTime: "7 min read",
-      icon: Leaf,
-    },
-    {
-      id: 3,
-      title: "Melanin-Rich Skin Care Tips",
-      excerpt: "Expert advice on maintaining radiant, healthy skin with products specifically formulated for melanin-rich complexions.",
-      category: "Beauty Tips",
-      image: "https://images.unsplash.com/photo-1522337660859-02fbefca4702?w=800&q=80",
-      readTime: "6 min read",
-      icon: Heart,
-    },
-    {
-      id: 4,
-      title: "Sun Protection Essentials",
-      excerpt: "Why SPF matters for all skin tones and how to choose the right protection for your daily routine.",
-      category: "Skincare",
-      image: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=800&q=80",
-      readTime: "4 min read",
-      icon: Sun,
-    },
-    {
-      id: 5,
-      title: "Building Your Beauty Routine",
-      excerpt: "A step-by-step guide to creating a personalized skincare routine that fits your lifestyle and delivers results.",
-      category: "Guides",
-      image: "https://images.unsplash.com/photo-1570554886111-e80fcca6a029?w=800&q=80",
-      readTime: "8 min read",
-      icon: Sparkles,
-    },
-    {
-      id: 6,
-      title: "Sustainable Beauty Choices",
-      excerpt: "Learn how to make eco-conscious beauty decisions that benefit both your skin and the environment.",
-      category: "Sustainability",
-      image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=800&q=80",
-      readTime: "5 min read",
-      icon: Leaf,
-    },
-  ];
 
   const featuredArticle = {
     title: "The AfroChic Beauty Philosophy",
@@ -118,10 +62,10 @@ const LearnMore = () => {
               <p className="text-sm text-muted-foreground mb-2">{featuredArticle.readTime}</p>
               <h2 className="text-3xl md:text-4xl font-light mb-4">{featuredArticle.title}</h2>
               <p className="text-muted-foreground mb-6 text-lg">{featuredArticle.excerpt}</p>
-              <Button className="w-fit group rounded-full">
-                Read Article
-                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-              </Button>
+            <Button className="w-fit group rounded-full" onClick={() => navigate(`/blog/${blogPosts[0].slug}`)}>
+              Read Article
+              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            </Button>
             </CardContent>
           </div>
         </Card>
@@ -139,13 +83,21 @@ const LearnMore = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {articles.map((article, index) => {
-            const Icon = article.icon;
+          {blogPosts.map((article, index) => {
+            const iconMap: { [key: string]: any } = {
+              "Skincare": Sparkles,
+              "Ingredients": Leaf,
+              "Beauty Tips": Heart,
+              "Guides": Sparkles,
+              "Sustainability": Leaf
+            };
+            const Icon = iconMap[article.category] || Sparkles;
             return (
               <Card
                 key={article.id}
                 className="overflow-hidden group hover:shadow-elevated transition-all duration-300 hover-lift cursor-pointer animate-fade-in-up"
                 style={{ animationDelay: `${index * 100}ms` }}
+                onClick={() => navigate(`/blog/${article.slug}`)}
               >
                 <div className="relative h-56 overflow-hidden">
                   <img
