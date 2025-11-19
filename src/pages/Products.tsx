@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
 import { products } from "@/data/products";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
 
 const Products = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const categories = [
     { id: null, label: "All" },
@@ -16,9 +19,25 @@ const Products = () => {
     { id: "skincare", label: "Skincare" },
   ];
 
-  const filteredProducts = selectedCategory
-    ? products.filter((p) => p.category === selectedCategory)
-    : products;
+  const filteredProducts = useMemo(() => {
+    let filtered = products;
+    
+    if (selectedCategory) {
+      filtered = filtered.filter((p) => p.category === selectedCategory);
+    }
+    
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(
+        (p) =>
+          p.name.toLowerCase().includes(query) ||
+          p.description.toLowerCase().includes(query) ||
+          p.category.toLowerCase().includes(query)
+      );
+    }
+    
+    return filtered;
+  }, [selectedCategory, searchQuery]);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -35,6 +54,20 @@ const Products = () => {
           </p>
         </div>
 
+        {/* Search Bar */}
+        <div className="max-w-2xl mx-auto mb-8 animate-fade-in-up">
+          <div className="relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder="Search products by name, category, or description..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-12 h-12 rounded-full border-2 focus-visible:ring-primary"
+            />
+          </div>
+        </div>
+
         {/* Category Filter */}
         <div className="flex flex-wrap justify-center gap-3 mb-12 animate-fade-in-up">
           {categories.map((category) => (
@@ -49,15 +82,20 @@ const Products = () => {
           ))}
         </div>
 
-        {/* Product Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        {/* Results Count */}
+        <div className="mb-6 text-center text-sm text-muted-foreground">
+          Showing {filteredProducts.length} {filteredProducts.length === 1 ? 'product' : 'products'}
+        </div>
+
+        {/* Product Grid - Smaller, More Dense */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6">
           {filteredProducts.map((product, index) => (
             <div
               key={product.id}
               className="animate-fade-in-up"
               style={{ animationDelay: `${index * 50}ms` }}
             >
-              <ProductCard product={product} />
+              <ProductCard product={product} compact />
             </div>
           ))}
         </div>
