@@ -2,9 +2,21 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { ShoppingCart } from "lucide-react";
-import { Product } from "@/data/products";
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "sonner";
+
+interface Product {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  images: string[];
+  shades?: string[];
+  featured?: boolean;
+  benefits?: string[];
+  ingredients?: string[];
+}
 
 interface ProductCardProps {
   product: Product;

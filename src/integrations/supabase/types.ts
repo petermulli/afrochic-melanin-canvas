@@ -218,6 +218,51 @@ export type Database = {
           },
         ]
       }
+      products: {
+        Row: {
+          benefits: string[] | null
+          category: string
+          created_at: string | null
+          description: string
+          featured: boolean | null
+          id: string
+          images: string[]
+          ingredients: string[] | null
+          name: string
+          price: number
+          shades: string[] | null
+          updated_at: string | null
+        }
+        Insert: {
+          benefits?: string[] | null
+          category: string
+          created_at?: string | null
+          description: string
+          featured?: boolean | null
+          id: string
+          images: string[]
+          ingredients?: string[] | null
+          name: string
+          price: number
+          shades?: string[] | null
+          updated_at?: string | null
+        }
+        Update: {
+          benefits?: string[] | null
+          category?: string
+          created_at?: string | null
+          description?: string
+          featured?: boolean | null
+          id?: string
+          images?: string[]
+          ingredients?: string[] | null
+          name?: string
+          price?: number
+          shades?: string[] | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string | null
