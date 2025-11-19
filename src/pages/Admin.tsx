@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import OrderDetailsModal from "@/components/OrderDetailsModal";
 import SalesAnalytics from "@/components/SalesAnalytics";
 import InventoryManagement from "@/components/InventoryManagement";
+import ProductManagement from "@/components/ProductManagement";
 import { useAdmin } from "@/hooks/useAdmin";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -154,12 +155,13 @@ const Admin = () => {
       <main className="flex-1 container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
         
-        <Tabs defaultValue="analytics" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="analytics">Analytics</TabsTrigger>
-            <TabsTrigger value="orders">Orders</TabsTrigger>
-            <TabsTrigger value="inventory">Inventory</TabsTrigger>
-          </TabsList>
+          <Tabs defaultValue="analytics" className="space-y-6">
+            <TabsList className="grid w-full grid-cols-4">
+              <TabsTrigger value="analytics">Analytics</TabsTrigger>
+              <TabsTrigger value="orders">Orders</TabsTrigger>
+              <TabsTrigger value="inventory">Inventory</TabsTrigger>
+              <TabsTrigger value="products">Products</TabsTrigger>
+            </TabsList>
           
           <TabsContent value="analytics">
             <SalesAnalytics />
@@ -245,8 +247,12 @@ const Admin = () => {
           
           <TabsContent value="inventory">
             <InventoryManagement />
-          </TabsContent>
-        </Tabs>
+            </TabsContent>
+            
+            <TabsContent value="products">
+              <ProductManagement />
+            </TabsContent>
+          </Tabs>
       </main>
       <Footer />
       
