@@ -8,9 +8,10 @@ import { toast } from "sonner";
 
 interface ProductCardProps {
   product: Product;
+  compact?: boolean;
 }
 
-const ProductCard = ({ product }: ProductCardProps) => {
+const ProductCard = ({ product, compact = false }: ProductCardProps) => {
   const navigate = useNavigate();
   const { addItem } = useCart();
   const [isHovered, setIsHovered] = useState(false);
@@ -46,7 +47,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         setImageIndex(0);
       }}
     >
-      <div className="relative aspect-square overflow-hidden rounded-2xl bg-muted mb-4">
+      <div className={`relative ${compact ? 'aspect-[3/4]' : 'aspect-square'} overflow-hidden ${compact ? 'rounded-lg' : 'rounded-2xl'} bg-muted ${compact ? 'mb-2' : 'mb-4'}`}>
         <img
           src={product.images[imageIndex]}
           alt={product.name}
@@ -60,20 +61,22 @@ const ProductCard = ({ product }: ProductCardProps) => {
         />
         <Button
           onClick={handleAddToCart}
-          size="icon"
-          className={`absolute bottom-4 right-4 rounded-full shadow-elevated transition-all duration-300 ${
+          size={compact ? "sm" : "icon"}
+          className={`absolute ${compact ? 'bottom-2 right-2' : 'bottom-4 right-4'} rounded-full shadow-elevated transition-all duration-300 ${
             isHovered ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
           }`}
         >
-          <ShoppingCart className="h-4 w-4" />
+          <ShoppingCart className={compact ? "h-3 w-3" : "h-4 w-4"} />
         </Button>
       </div>
-      <div className="space-y-1">
-        <h3 className="font-medium text-foreground group-hover:text-primary transition-colors">
+      <div className={compact ? 'space-y-0.5' : 'space-y-1'}>
+        <h3 className={`font-medium ${compact ? 'text-xs md:text-sm' : 'text-base'} text-foreground group-hover:text-primary transition-colors line-clamp-1`}>
           {product.name}
         </h3>
-        <p className="text-sm text-muted-foreground line-clamp-2">{product.description}</p>
-        <p className="text-lg font-semibold text-primary">
+        {!compact && (
+          <p className="text-sm text-muted-foreground line-clamp-2">{product.description}</p>
+        )}
+        <p className={`${compact ? 'text-sm md:text-base' : 'text-lg'} font-semibold text-primary`}>
           KES {product.price.toLocaleString()}
         </p>
       </div>
