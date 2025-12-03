@@ -3,9 +3,10 @@ import { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
+import DynamicHeroText from "@/components/DynamicHeroText";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { ShoppingBag, Heart, Star, ArrowRight, Sparkles, Leaf } from "lucide-react";
+import { Heart, ArrowRight, Sparkles, Leaf } from "lucide-react";
 import heroImage from "@/assets/hero-image.jpg";
 import {
   Carousel,
@@ -88,13 +89,9 @@ const Index = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-chocolate/60 via-chocolate/30 to-transparent" />
         </div>
         <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl animate-fade-in-up">
-            <h1 className="text-5xl md:text-7xl font-light tracking-tight text-cream mb-6 leading-tight">
-              Beauty Designed
-              <br />
-              <span className="font-semibold">For You</span>
-            </h1>
-            <p className="text-lg md:text-xl text-cream/90 mb-8 max-w-xl">
+          <div className="max-w-3xl animate-fade-in-up">
+            <DynamicHeroText />
+            <p className="text-lg md:text-xl text-cream/90 mb-10 max-w-xl font-light leading-relaxed">
               Premium cosmetics celebrating the richness and diversity of melanin-rich skin.
               Crafted with natural ingredients from the heart of Kenya.
             </p>

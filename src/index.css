@@ -108,22 +108,26 @@ All colors MUST be HSL.
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-semibold tracking-tight;
+    @apply font-serif tracking-tight;
     font-feature-settings: 'kern' 1, 'liga' 1;
-    letter-spacing: -0.02em;
   }
   
   h1 {
-    @apply text-5xl md:text-6xl lg:text-7xl;
-    font-weight: 300;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
+    @apply text-5xl md:text-6xl lg:text-7xl font-serif;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
   }
   
   h2 {
-    @apply text-4xl md:text-5xl;
-    font-weight: 300;
-    letter-spacing: -0.025em;
+    @apply text-4xl md:text-5xl font-serif;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  
+  h3 {
+    @apply text-2xl md:text-3xl font-serif;
+    font-weight: 500;
   }
 }
 

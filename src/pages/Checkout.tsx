@@ -2,11 +2,10 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import PaymentMethodSelector from "@/components/PaymentMethodSelector";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { CreditCard, Smartphone } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -118,7 +117,7 @@ const Checkout = () => {
       <Header />
 
       <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h1 className="text-4xl font-light tracking-tight mb-12 animate-fade-in-up">
+        <h1 className="text-4xl font-serif tracking-tight mb-12 animate-fade-in-up">
           Checkout
         </h1>
 
@@ -128,7 +127,7 @@ const Checkout = () => {
             <div className="lg:col-span-2 space-y-8">
               {/* Shipping Information */}
               <div className="bg-card rounded-2xl p-8 shadow-soft animate-fade-in-up">
-                <h2 className="text-2xl font-light mb-6">Shipping Information</h2>
+                <h2 className="text-2xl font-serif mb-6">Shipping Information</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <Label htmlFor="firstName">First Name</Label>
@@ -166,67 +165,11 @@ const Checkout = () => {
                 className="bg-card rounded-2xl p-8 shadow-soft animate-fade-in-up"
                 style={{ animationDelay: "100ms" }}
               >
-                <h2 className="text-2xl font-light mb-6">Payment Method</h2>
-                <RadioGroup
+                <h2 className="text-2xl font-serif mb-6">Payment Method</h2>
+                <PaymentMethodSelector
                   value={paymentMethod}
-                  onValueChange={(value) => setPaymentMethod(value as "card" | "mpesa")}
-                  className="space-y-4"
-                >
-                  <div className="flex items-center space-x-3 p-4 border-2 border-border rounded-xl hover:border-primary transition-colors cursor-pointer">
-                    <RadioGroupItem value="card" id="card" />
-                    <Label
-                      htmlFor="card"
-                      className="flex items-center cursor-pointer flex-1"
-                    >
-                      <CreditCard className="mr-3 h-5 w-5 text-muted-foreground" />
-                      <span>Credit / Debit Card</span>
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-3 p-4 border-2 border-border rounded-xl hover:border-primary transition-colors cursor-pointer">
-                    <RadioGroupItem value="mpesa" id="mpesa" />
-                    <Label
-                      htmlFor="mpesa"
-                      className="flex items-center cursor-pointer flex-1"
-                    >
-                      <Smartphone className="mr-3 h-5 w-5 text-muted-foreground" />
-                      <span>M-PESA</span>
-                    </Label>
-                  </div>
-                </RadioGroup>
-
-                {paymentMethod === "card" && (
-                  <div className="mt-6 space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="cardNumber">Card Number</Label>
-                      <Input id="cardNumber" placeholder="1234 5678 9012 3456" required />
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="expiry">Expiry Date</Label>
-                        <Input id="expiry" placeholder="MM/YY" required />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="cvv">CVV</Label>
-                        <Input id="cvv" placeholder="123" required />
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {paymentMethod === "mpesa" && (
-                  <div className="mt-6 space-y-2">
-                    <Label htmlFor="mpesaPhone">M-PESA Phone Number</Label>
-                    <Input
-                      id="mpesaPhone"
-                      type="tel"
-                      placeholder="+254 700 000 000"
-                      required
-                    />
-                    <p className="text-sm text-muted-foreground">
-                      You will receive an STK push to complete the payment
-                    </p>
-                  </div>
-                )}
+                  onValueChange={setPaymentMethod}
+                />
               </div>
             </div>
 
@@ -236,7 +179,7 @@ const Checkout = () => {
                 className="bg-card rounded-2xl p-8 shadow-soft sticky top-24 animate-fade-in-up"
                 style={{ animationDelay: "200ms" }}
               >
-                <h2 className="text-2xl font-light mb-6">Order Summary</h2>
+                <h2 className="text-2xl font-serif mb-6">Order Summary</h2>
                 <div className="space-y-4 mb-6">
                   {items.map((item) => (
                     <div key={`${item.id}-${item.shade}`} className="flex gap-3">
