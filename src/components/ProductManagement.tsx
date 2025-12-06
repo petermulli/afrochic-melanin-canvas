@@ -56,7 +56,7 @@ const ProductManagement = () => {
     name: "",
     description: "",
     price: "",
-    category: "foundation",
+    category: "",
     images: [] as string[],
     shades: "",
     featured: false,
@@ -203,7 +203,7 @@ const ProductManagement = () => {
       name: "",
       description: "",
       price: "",
-      category: "foundation",
+      category: "",
       images: [],
       shades: "",
       featured: false,
@@ -286,13 +286,25 @@ const ProductManagement = () => {
                     }
                   >
                     <SelectTrigger>
-                      <SelectValue />
+                      <SelectValue placeholder="Select category" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="foundation">Foundation</SelectItem>
-                      <SelectItem value="lips">Lips</SelectItem>
-                      <SelectItem value="eyes">Eyes</SelectItem>
-                      <SelectItem value="skincare">Skincare</SelectItem>
+                      <SelectItem value="Foundation">Foundation</SelectItem>
+                      <SelectItem value="Lipstick">Lipstick</SelectItem>
+                      <SelectItem value="Eyeshadow">Eyeshadow</SelectItem>
+                      <SelectItem value="Skincare">Skincare</SelectItem>
+                      <SelectItem value="Blush">Blush</SelectItem>
+                      <SelectItem value="Concealer">Concealer</SelectItem>
+                      <SelectItem value="Mascara">Mascara</SelectItem>
+                      <SelectItem value="Primer">Primer</SelectItem>
+                      <SelectItem value="Setting Spray">Setting Spray</SelectItem>
+                      <SelectItem value="Body Care">Body Care</SelectItem>
+                      <SelectItem value="Lip Gloss">Lip Gloss</SelectItem>
+                      <SelectItem value="Highlighter">Highlighter</SelectItem>
+                      <SelectItem value="Bronzer">Bronzer</SelectItem>
+                      <SelectItem value="Contour">Contour</SelectItem>
+                      <SelectItem value="Brows">Brows</SelectItem>
+                      <SelectItem value="Eyeliner">Eyeliner</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
