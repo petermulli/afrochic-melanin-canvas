@@ -161,7 +161,17 @@ const BestSellersCarousel = () => {
   }
 
   if (topProducts.length === 0) {
-    return null;
+    return (
+      <div className="flex flex-col items-center justify-center h-[400px] text-center">
+        <Sparkles className="h-16 w-16 text-primary/30 mb-4" />
+        <h3 className="text-xl font-display font-medium text-muted-foreground mb-2">
+          Coming Soon
+        </h3>
+        <p className="text-muted-foreground/70 max-w-md">
+          Our best sellers will appear here. Check back soon for our most loved products!
+        </p>
+      </div>
+    );
   }
 
   return (
