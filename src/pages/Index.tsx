@@ -2,55 +2,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import ProductCard from "@/components/ProductCard";
 import DynamicHeroText from "@/components/DynamicHeroText";
-import { supabase } from "@/integrations/supabase/client";
+import BestSellersCarousel from "@/components/BestSellersCarousel";
 import { Button } from "@/components/ui/button";
 import { Heart, ArrowRight, Sparkles, Leaf } from "lucide-react";
 import heroImage from "@/assets/hero-image.jpg";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
-
-interface Product {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  category: string;
-  images: string[];
-  shades?: string[];
-  featured: boolean;
-}
 
 const Index = () => {
   const navigate = useNavigate();
-  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
-
-  useEffect(() => {
-    fetchFeaturedProducts();
-  }, []);
-
-  const fetchFeaturedProducts = async () => {
-    try {
-      const { data, error } = await supabase
-        .from("products")
-        .select("*")
-        .eq("featured", true)
-        .limit(6);
-
-      if (error) throw error;
-      setFeaturedProducts(data || []);
-    } catch (error) {
-      console.error("Error fetching featured products:", error);
-    }
-  };
 
   const testimonialTexts = [
     {
@@ -108,10 +68,10 @@ const Index = () => {
       </section>
 
       {/* Best Sellers Carousel */}
-      <section className="py-20 bg-gradient-to-b from-background to-muted/20">
+      <section className="py-20 bg-gradient-to-b from-background to-muted/20 overflow-hidden">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 animate-fade-in-up">
-            <h2 className="text-4xl md:text-5xl font-light tracking-tight mb-4">
+          <div className="text-center mb-8 animate-fade-in-up">
+            <h2 className="text-4xl md:text-5xl font-display font-light tracking-tight mb-4">
               Best Sellers
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -119,32 +79,8 @@ const Index = () => {
             </p>
           </div>
 
-          {/* Products Carousel */}
-          <div className="relative mb-16">
-            <Carousel
-              opts={{
-                align: "start",
-                loop: true,
-              }}
-              plugins={[
-                Autoplay({
-                  delay: 3000,
-                  stopOnInteraction: true,
-                }),
-              ]}
-              className="w-full"
-            >
-              <CarouselContent className="-ml-4">
-                {featuredProducts.map((product) => (
-                  <CarouselItem key={product.id} className="pl-4 basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <ProductCard product={product} compact />
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious className="hidden md:flex -left-4 lg:-left-12" />
-              <CarouselNext className="hidden md:flex -right-4 lg:-right-12" />
-            </Carousel>
-          </div>
+          {/* Dynamic Product Carousel */}
+          <BestSellersCarousel />
 
           {/* Animated Text Blocks */}
           <div className="relative h-48 md:h-40 overflow-hidden mb-8">
