@@ -14,69 +14,46 @@ interface PaymentRequest {
   paymentMethod: "card" | "mpesa";
 }
 
-// M-PESA STK Push
+// Lipana M-PESA STK Push
 async function initiateMpesaPayment(amount: number, phone: string, orderId: string) {
-  const consumerKey = Deno.env.get("MPESA_CONSUMER_KEY");
-  const consumerSecret = Deno.env.get("MPESA_CONSUMER_SECRET");
-  const passkey = Deno.env.get("MPESA_PASSKEY");
-  const shortcode = Deno.env.get("MPESA_SHORTCODE");
+  const lipanaApiKey = Deno.env.get("LIPANA_API_KEY");
 
-  if (!consumerKey || !consumerSecret || !passkey || !shortcode) {
-    throw new Error("M-PESA credentials not configured");
+  if (!lipanaApiKey) {
+    throw new Error("Lipana API key not configured");
   }
 
-  // Get access token
-  const auth = btoa(`${consumerKey}:${consumerSecret}`);
-  const tokenResponse = await fetch(
-    "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials",
-    {
-      headers: {
-        Authorization: `Basic ${auth}`,
-      },
-    }
-  );
+  // Format phone number (ensure it starts with 254)
+  let formattedPhone = phone.replace(/^\+/, "").replace(/^0/, "254");
+  if (!formattedPhone.startsWith("254")) {
+    formattedPhone = `254${formattedPhone}`;
+  }
 
-  const { access_token } = await tokenResponse.json();
+  console.log(`Initiating Lipana payment for order ${orderId}, phone: ${formattedPhone}, amount: ${amount}`);
 
-  // Generate timestamp
-  const timestamp = new Date()
-    .toISOString()
-    .replace(/[^0-9]/g, "")
-    .slice(0, 14);
+  // Lipana STK Push API
+  const response = await fetch("https://api.lipana.dev/v1/stkpush", {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${lipanaApiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      phone: formattedPhone,
+      amount: Math.round(amount),
+      reference: orderId,
+      description: `Payment for AfroChic order ${orderId.slice(0, 8)}`,
+      callback_url: `${Deno.env.get("SUPABASE_URL")}/functions/v1/mpesa-callback`,
+    }),
+  });
 
-  // Generate password
-  const password = btoa(`${shortcode}${passkey}${timestamp}`);
+  const responseData = await response.json();
+  console.log("Lipana response:", JSON.stringify(responseData));
 
-  // Format phone number (remove leading 0 or +254, add 254)
-  let formattedPhone = phone.replace(/^\+?254|^0/, "");
-  formattedPhone = `254${formattedPhone}`;
+  if (!response.ok) {
+    throw new Error(responseData.message || responseData.error || "Lipana payment initiation failed");
+  }
 
-  // Initiate STK push
-  const stkResponse = await fetch(
-    "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest",
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        BusinessShortCode: shortcode,
-        Password: password,
-        Timestamp: timestamp,
-        TransactionType: "CustomerPayBillOnline",
-        Amount: Math.round(amount),
-        PartyA: formattedPhone,
-        PartyB: shortcode,
-        PhoneNumber: formattedPhone,
-        CallBackURL: `${Deno.env.get("VITE_SUPABASE_URL")}/functions/v1/mpesa-callback`,
-        AccountReference: orderId,
-        TransactionDesc: `Payment for order ${orderId}`,
-      }),
-    }
-  );
-
-  return await stkResponse.json();
+  return responseData;
 }
 
 const handler = async (req: Request): Promise<Response> => {
@@ -86,8 +63,8 @@ const handler = async (req: Request): Promise<Response> => {
 
   try {
     const supabaseClient = createClient(
-      Deno.env.get("VITE_SUPABASE_URL") ?? "",
-      Deno.env.get("VITE_SUPABASE_PUBLISHABLE_KEY") ?? "",
+      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_ANON_KEY") ?? "",
       {
         global: {
           headers: { Authorization: req.headers.get("Authorization")! },
@@ -106,29 +83,27 @@ const handler = async (req: Request): Promise<Response> => {
     const { amount, phone, orderId, paymentMethod }: PaymentRequest =
       await req.json();
 
+    console.log(`Processing ${paymentMethod} payment for order ${orderId}`);
+
     if (paymentMethod === "mpesa") {
-      const mpesaResponse = await initiateMpesaPayment(amount, phone, orderId);
+      const lipanaResponse = await initiateMpesaPayment(amount, phone, orderId);
 
-      if (mpesaResponse.ResponseCode === "0") {
-        // Update order status to processing
-        await supabaseClient
-          .from("orders")
-          .update({ status: "processing" })
-          .eq("id", orderId);
+      // Update order status to processing
+      await supabaseClient
+        .from("orders")
+        .update({ status: "processing" })
+        .eq("id", orderId);
 
-        return new Response(
-          JSON.stringify({
-            success: true,
-            message: "Payment initiated. Please enter your M-PESA PIN on your phone.",
-            checkoutRequestId: mpesaResponse.CheckoutRequestID,
-          }),
-          {
-            headers: { ...corsHeaders, "Content-Type": "application/json" },
-          }
-        );
-      } else {
-        throw new Error(mpesaResponse.ResponseDescription || "M-PESA payment failed");
-      }
+      return new Response(
+        JSON.stringify({
+          success: true,
+          message: "Payment initiated. Please enter your M-PESA PIN on your phone.",
+          checkoutRequestId: lipanaResponse.checkout_request_id || lipanaResponse.id,
+        }),
+        {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
     } else if (paymentMethod === "card") {
       // Stripe integration can be added here later
       throw new Error("Card payments not yet configured");
