@@ -58,7 +58,7 @@ const Products = () => {
     let filtered = products;
     
     if (selectedCategory) {
-      filtered = filtered.filter((p) => p.category === selectedCategory);
+      filtered = filtered.filter((p) => p.category.toLowerCase() === selectedCategory.toLowerCase());
     }
     
     if (searchQuery) {
@@ -72,7 +72,7 @@ const Products = () => {
     }
     
     return filtered;
-  }, [selectedCategory, searchQuery]);
+  }, [products, selectedCategory, searchQuery]);
 
   return (
     <div className="min-h-screen flex flex-col">
