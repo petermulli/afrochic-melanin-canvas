@@ -131,31 +131,31 @@ const Checkout = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <Label htmlFor="firstName">First Name</Label>
-                    <Input id="firstName" required />
+                    <Input id="firstName" name="firstName" required />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="lastName">Last Name</Label>
-                    <Input id="lastName" required />
+                    <Input id="lastName" name="lastName" required />
                   </div>
                   <div className="md:col-span-2 space-y-2">
                     <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" required />
+                    <Input id="email" name="email" type="email" required />
                   </div>
                   <div className="md:col-span-2 space-y-2">
                     <Label htmlFor="phone">Phone Number</Label>
-                    <Input id="phone" type="tel" placeholder="+254" required />
+                    <Input id="phone" name="phone" type="tel" placeholder="+254 7XX XXX XXX" required />
                   </div>
                   <div className="md:col-span-2 space-y-2">
                     <Label htmlFor="address">Address</Label>
-                    <Input id="address" required />
+                    <Input id="address" name="address" required />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="city">City</Label>
-                    <Input id="city" required />
+                    <Input id="city" name="city" required />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="postalCode">Postal Code</Label>
-                    <Input id="postalCode" />
+                    <Input id="postalCode" name="postalCode" />
                   </div>
                 </div>
               </div>
