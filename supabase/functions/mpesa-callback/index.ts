@@ -13,54 +13,51 @@ const handler = async (req: Request): Promise<Response> => {
 
   try {
     const supabaseClient = createClient(
-      Deno.env.get("VITE_SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_URL") ?? "",
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
     );
 
     const body = await req.json();
-    console.log("M-PESA callback received:", JSON.stringify(body, null, 2));
+    console.log("Lipana M-PESA callback received:", JSON.stringify(body, null, 2));
 
-    const { Body } = body;
-    const { stkCallback } = Body;
+    // Lipana callback structure
+    const { 
+      success, 
+      reference, 
+      receipt_number, 
+      phone,
+      amount,
+      status,
+      message
+    } = body;
 
-    if (stkCallback.ResultCode === 0) {
-      // Payment successful
-      const metadata = stkCallback.CallbackMetadata?.Item || [];
-      const orderId = stkCallback.MerchantRequestID;
-
-      // Extract payment details
-      const amount = metadata.find((item: any) => item.Name === "Amount")?.Value;
-      const mpesaReceiptNumber = metadata.find((item: any) => item.Name === "MpesaReceiptNumber")?.Value;
-      const transactionDate = metadata.find((item: any) => item.Name === "TransactionDate")?.Value;
-      const phoneNumber = metadata.find((item: any) => item.Name === "PhoneNumber")?.Value;
-
-      // Update order status to paid
+    if (success || status === "success" || status === "completed") {
+      // Payment successful - update order status
       const { error } = await supabaseClient
         .from("orders")
         .update({
           status: "paid",
           updated_at: new Date().toISOString(),
         })
-        .eq("id", orderId);
+        .eq("id", reference);
 
       if (error) {
         console.error("Error updating order:", error);
+      } else {
+        console.log(`Payment successful for order ${reference}. Receipt: ${receipt_number}`);
       }
-
-      console.log(`Payment successful for order ${orderId}. Receipt: ${mpesaReceiptNumber}`);
     } else {
       // Payment failed
-      console.error("Payment failed:", stkCallback.ResultDesc);
+      console.error("Payment failed:", message || status);
       
-      // Optionally update order status to failed
-      const orderId = stkCallback.MerchantRequestID;
+      // Update order status to failed/cancelled
       await supabaseClient
         .from("orders")
         .update({
           status: "cancelled",
           updated_at: new Date().toISOString(),
         })
-        .eq("id", orderId);
+        .eq("id", reference);
     }
 
     return new Response(
