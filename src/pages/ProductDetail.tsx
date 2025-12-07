@@ -1,35 +1,66 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { Check, ShoppingCart, ArrowLeft } from "lucide-react";
-import { products } from "@/data/products";
+import { Check, ShoppingCart, ArrowLeft, Loader2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "sonner";
+
+interface Product {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  images: string[];
+  shades?: string[];
+  featured?: boolean;
+  benefits?: string[];
+  ingredients?: string[];
+}
 
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addItem } = useCart();
-  const product = products.find((p) => p.id === id);
-
+  
+  const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedShade, setSelectedShade] = useState<string | null>(null);
 
-  if (!product) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-semibold mb-4">Product not found</h1>
-          <Button onClick={() => navigate("/products")}>Back to Products</Button>
-        </div>
-      </div>
-    );
-  }
+  useEffect(() => {
+    const fetchProduct = async () => {
+      if (!id) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const { data, error } = await supabase
+          .from("products")
+          .select("*")
+          .eq("id", id)
+          .maybeSingle();
+
+        if (error) throw error;
+        setProduct(data);
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProduct();
+  }, [id]);
 
   const handleAddToCart = () => {
-    if (product.shades && !selectedShade) {
+    if (!product) return;
+    
+    if (product.shades && product.shades.length > 0 && !selectedShade) {
       toast.error("Please select a shade");
       return;
     }
@@ -43,6 +74,33 @@ const ProductDetail = () => {
     });
     toast.success(`${product.name} added to cart`);
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-1 flex items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (!product) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-1 flex items-center justify-center">
+          <div className="text-center">
+            <h1 className="text-2xl font-semibold mb-4">Product not found</h1>
+            <Button onClick={() => navigate("/products")}>Back to Products</Button>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -68,21 +126,23 @@ const ProductDetail = () => {
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="grid grid-cols-4 gap-4">
-              {product.images.map((image, index) => (
-                <button
-                  key={index}
-                  onClick={() => setSelectedImage(index)}
-                  className={`aspect-square rounded-lg overflow-hidden transition-all ${
-                    selectedImage === index
-                      ? "ring-2 ring-primary ring-offset-2"
-                      : "opacity-60 hover:opacity-100"
-                  }`}
-                >
-                  <img src={image} alt="" className="w-full h-full object-cover" />
-                </button>
-              ))}
-            </div>
+            {product.images.length > 1 && (
+              <div className="grid grid-cols-4 gap-4">
+                {product.images.map((image, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setSelectedImage(index)}
+                    className={`aspect-square rounded-lg overflow-hidden transition-all ${
+                      selectedImage === index
+                        ? "ring-2 ring-primary ring-offset-2"
+                        : "opacity-60 hover:opacity-100"
+                    }`}
+                  >
+                    <img src={image} alt="" className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Product Info */}
@@ -109,22 +169,18 @@ const ProductDetail = () => {
                     <span className="text-sm text-muted-foreground">{selectedShade}</span>
                   )}
                 </div>
-                <div className="grid grid-cols-6 gap-3">
+                <div className="flex flex-wrap gap-2">
                   {product.shades.map((shade) => (
                     <button
-                      key={shade.name}
-                      onClick={() => setSelectedShade(shade.name)}
-                      className={`group relative aspect-square rounded-full transition-all ${
-                        selectedShade === shade.name
-                          ? "ring-2 ring-primary ring-offset-2 scale-110"
-                          : "hover:scale-105"
+                      key={shade}
+                      onClick={() => setSelectedShade(shade)}
+                      className={`px-4 py-2 rounded-full text-sm border transition-all ${
+                        selectedShade === shade
+                          ? "bg-primary text-primary-foreground border-primary"
+                          : "border-border hover:border-primary"
                       }`}
-                      style={{ backgroundColor: shade.hex }}
-                      title={shade.name}
                     >
-                      {selectedShade === shade.name && (
-                        <Check className="absolute inset-0 m-auto h-4 w-4 text-white" />
-                      )}
+                      {shade}
                     </button>
                   ))}
                 </div>
