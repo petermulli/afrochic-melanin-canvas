@@ -29,13 +29,15 @@ async function initiateMpesaPayment(amount: number, phone: string, orderId: stri
   }
 
   console.log(`Initiating Lipana payment for order ${orderId}, phone: ${formattedPhone}, amount: ${amount}`);
+  console.log(`Using API key: ${lipanaApiKey.substring(0, 8)}...`);
 
   // Lipana STK Push API
-  const response = await fetch("https://api.lipana.dev/v1/stkpush", {
+  const response = await fetch("https://api.lipana.africa/v1/stk/push", {
     method: "POST",
     headers: {
       "Authorization": `Bearer ${lipanaApiKey}`,
       "Content-Type": "application/json",
+      "Accept": "application/json",
     },
     body: JSON.stringify({
       phone: formattedPhone,
@@ -46,11 +48,32 @@ async function initiateMpesaPayment(amount: number, phone: string, orderId: stri
     }),
   });
 
-  const responseData = await response.json();
+  console.log(`Lipana response status: ${response.status}`);
+  console.log(`Lipana response headers:`, Object.fromEntries(response.headers.entries()));
+
+  // Check content type before parsing
+  const contentType = response.headers.get("content-type") || "";
+  const responseText = await response.text();
+  
+  console.log(`Lipana raw response: ${responseText.substring(0, 500)}`);
+
+  if (!contentType.includes("application/json")) {
+    console.error(`Lipana returned non-JSON response: ${responseText.substring(0, 200)}`);
+    throw new Error(`Payment service returned invalid response. Please try again later.`);
+  }
+
+  let responseData;
+  try {
+    responseData = JSON.parse(responseText);
+  } catch (e) {
+    console.error(`Failed to parse Lipana response: ${e}`);
+    throw new Error("Payment service returned invalid data. Please try again later.");
+  }
+
   console.log("Lipana response:", JSON.stringify(responseData));
 
   if (!response.ok) {
-    throw new Error(responseData.message || responseData.error || "Lipana payment initiation failed");
+    throw new Error(responseData.message || responseData.error || "M-PESA payment initiation failed");
   }
 
   return responseData;
