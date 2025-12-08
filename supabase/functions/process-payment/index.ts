@@ -14,7 +14,7 @@ interface PaymentRequest {
   paymentMethod: "card" | "mpesa";
 }
 
-// Lipana M-PESA STK Push
+// Lipana M-PESA STK Push using their REST API
 async function initiateMpesaPayment(amount: number, phone: string, orderId: string) {
   const lipanaApiKey = Deno.env.get("LIPANA_API_KEY");
 
@@ -29,10 +29,9 @@ async function initiateMpesaPayment(amount: number, phone: string, orderId: stri
   }
 
   console.log(`Initiating Lipana payment for order ${orderId}, phone: ${formattedPhone}, amount: ${amount}`);
-  console.log(`Using API key: ${lipanaApiKey.substring(0, 8)}...`);
 
-  // Lipana STK Push API
-  const response = await fetch("https://api.lipana.africa/v1/stk/push", {
+  // Lipana API endpoint - using the correct domain from their docs
+  const response = await fetch("https://api.lipana.dev/v1/stkpush", {
     method: "POST",
     headers: {
       "Authorization": `Bearer ${lipanaApiKey}`,
@@ -42,16 +41,13 @@ async function initiateMpesaPayment(amount: number, phone: string, orderId: stri
     body: JSON.stringify({
       phone: formattedPhone,
       amount: Math.round(amount),
-      reference: orderId,
-      description: `Payment for AfroChic order ${orderId.slice(0, 8)}`,
-      callback_url: `${Deno.env.get("SUPABASE_URL")}/functions/v1/mpesa-callback`,
+      accountReference: orderId.slice(0, 12),
+      transactionDesc: `AfroChic order ${orderId.slice(0, 8)}`,
     }),
   });
 
   console.log(`Lipana response status: ${response.status}`);
-  console.log(`Lipana response headers:`, Object.fromEntries(response.headers.entries()));
 
-  // Check content type before parsing
   const contentType = response.headers.get("content-type") || "";
   const responseText = await response.text();
   
@@ -59,7 +55,7 @@ async function initiateMpesaPayment(amount: number, phone: string, orderId: stri
 
   if (!contentType.includes("application/json")) {
     console.error(`Lipana returned non-JSON response: ${responseText.substring(0, 200)}`);
-    throw new Error(`Payment service returned invalid response. Please try again later.`);
+    throw new Error(`Payment service unavailable. Please try again later.`);
   }
 
   let responseData;
@@ -121,7 +117,7 @@ const handler = async (req: Request): Promise<Response> => {
         JSON.stringify({
           success: true,
           message: "Payment initiated. Please enter your M-PESA PIN on your phone.",
-          checkoutRequestId: lipanaResponse.checkout_request_id || lipanaResponse.id,
+          checkoutRequestId: lipanaResponse.transactionId || lipanaResponse.checkout_request_id || lipanaResponse.id,
         }),
         {
           headers: { ...corsHeaders, "Content-Type": "application/json" },
