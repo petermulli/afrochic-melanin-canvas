@@ -30,11 +30,11 @@ async function initiateMpesaPayment(amount: number, phone: string, orderId: stri
 
   console.log(`Initiating Lipana payment for order ${orderId}, phone: ${formattedPhone}, amount: ${amount}`);
 
-// Lipana STK Push API - using v1 endpoint from SDK docs
-  const response = await fetch("https://api.lipana.dev/v1/transactions/stk-push", {
+  // Lipana STK Push API - correct endpoint from docs: POST /api/transactions/push-stk
+  const response = await fetch("https://api.lipana.dev/api/transactions/push-stk", {
     method: "POST",
     headers: {
-      "Authorization": `Bearer ${lipanaApiKey}`,
+      "x-api-key": lipanaApiKey,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
