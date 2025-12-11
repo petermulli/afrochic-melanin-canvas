@@ -7,9 +7,9 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="space-y-4">
-            <h3 className="text-2xl font-light tracking-tight">AfroChic</h3>
+            <h3 className="text-2xl font-semibold tracking-tight">Kenya<span className="text-primary">Shipping</span></h3>
             <p className="text-sm text-muted-foreground">
-              Premium cosmetics celebrating the beauty of melanin-rich skin.
+              Fast, reliable shipping and logistics services across Kenya and beyond.
             </p>
           </div>
 
@@ -92,7 +92,7 @@ const Footer = () => {
         </div>
 
         <div className="mt-12 pt-8 border-t border-border text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} AfroChic Cosmetics. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} KenyaShipping. All rights reserved.</p>
         </div>
       </div>
     </footer>
