@@ -5,6 +5,7 @@ import { ShoppingCart, Menu, X, User } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAdmin } from "@/hooks/useAdmin";
+import logo from "@/assets/kenyashipping-logo.png";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -18,8 +19,11 @@ const Header = () => {
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <NavLink to="/" className="text-2xl md:text-3xl font-light tracking-tight text-foreground hover:text-primary transition-colors">
-            AfroChic
+          <NavLink to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+            <img src={logo} alt="KenyaShipping" className="h-10 md:h-12 w-auto" />
+            <span className="text-xl md:text-2xl font-semibold tracking-tight text-foreground">
+              Kenya<span className="text-primary">Shipping</span>
+            </span>
           </NavLink>
 
           {/* Desktop Navigation */}
