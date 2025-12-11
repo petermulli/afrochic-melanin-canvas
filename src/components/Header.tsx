@@ -20,9 +20,9 @@ const Header = () => {
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <NavLink to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <img src={logo} alt="KenyaShipping" className="h-10 md:h-12 w-auto" />
+            <img src={logo} alt="Kenyashipment" className="h-10 md:h-12 w-auto" />
             <span className="text-xl md:text-2xl font-semibold tracking-tight text-foreground">
-              Kenya<span className="text-primary">Shipping</span>
+              Kenya<span className="text-primary">shipment</span>
             </span>
           </NavLink>
 
