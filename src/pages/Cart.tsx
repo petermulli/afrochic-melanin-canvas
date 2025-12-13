@@ -4,9 +4,11 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
+import { useCurrency } from "@/contexts/CurrencyContext";
 
 const Cart = () => {
   const navigate = useNavigate();
+  const { formatPrice } = useCurrency();
   const { items, updateQuantity, removeItem, total } = useCart();
 
   if (items.length === 0) {
@@ -57,7 +59,7 @@ const Cart = () => {
                     <p className="text-sm text-muted-foreground">Shade: {item.shade}</p>
                   )}
                   <p className="text-lg font-semibold text-primary">
-                    KES {item.price.toLocaleString()}
+                    {formatPrice(item.price)}
                   </p>
                 </div>
                 <div className="flex flex-col items-end justify-between">
@@ -107,7 +109,7 @@ const Cart = () => {
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between text-muted-foreground">
                   <span>Subtotal</span>
-                  <span>KES {total.toLocaleString()}</span>
+                  <span>{formatPrice(total)}</span>
                 </div>
                 <div className="flex justify-between text-muted-foreground">
                   <span>Shipping</span>
@@ -116,7 +118,7 @@ const Cart = () => {
                 <div className="border-t border-border pt-4">
                   <div className="flex justify-between text-lg font-semibold">
                     <span>Total</span>
-                    <span className="text-primary">KES {total.toLocaleString()}</span>
+                    <span className="text-primary">{formatPrice(total)}</span>
                   </div>
                 </div>
               </div>

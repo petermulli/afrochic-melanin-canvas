@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Check, ShoppingCart, ArrowLeft, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useCart } from "@/contexts/CartContext";
+import { useCurrency } from "@/contexts/CurrencyContext";
 import { toast } from "sonner";
 
 interface Product {
@@ -25,6 +26,7 @@ const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addItem } = useCart();
+  const { formatPrice } = useCurrency();
   
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
@@ -150,7 +152,7 @@ const ProductDetail = () => {
             <div>
               <h1 className="text-4xl font-light tracking-tight mb-2">{product.name}</h1>
               <p className="text-3xl font-semibold text-primary">
-                KES {product.price.toLocaleString()}
+                {formatPrice(product.price)}
               </p>
             </div>
 

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { ShoppingCart } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
+import { useCurrency } from "@/contexts/CurrencyContext";
 import { toast } from "sonner";
 
 interface Product {
@@ -26,6 +27,7 @@ interface ProductCardProps {
 const ProductCard = ({ product, compact = false }: ProductCardProps) => {
   const navigate = useNavigate();
   const { addItem } = useCart();
+  const { formatPrice } = useCurrency();
   const [isHovered, setIsHovered] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
 
@@ -89,7 +91,7 @@ const ProductCard = ({ product, compact = false }: ProductCardProps) => {
           <p className="text-sm text-muted-foreground line-clamp-2">{product.description}</p>
         )}
         <p className={`${compact ? 'text-sm md:text-base' : 'text-lg'} font-semibold text-primary`}>
-          KES {product.price.toLocaleString()}
+          {formatPrice(product.price)}
         </p>
       </div>
     </div>
