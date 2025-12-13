@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useCart } from "@/contexts/CartContext";
 import { useAuth } from "@/contexts/AuthContext";
+import { useCurrency } from "@/contexts/CurrencyContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -15,6 +16,7 @@ const Checkout = () => {
   const navigate = useNavigate();
   const { items, total, clearCart } = useCart();
   const { user } = useAuth();
+  const { formatPrice } = useCurrency();
   const [paymentMethod, setPaymentMethod] = useState<"card" | "mpesa">("card");
   const [loading, setLoading] = useState(false);
 
@@ -196,7 +198,7 @@ const Checkout = () => {
                         <p className="text-sm">Qty: {item.quantity}</p>
                       </div>
                       <p className="font-medium text-sm">
-                        KES {(item.price * item.quantity).toLocaleString()}
+                        {formatPrice(item.price * item.quantity)}
                       </p>
                     </div>
                   ))}
@@ -204,16 +206,16 @@ const Checkout = () => {
                 <div className="space-y-3 border-t border-border pt-4">
                   <div className="flex justify-between text-muted-foreground">
                     <span>Subtotal</span>
-                    <span>KES {total.toLocaleString()}</span>
+                    <span>{formatPrice(total)}</span>
                   </div>
                   <div className="flex justify-between text-muted-foreground">
                     <span>Shipping</span>
-                    <span>KES 500</span>
+                    <span>{formatPrice(500)}</span>
                   </div>
                   <div className="flex justify-between text-lg font-semibold pt-3 border-t border-border">
                     <span>Total</span>
                     <span className="text-primary">
-                      KES {(total + 500).toLocaleString()}
+                      {formatPrice(total + 500)}
                     </span>
                   </div>
                 </div>

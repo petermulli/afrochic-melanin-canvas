@@ -5,6 +5,7 @@ import { ShoppingCart, Menu, X, User } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAdmin } from "@/hooks/useAdmin";
+import CurrencySelector from "./CurrencySelector";
 import logo from "@/assets/kenyashipping-logo.png";
 
 const Header = () => {
@@ -58,6 +59,7 @@ const Header = () => {
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
               </NavLink>
             )}
+            <CurrencySelector />
             <NavLink to={user ? "/account" : "/auth"}>
               <Button variant="ghost" size="icon" className="hover:bg-muted">
                 <User className="h-5 w-5" />
