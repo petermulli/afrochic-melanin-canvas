@@ -6,7 +6,7 @@ import OrderDetailsModal from "@/components/OrderDetailsModal";
 import SalesAnalytics from "@/components/SalesAnalytics";
 import InventoryManagement from "@/components/InventoryManagement";
 import ProductManagement from "@/components/ProductManagement";
-import { useAdmin } from "@/hooks/useAdmin";
+import { useUserRole } from "@/hooks/useUserRole";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -42,7 +42,7 @@ interface Order {
 
 const Admin = () => {
   const { user } = useAuth();
-  const { isAdmin, loading: adminLoading } = useAdmin();
+  const { isAdmin, loading: adminLoading } = useUserRole();
   const navigate = useNavigate();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
