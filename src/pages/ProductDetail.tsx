@@ -3,11 +3,17 @@ import { useParams, useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { Check, ShoppingCart, ArrowLeft, Loader2 } from "lucide-react";
+import { Check, ShoppingCart, ArrowLeft, Loader2, Star, Store } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useCart } from "@/contexts/CartContext";
 import { useCurrency } from "@/contexts/CurrencyContext";
 import { toast } from "sonner";
+
+interface SellerProfile {
+  business_name: string;
+  rating: number;
+  total_ratings: number;
+}
 
 interface Product {
   id: string;
@@ -20,6 +26,7 @@ interface Product {
   featured?: boolean;
   benefits?: string[];
   ingredients?: string[];
+  seller_id?: string;
 }
 
 const ProductDetail = () => {
@@ -29,6 +36,7 @@ const ProductDetail = () => {
   const { formatPrice } = useCurrency();
   
   const [product, setProduct] = useState<Product | null>(null);
+  const [sellerProfile, setSellerProfile] = useState<SellerProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedShade, setSelectedShade] = useState<string | null>(null);
@@ -49,6 +57,19 @@ const ProductDetail = () => {
 
         if (error) throw error;
         setProduct(data);
+
+        // Fetch seller profile if product has seller_id
+        if (data?.seller_id) {
+          const { data: sellerData } = await supabase
+            .from("seller_profiles")
+            .select("business_name, rating, total_ratings")
+            .eq("user_id", data.seller_id)
+            .maybeSingle();
+
+          if (sellerData) {
+            setSellerProfile(sellerData);
+          }
+        }
       } catch (error) {
         console.error("Error fetching product:", error);
       } finally {
@@ -159,6 +180,27 @@ const ProductDetail = () => {
             <p className="text-lg text-muted-foreground leading-relaxed">
               {product.description}
             </p>
+
+            {/* Seller Info */}
+            {sellerProfile && (
+              <div className="flex items-center gap-3 p-4 bg-muted/50 rounded-lg">
+                <div className="bg-primary/10 p-2 rounded-full">
+                  <Store className="h-5 w-5 text-primary" />
+                </div>
+                <div className="flex-1">
+                  <p className="font-medium">{sellerProfile.business_name}</p>
+                  <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    <span>
+                      {sellerProfile.rating > 0 
+                        ? `${sellerProfile.rating.toFixed(1)} (${sellerProfile.total_ratings} reviews)`
+                        : "New Seller"
+                      }
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Shade Selector */}
             {product.shades && product.shades.length > 0 && (

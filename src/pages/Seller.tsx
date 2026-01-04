@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SellerOrderManagement from "@/components/SellerOrderManagement";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -34,8 +35,9 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
-import { Plus, Pencil, Trash2, Loader2, Package, TrendingUp } from "lucide-react";
+import { Plus, Pencil, Trash2, Loader2, Package, TrendingUp, ShoppingBag, AlertCircle } from "lucide-react";
 import { useCurrency } from "@/contexts/CurrencyContext";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface Product {
   id: string;
@@ -81,6 +83,8 @@ const Seller = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [isApprovedSeller, setIsApprovedSeller] = useState(false);
+  const [checkingApproval, setCheckingApproval] = useState(true);
 
   const [formData, setFormData] = useState({
     id: "",
@@ -103,10 +107,39 @@ const Seller = () => {
   }, [isSeller, isAdmin, roleLoading, navigate]);
 
   useEffect(() => {
-    if ((isSeller || isAdmin) && user) {
-      fetchMyProducts();
+    const checkApproval = async () => {
+      if (!user) {
+        setCheckingApproval(false);
+        return;
+      }
+
+      try {
+        const { data } = await supabase
+          .from("seller_profiles")
+          .select("id")
+          .eq("user_id", user.id)
+          .maybeSingle();
+
+        setIsApprovedSeller(!!data);
+      } catch (error) {
+        console.error("Error checking seller approval:", error);
+      } finally {
+        setCheckingApproval(false);
+      }
+    };
+
+    if (isSeller || isAdmin) {
+      checkApproval();
     }
   }, [isSeller, isAdmin, user]);
+
+  useEffect(() => {
+    if ((isSeller || isAdmin) && user && isApprovedSeller) {
+      fetchMyProducts();
+    } else if (!checkingApproval) {
+      setLoading(false);
+    }
+  }, [isSeller, isAdmin, user, isApprovedSeller, checkingApproval]);
 
   const fetchMyProducts = async () => {
     if (!user) return;
@@ -271,7 +304,7 @@ const Seller = () => {
     setEditingProduct(null);
   };
 
-  if (roleLoading || loading) {
+  if (roleLoading || loading || checkingApproval) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin" />
@@ -283,6 +316,32 @@ const Seller = () => {
     return null;
   }
 
+  // Show pending approval message if not an approved seller
+  if (!isApprovedSeller && !isAdmin) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-1 container mx-auto px-4 py-12">
+          <Card className="max-w-md mx-auto">
+            <CardHeader className="text-center">
+              <AlertCircle className="h-16 w-16 mx-auto text-yellow-500 mb-4" />
+              <CardTitle>Pending Approval</CardTitle>
+              <CardDescription>
+                Your seller application is being reviewed by our team. You'll be able to list products once approved.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="text-center">
+              <Button variant="outline" onClick={() => navigate("/become-seller")}>
+                Check Application Status
+              </Button>
+            </CardContent>
+          </Card>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -290,10 +349,14 @@ const Seller = () => {
         <h1 className="text-3xl font-bold mb-8">Seller Dashboard</h1>
 
         <Tabs defaultValue="products" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 max-w-md">
+          <TabsList className="grid w-full grid-cols-3 max-w-lg">
             <TabsTrigger value="products" className="gap-2">
               <Package className="h-4 w-4" />
-              My Products
+              Products
+            </TabsTrigger>
+            <TabsTrigger value="orders" className="gap-2">
+              <ShoppingBag className="h-4 w-4" />
+              Orders
             </TabsTrigger>
             <TabsTrigger value="stats" className="gap-2">
               <TrendingUp className="h-4 w-4" />
@@ -571,6 +634,10 @@ const Seller = () => {
                 </div>
               </div>
             </div>
+          </TabsContent>
+
+          <TabsContent value="orders">
+            <SellerOrderManagement />
           </TabsContent>
         </Tabs>
       </main>
