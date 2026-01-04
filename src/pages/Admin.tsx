@@ -6,6 +6,7 @@ import OrderDetailsModal from "@/components/OrderDetailsModal";
 import SalesAnalytics from "@/components/SalesAnalytics";
 import InventoryManagement from "@/components/InventoryManagement";
 import ProductManagement from "@/components/ProductManagement";
+import SellerApplicationsManagement from "@/components/SellerApplicationsManagement";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -28,7 +29,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Loader2, Eye } from "lucide-react";
+import { Loader2, Eye, Users } from "lucide-react";
 
 interface Order {
   id: string;
@@ -156,9 +157,10 @@ const Admin = () => {
         <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
         
           <Tabs defaultValue="analytics" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-4">
+            <TabsList className="grid w-full grid-cols-5">
               <TabsTrigger value="analytics">Analytics</TabsTrigger>
               <TabsTrigger value="orders">Orders</TabsTrigger>
+              <TabsTrigger value="sellers">Sellers</TabsTrigger>
               <TabsTrigger value="inventory">Inventory</TabsTrigger>
               <TabsTrigger value="products">Products</TabsTrigger>
             </TabsList>
@@ -243,6 +245,10 @@ const Admin = () => {
             </div>
           )}
             </div>
+          </TabsContent>
+          
+          <TabsContent value="sellers">
+            <SellerApplicationsManagement />
           </TabsContent>
           
           <TabsContent value="inventory">

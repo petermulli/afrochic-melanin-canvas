@@ -290,6 +290,75 @@ export type Database = {
         }
         Relationships: []
       }
+      seller_applications: {
+        Row: {
+          admin_notes: string | null
+          business_description: string | null
+          business_name: string
+          created_at: string | null
+          id: string
+          phone: string
+          status: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          business_description?: string | null
+          business_name: string
+          created_at?: string | null
+          id?: string
+          phone: string
+          status?: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          admin_notes?: string | null
+          business_description?: string | null
+          business_name?: string
+          created_at?: string | null
+          id?: string
+          phone?: string
+          status?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      seller_profiles: {
+        Row: {
+          business_description: string | null
+          business_name: string
+          created_at: string | null
+          id: string
+          rating: number | null
+          total_ratings: number | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          business_description?: string | null
+          business_name: string
+          created_at?: string | null
+          id?: string
+          rating?: number | null
+          total_ratings?: number | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          business_description?: string | null
+          business_name?: string
+          created_at?: string | null
+          id?: string
+          rating?: number | null
+          total_ratings?: number | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string | null
@@ -331,6 +400,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_approved_seller: { Args: { _user_id: string }; Returns: boolean }
       update_inventory_stock: {
         Args: {
           _movement_type: string
