@@ -1,4 +1,5 @@
 import { Instagram, Facebook, Twitter } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -18,24 +19,24 @@ const Footer = () => {
             <h4 className="text-sm font-semibold uppercase tracking-wide">Shop</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
-                <a href="/products" className="hover:text-foreground transition-colors">
+                <Link to="/products" className="hover:text-foreground transition-colors">
                   All Products
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/products?category=foundation" className="hover:text-foreground transition-colors">
+                <Link to="/products?category=foundation" className="hover:text-foreground transition-colors">
                   Foundation
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/products?category=lips" className="hover:text-foreground transition-colors">
+                <Link to="/products?category=lips" className="hover:text-foreground transition-colors">
                   Lips
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/products?category=eyes" className="hover:text-foreground transition-colors">
+                <Link to="/products?category=eyes" className="hover:text-foreground transition-colors">
                   Eyes
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -45,19 +46,19 @@ const Footer = () => {
             <h4 className="text-sm font-semibold uppercase tracking-wide">About</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
-                <a href="/about" className="hover:text-foreground transition-colors">
+                <Link to="/about" className="hover:text-foreground transition-colors">
                   Our Story
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-foreground transition-colors">
-                  Ingredients
-                </a>
+                <Link to="/learn-more" className="hover:text-foreground transition-colors">
+                  Learn More
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-foreground transition-colors">
-                  Contact
-                </a>
+                <Link to="/auth" className="hover:text-foreground transition-colors">
+                  Sign In / Sign Up
+                </Link>
               </li>
             </ul>
           </div>

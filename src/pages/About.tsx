@@ -1,6 +1,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Heart, Leaf, Sparkles } from "lucide-react";
+import { Heart, Leaf, Sparkles, Truck, Globe, Clock } from "lucide-react";
 
 const About = () => {
   return (
@@ -15,7 +15,7 @@ const About = () => {
               Our Story
             </h1>
             <p className="text-xl text-muted-foreground leading-relaxed">
-              Born from a passion to celebrate the beauty of melanin-rich skin
+              Your trusted partner for fast, reliable shipping and logistics services across Kenya
             </p>
           </div>
         </section>
@@ -26,23 +26,23 @@ const About = () => {
             <div className="max-w-4xl mx-auto space-y-12 animate-fade-in-up">
               <div className="prose prose-lg max-w-none">
                 <p className="text-lg leading-relaxed text-muted-foreground">
-                  AfroChic was founded in Nairobi with a clear mission: to create premium
-                  cosmetics that truly understand and enhance the beauty of African skin. For
-                  too long, people of color have been underserved by the beauty industry,
-                  forced to adapt products that weren't designed with them in mind.
+                  Kenyashipment was founded in Nairobi with a clear mission: to revolutionize 
+                  shipping and logistics services in Kenya. For too long, businesses and 
+                  individuals have struggled with unreliable delivery services, high costs, 
+                  and lack of transparency.
                 </p>
                 <p className="text-lg leading-relaxed text-muted-foreground mt-6">
-                  We believe that beauty products should celebrate, not compromise, the
-                  richness of melanin. Every formula we create combines traditional African
-                  botanicals—like shea butter, baobab oil, and cocoa—with cutting-edge
-                  cosmetic science. The result is products that not only look stunning but
-                  also nourish and protect your skin.
+                  We believe that shipping should be simple, affordable, and dependable. 
+                  Every package we handle is treated with care, tracked in real-time, and 
+                  delivered with the efficiency that modern commerce demands. From small 
+                  parcels to large cargo, we've built a network that reaches every corner 
+                  of Kenya.
                 </p>
                 <p className="text-lg leading-relaxed text-muted-foreground mt-6">
-                  Today, AfroChic stands as a beacon of pride for Kenyan beauty innovation,
-                  offering a range of products that honor heritage while embracing modernity.
-                  We're more than a brand—we're a celebration of identity, crafted for those
-                  who refuse to settle for anything less than extraordinary.
+                  Today, Kenyashipment stands as a beacon of innovation in Kenyan logistics,
+                  offering a range of services that honor our commitment to excellence while
+                  embracing modern technology. We're more than a shipping company—we're your
+                  partner in growth.
                 </p>
               </div>
             </div>
@@ -60,12 +60,12 @@ const About = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
             <div className="text-center space-y-4 animate-fade-in-up">
               <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 mb-4">
-                <Heart className="h-10 w-10 text-primary" />
+                <Clock className="h-10 w-10 text-primary" />
               </div>
-              <h3 className="text-2xl font-semibold">Inclusivity</h3>
+              <h3 className="text-2xl font-semibold">Speed</h3>
               <p className="text-muted-foreground leading-relaxed">
-                We design for the full spectrum of melanin-rich skin, ensuring everyone finds
-                their perfect match and feels seen.
+                Fast delivery times with same-day and next-day options available
+                across major cities in Kenya.
               </p>
             </div>
 
@@ -74,12 +74,12 @@ const About = () => {
               style={{ animationDelay: "100ms" }}
             >
               <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-sage/10 mb-4">
-                <Leaf className="h-10 w-10 text-sage" />
+                <Truck className="h-10 w-10 text-sage" />
               </div>
-              <h3 className="text-2xl font-semibold">Sustainability</h3>
+              <h3 className="text-2xl font-semibold">Reliability</h3>
               <p className="text-muted-foreground leading-relaxed">
-                Our ingredients are ethically sourced, and we're committed to sustainable
-                practices that honor the earth.
+                Your packages are tracked, insured, and handled with care throughout
+                the entire delivery journey.
               </p>
             </div>
 
@@ -88,12 +88,12 @@ const About = () => {
               style={{ animationDelay: "200ms" }}
             >
               <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-accent/10 mb-4">
-                <Sparkles className="h-10 w-10 text-accent" />
+                <Globe className="h-10 w-10 text-accent" />
               </div>
-              <h3 className="text-2xl font-semibold">Excellence</h3>
+              <h3 className="text-2xl font-semibold">Coverage</h3>
               <p className="text-muted-foreground leading-relaxed">
-                Premium quality is non-negotiable. Every product undergoes rigorous testing to
-                meet the highest standards.
+                Nationwide network reaching every county in Kenya, with international
+                shipping capabilities.
               </p>
             </div>
           </div>
