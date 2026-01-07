@@ -401,6 +401,14 @@ export type Database = {
         Returns: boolean
       }
       is_approved_seller: { Args: { _user_id: string }; Returns: boolean }
+      seller_has_product_in_order: {
+        Args: { _order_id: string; _seller_id: string }
+        Returns: boolean
+      }
+      seller_owns_product: {
+        Args: { _product_id: string; _seller_id: string }
+        Returns: boolean
+      }
       update_inventory_stock: {
         Args: {
           _movement_type: string

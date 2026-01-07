@@ -102,7 +102,7 @@ const Auth = () => {
         <div className="w-full max-w-md">
           <div className="bg-card rounded-2xl p-8 shadow-soft animate-fade-in-up">
             <h1 className="text-3xl font-light tracking-tight mb-6 text-center">
-              Welcome to AfroChic
+              Welcome to Kenyashipment
             </h1>
 
             <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "signin" | "signup")}>

@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import DynamicHeroText from "@/components/DynamicHeroText";
 import BestSellersCarousel from "@/components/BestSellersCarousel";
 import { Button } from "@/components/ui/button";
-import { Heart, ArrowRight, Sparkles, Leaf } from "lucide-react";
+import { ArrowRight, Sparkles, Truck, Clock, Shield } from "lucide-react";
 import heroImage from "@/assets/hero-image.jpg";
 
 const Index = () => {
@@ -14,16 +14,16 @@ const Index = () => {
 
   const testimonialTexts = [
     {
-      title: "Radiant Results",
-      text: "Our customers see visible improvements in just 2 weeks. Join thousands who've discovered their natural glow.",
+      title: "Fast Delivery",
+      text: "Same-day and next-day delivery options available across Kenya. Your packages arrive when you need them.",
     },
     {
-      title: "Premium Ingredients",
-      text: "Formulated with African botanicals and natural extracts. No harmful chemicals, just pure beauty.",
+      title: "Real-Time Tracking",
+      text: "Track your shipments in real-time from pickup to delivery. Always know where your package is.",
     },
     {
-      title: "Trusted Worldwide",
-      text: "Over 50,000 satisfied customers across Africa. Experience the AfroChic difference today.",
+      title: "Trusted by Thousands",
+      text: "Over 50,000 successful deliveries across Kenya. Experience the Kenyashipment difference today.",
     },
   ];
 
@@ -43,7 +43,7 @@ const Index = () => {
         <div className="absolute inset-0">
           <img
             src={heroImage}
-            alt="AfroChic Beauty"
+            alt="Kenyashipment Logistics"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-chocolate/60 via-chocolate/30 to-transparent" />
@@ -52,15 +52,15 @@ const Index = () => {
           <div className="max-w-3xl animate-fade-in-up">
             <DynamicHeroText />
             <p className="text-lg md:text-xl text-cream/90 mb-10 max-w-xl font-light leading-relaxed">
-              Premium cosmetics celebrating the richness and diversity of melanin-rich skin.
-              Crafted with natural ingredients from the heart of Kenya.
+              Fast, reliable shipping and logistics services across Kenya.
+              From small parcels to large cargo, we deliver with care.
             </p>
             <Button
               size="lg"
               onClick={() => navigate("/products")}
               className="group bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-lg rounded-full shadow-elevated hover:shadow-soft transition-all"
             >
-              Explore Collection
+              Explore Services
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Button>
           </div>
@@ -72,10 +72,10 @@ const Index = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8 animate-fade-in-up">
             <h2 className="text-4xl md:text-5xl font-display font-light tracking-tight mb-4">
-              Best Sellers
+              Popular Products
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Discover our most loved products, handpicked for their transformative results
+              Discover our most loved products, handpicked for their quality and value
             </p>
           </div>
 
@@ -125,11 +125,11 @@ const Index = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             <div className="text-center space-y-4 animate-fade-in-up">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-accent/10 mb-4">
-                <Sparkles className="h-8 w-8 text-accent" />
+                <Clock className="h-8 w-8 text-accent" />
               </div>
-              <h3 className="text-xl font-semibold">Premium Quality</h3>
+              <h3 className="text-xl font-semibold">Fast Delivery</h3>
               <p className="text-muted-foreground">
-                High-performance formulas crafted with the finest ingredients
+                Same-day and next-day delivery options across Kenya
               </p>
             </div>
             <div
@@ -137,11 +137,11 @@ const Index = () => {
               style={{ animationDelay: "100ms" }}
             >
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-sage/10 mb-4">
-                <Leaf className="h-8 w-8 text-sage" />
+                <Truck className="h-8 w-8 text-sage" />
               </div>
-              <h3 className="text-xl font-semibold">Natural Ingredients</h3>
+              <h3 className="text-xl font-semibold">Reliable Service</h3>
               <p className="text-muted-foreground">
-                Ethically sourced botanicals and nourishing African oils
+                Track your packages in real-time from pickup to delivery
               </p>
             </div>
             <div
@@ -149,11 +149,11 @@ const Index = () => {
               style={{ animationDelay: "200ms" }}
             >
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-                <Heart className="h-8 w-8 text-primary" />
+                <Shield className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="text-xl font-semibold">Made for Melanin</h3>
+              <h3 className="text-xl font-semibold">Secure Handling</h3>
               <p className="text-muted-foreground">
-                Specifically designed to enhance and celebrate diverse skin tones
+                Your packages are insured and handled with care
               </p>
             </div>
           </div>
@@ -164,15 +164,14 @@ const Index = () => {
       <section className="py-20 container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center space-y-6 animate-fade-in-up">
           <h2 className="text-4xl md:text-5xl font-light tracking-tight">
-            Rooted in Heritage,
+            Rooted in Kenya,
             <br />
-            <span className="font-semibold">Crafted for Today</span>
+            <span className="font-semibold">Delivering Nationwide</span>
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
-            AfroChic was born from a simple belief: beauty products should celebrate, not
-            compromise, the richness of African skin. Our formulas blend traditional African
-            botanicals with modern science to create cosmetics that truly understand and
-            enhance melanin-rich beauty.
+            Kenyashipment was born from a simple belief: shipping should be simple, 
+            affordable, and dependable. We've built a network that reaches every corner 
+            of Kenya, ensuring your packages arrive safely and on time.
           </p>
           <Button
             variant="outline"
