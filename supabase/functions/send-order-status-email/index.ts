@@ -1,8 +1,5 @@
-import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import { Resend } from "https://esm.sh/resend@4.0.0";
-
-const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "npm:@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -14,6 +11,31 @@ interface OrderStatusEmailRequest {
   newStatus: string;
 }
 
+async function sendEmail(to: string, subject: string, html: string) {
+  const resendApiKey = Deno.env.get("RESEND_API_KEY");
+  
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${resendApiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: "Kenyashipment <onboarding@resend.dev>",
+      to: [to],
+      subject,
+      html,
+    }),
+  });
+
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(`Failed to send email: ${error}`);
+  }
+
+  return await response.json();
+}
+
 const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -21,7 +43,7 @@ const handler = async (req: Request): Promise<Response> => {
 
   try {
     const supabaseClient = createClient(
-      Deno.env.get("VITE_SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_URL") ?? "",
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
     );
 
@@ -77,52 +99,48 @@ const handler = async (req: Request): Promise<Response> => {
       message: `Your order status has been updated to: ${newStatus}`,
     };
 
-    const emailResponse = await resend.emails.send({
-      from: "Kenyashipment <onboarding@resend.dev>",
-      to: [user.email],
-      subject: emailContent.subject,
-      html: `
-        <!DOCTYPE html>
-        <html>
-          <head>
-            <style>
-              body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; }
-              .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-              .header { background: linear-gradient(135deg, #1e3a5f 0%, #f97316 100%); color: white; padding: 30px; text-align: center; border-radius: 8px 8px 0 0; }
-              .content { background: #f9fafb; padding: 30px; border-radius: 0 0 8px 8px; }
-              .status-badge { display: inline-block; padding: 8px 16px; background: #1e3a5f; color: white; border-radius: 20px; font-weight: 600; text-transform: uppercase; font-size: 12px; margin: 20px 0; }
-              .order-details { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; }
-              .footer { text-align: center; margin-top: 30px; color: #6b7280; font-size: 14px; }
-              .button { display: inline-block; padding: 12px 24px; background: #1e3a5f; color: white; text-decoration: none; border-radius: 6px; margin: 20px 0; }
-            </style>
-          </head>
-          <body>
-            <div class="container">
-              <div class="header">
-                <h1 style="margin: 0; font-size: 28px;">Kenyashipment</h1>
-                <p style="margin: 10px 0 0; opacity: 0.9;">Order Status Update</p>
+    const html = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: linear-gradient(135deg, #1e3a5f 0%, #f97316 100%); color: white; padding: 30px; text-align: center; border-radius: 8px 8px 0 0; }
+            .content { background: #f9fafb; padding: 30px; border-radius: 0 0 8px 8px; }
+            .status-badge { display: inline-block; padding: 8px 16px; background: #1e3a5f; color: white; border-radius: 20px; font-weight: 600; text-transform: uppercase; font-size: 12px; margin: 20px 0; }
+            .order-details { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; }
+            .footer { text-align: center; margin-top: 30px; color: #6b7280; font-size: 14px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1 style="margin: 0; font-size: 28px;">Kenyashipment</h1>
+              <p style="margin: 10px 0 0; opacity: 0.9;">Order Status Update</p>
+            </div>
+            <div class="content">
+              <h2 style="margin-top: 0;">Hello!</h2>
+              <p>${emailContent.message}</p>
+              <div class="status-badge">${newStatus}</div>
+              <div class="order-details">
+                <h3 style="margin-top: 0;">Order Details</h3>
+                <p><strong>Order ID:</strong> ${orderId.substring(0, 8)}...</p>
+                <p><strong>Total Amount:</strong> KES ${order.total.toLocaleString()}</p>
+                <p><strong>Status:</strong> ${newStatus}</p>
               </div>
-              <div class="content">
-                <h2 style="margin-top: 0;">Hello!</h2>
-                <p>${emailContent.message}</p>
-                <div class="status-badge">${newStatus}</div>
-                <div class="order-details">
-                  <h3 style="margin-top: 0;">Order Details</h3>
-                  <p><strong>Order ID:</strong> ${orderId.substring(0, 8)}...</p>
-                  <p><strong>Total Amount:</strong> KES ${order.total.toLocaleString()}</p>
-                  <p><strong>Status:</strong> ${newStatus}</p>
-                </div>
-                <p>Thank you for shopping with Kenyashipment!</p>
-                <div class="footer">
-                  <p>Kenyashipment - Fast & Reliable Logistics Across Kenya</p>
-                  <p>If you have any questions, please don't hesitate to contact us.</p>
-                </div>
+              <p>Thank you for shopping with Kenyashipment!</p>
+              <div class="footer">
+                <p>Kenyashipment - Fast & Reliable Logistics Across Kenya</p>
+                <p>If you have any questions, please don't hesitate to contact us.</p>
               </div>
             </div>
-          </body>
-        </html>
-      `,
-    });
+          </div>
+        </body>
+      </html>
+    `;
+
+    const emailResponse = await sendEmail(user.email, emailContent.subject, html);
 
     console.log("Email sent successfully:", emailResponse);
 
