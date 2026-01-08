@@ -121,18 +121,41 @@ const Sell = () => {
     }
   };
 
+  const ALLOWED_FILE_TYPES = ['image/jpeg', 'image/png', 'image/heic', 'image/heif'];
+  const MAX_IMAGES = 5;
+
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
+
+    // Check max images limit
+    const remainingSlots = MAX_IMAGES - formData.images.length;
+    if (remainingSlots <= 0) {
+      toast.error(`Maximum ${MAX_IMAGES} images allowed`);
+      return;
+    }
+
+    // Validate file types
+    const validFiles: File[] = [];
+    for (let i = 0; i < Math.min(files.length, remainingSlots); i++) {
+      const file = files[i];
+      if (ALLOWED_FILE_TYPES.includes(file.type)) {
+        validFiles.push(file);
+      } else {
+        toast.error(`${file.name} is not a valid format. Use JPEG, PNG, or HEIC.`);
+      }
+    }
+
+    if (validFiles.length === 0) return;
 
     setUploading(true);
     const uploadedUrls: string[] = [];
 
     try {
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const fileExt = file.name.split(".").pop();
-        const fileName = `${user?.id}-${Date.now()}-${i}.${fileExt}`;
+      for (let i = 0; i < validFiles.length; i++) {
+        const file = validFiles[i];
+        const fileExt = file.name.split(".").pop()?.toLowerCase() || 'jpg';
+        const fileName = `${user?.id}/${Date.now()}-${i}.${fileExt}`;
 
         const { error: uploadError } = await supabase.storage
           .from("product-images")
@@ -323,7 +346,7 @@ const Sell = () => {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   {/* Product Images */}
                   <div className="space-y-3">
-                    <Label>Product Images *</Label>
+                    <Label>Product Images * <span className="text-muted-foreground font-normal">(max 5, JPEG/PNG/HEIC)</span></Label>
                     <div className="flex gap-3 flex-wrap">
                       {formData.images.map((url, idx) => (
                         <div key={idx} className="relative group">
@@ -341,19 +364,22 @@ const Sell = () => {
                           </button>
                         </div>
                       ))}
-                      <label className="w-24 h-24 border-2 border-dashed rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-primary transition-colors">
-                        <ImagePlus className="h-6 w-6 text-muted-foreground" />
-                        <span className="text-xs text-muted-foreground mt-1">Add</span>
-                        <input
-                          type="file"
-                          accept="image/*"
-                          multiple
-                          onChange={handleImageUpload}
-                          disabled={uploading}
-                          className="hidden"
-                        />
-                      </label>
+                      {formData.images.length < 5 && (
+                        <label className="w-24 h-24 border-2 border-dashed rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-primary transition-colors">
+                          <ImagePlus className="h-6 w-6 text-muted-foreground" />
+                          <span className="text-xs text-muted-foreground mt-1">Add</span>
+                          <input
+                            type="file"
+                            accept=".jpg,.jpeg,.png,.heic,.heif"
+                            multiple
+                            onChange={handleImageUpload}
+                            disabled={uploading}
+                            className="hidden"
+                          />
+                        </label>
+                      )}
                     </div>
+                    <p className="text-xs text-muted-foreground">{formData.images.length}/5 images</p>
                     {uploading && <p className="text-sm text-muted-foreground">Uploading...</p>}
                   </div>
 
@@ -372,7 +398,7 @@ const Sell = () => {
                   {/* Price and Category */}
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="price">Price (KSh) *</Label>
+                      <Label htmlFor="price">Price *</Label>
                       <Input
                         id="price"
                         type="number"
@@ -380,7 +406,7 @@ const Sell = () => {
                         min="0"
                         value={formData.price}
                         onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                        placeholder="0.00"
+                        placeholder="Enter price"
                         required
                       />
                     </div>
