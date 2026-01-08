@@ -12,7 +12,7 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { items } = useCart();
   const { user } = useAuth();
-  const { isAdmin, isSeller } = useUserRole();
+  const { isAdmin } = useUserRole();
   const cartCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
@@ -50,24 +50,15 @@ const Header = () => {
               Learn More
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
             </NavLink>
-            {isSeller && (
+            {user && (
               <NavLink
-                to="/seller"
+                to="/sell"
                 className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors relative group"
               >
                 <span className="flex items-center gap-1">
                   <Store className="h-4 w-4" />
                   Sell
                 </span>
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
-              </NavLink>
-            )}
-            {!isSeller && user && (
-              <NavLink
-                to="/become-seller"
-                className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors relative group"
-              >
-                Become a Seller
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
               </NavLink>
             )}
@@ -157,22 +148,13 @@ const Header = () => {
             >
               {user ? "My Account" : "Sign In"}
             </NavLink>
-            {isSeller && (
+            {user && (
               <NavLink
-                to="/seller"
+                to="/sell"
                 className="block py-2 text-base font-medium text-foreground/80 hover:text-foreground transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Seller Dashboard
-              </NavLink>
-            )}
-            {!isSeller && user && (
-              <NavLink
-                to="/become-seller"
-                className="block py-2 text-base font-medium text-foreground/80 hover:text-foreground transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Become a Seller
+                Sell
               </NavLink>
             )}
             {isAdmin && (
