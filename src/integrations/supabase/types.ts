@@ -61,6 +61,36 @@ export type Database = {
           },
         ]
       }
+      admin_action_logs: {
+        Row: {
+          action_type: string
+          admin_id: string
+          created_at: string | null
+          details: Json | null
+          id: string
+          target_id: string | null
+          target_type: string
+        }
+        Insert: {
+          action_type: string
+          admin_id: string
+          created_at?: string | null
+          details?: Json | null
+          id?: string
+          target_id?: string | null
+          target_type: string
+        }
+        Update: {
+          action_type?: string
+          admin_id?: string
+          created_at?: string | null
+          details?: Json | null
+          id?: string
+          target_id?: string | null
+          target_type?: string
+        }
+        Relationships: []
+      }
       inventory: {
         Row: {
           created_at: string
@@ -218,6 +248,27 @@ export type Database = {
           },
         ]
       }
+      pending_admins: {
+        Row: {
+          created_at: string | null
+          email: string
+          id: string
+          invited_by: string
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          id?: string
+          invited_by: string
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          id?: string
+          invited_by?: string
+        }
+        Relationships: []
+      }
       products: {
         Row: {
           benefits: string[] | null
@@ -271,6 +322,8 @@ export type Database = {
           created_at: string | null
           full_name: string | null
           id: string
+          is_suspended: boolean | null
+          last_seen: string | null
           phone: string | null
           updated_at: string | null
         }
@@ -278,6 +331,8 @@ export type Database = {
           created_at?: string | null
           full_name?: string | null
           id: string
+          is_suspended?: boolean | null
+          last_seen?: string | null
           phone?: string | null
           updated_at?: string | null
         }
@@ -285,6 +340,8 @@ export type Database = {
           created_at?: string | null
           full_name?: string | null
           id?: string
+          is_suspended?: boolean | null
+          last_seen?: string | null
           phone?: string | null
           updated_at?: string | null
         }
@@ -401,6 +458,7 @@ export type Database = {
         Returns: boolean
       }
       is_approved_seller: { Args: { _user_id: string }; Returns: boolean }
+      is_superadmin: { Args: { _user_id: string }; Returns: boolean }
       seller_has_product_in_order: {
         Args: { _order_id: string; _seller_id: string }
         Returns: boolean

@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import OrderDetailsModal from "@/components/OrderDetailsModal";
-import SalesAnalytics from "@/components/SalesAnalytics";
-import InventoryManagement from "@/components/InventoryManagement";
-import ProductManagement from "@/components/ProductManagement";
-import SellerApplicationsManagement from "@/components/SellerApplicationsManagement";
+import AdminStats from "@/components/admin/AdminStats";
+import AnalyticsCharts from "@/components/admin/AnalyticsCharts";
+import UsersManagement from "@/components/admin/UsersManagement";
+import ProductsOverview from "@/components/admin/ProductsOverview";
+import AdminManagement from "@/components/admin/AdminManagement";
+import AdminActionLogs from "@/components/admin/AdminActionLogs";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -29,7 +31,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Loader2, Eye, Users } from "lucide-react";
+import { Loader2, Eye, LayoutDashboard, Users, Package, ShoppingCart, Shield, ClipboardList } from "lucide-react";
 
 interface Order {
   id: string;
@@ -49,6 +51,21 @@ const Admin = () => {
   const [loading, setLoading] = useState(true);
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
+
+  // Update last_seen for online tracking
+  useEffect(() => {
+    if (user) {
+      const updateLastSeen = async () => {
+        await supabase
+          .from("profiles")
+          .update({ last_seen: new Date().toISOString() })
+          .eq("id", user.id);
+      };
+      updateLastSeen();
+      const interval = setInterval(updateLastSeen, 60000); // Every minute
+      return () => clearInterval(interval);
+    }
+  }, [user]);
 
   useEffect(() => {
     if (!adminLoading && !isAdmin) {
@@ -82,7 +99,6 @@ const Admin = () => {
 
   const updateOrderStatus = async (orderId: string, newStatus: string) => {
     try {
-      // Update order status in database
       const { error: updateError } = await supabase
         .from("orders")
         .update({ status: newStatus })
@@ -90,52 +106,32 @@ const Admin = () => {
 
       if (updateError) throw updateError;
 
-      // Send email notification via edge function
       try {
-        const { error: emailError } = await supabase.functions.invoke("send-order-status-email", {
-          body: {
-            orderId: orderId,
-            newStatus: newStatus,
-          },
+        await supabase.functions.invoke("send-order-status-email", {
+          body: { orderId, newStatus },
         });
-
-        if (emailError) {
-          console.error("Error sending email:", emailError);
-          toast.warning("Order updated but email notification failed");
-        } else {
-          toast.success("Order status updated and customer notified");
-        }
-      } catch (emailError) {
-        console.error("Error invoking email function:", emailError);
+        toast.success("Order status updated and customer notified");
+      } catch {
         toast.warning("Order updated but email notification failed");
       }
 
-      setOrders(orders.map(o => 
-        o.id === orderId ? { ...o, status: newStatus } : o
-      ));
-    } catch (error: any) {
+      setOrders(orders.map(o => o.id === orderId ? { ...o, status: newStatus } : o));
+    } catch (error) {
       console.error("Error updating order status:", error);
       toast.error("Failed to update order status");
     }
   };
 
   const getStatusColor = (status: string) => {
-    switch (status) {
-      case "paid":
-        return "bg-green-500";
-      case "pending":
-        return "bg-yellow-500";
-      case "processing":
-        return "bg-blue-500";
-      case "shipped":
-        return "bg-purple-500";
-      case "delivered":
-        return "bg-green-600";
-      case "cancelled":
-        return "bg-red-500";
-      default:
-        return "bg-gray-500";
-    }
+    const colors: Record<string, string> = {
+      paid: "bg-green-500",
+      pending: "bg-yellow-500",
+      processing: "bg-blue-500",
+      shipped: "bg-purple-500",
+      delivered: "bg-green-600",
+      cancelled: "bg-red-500",
+    };
+    return colors[status] || "bg-gray-500";
   };
 
   if (adminLoading || loading) {
@@ -146,127 +142,130 @@ const Admin = () => {
     );
   }
 
-  if (!isAdmin) {
-    return null;
-  }
+  if (!isAdmin) return null;
 
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
       <main className="flex-1 container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
-        
-          <Tabs defaultValue="analytics" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-5">
-              <TabsTrigger value="analytics">Analytics</TabsTrigger>
-              <TabsTrigger value="orders">Orders</TabsTrigger>
-              <TabsTrigger value="sellers">Sellers</TabsTrigger>
-              <TabsTrigger value="inventory">Inventory</TabsTrigger>
-              <TabsTrigger value="products">Products</TabsTrigger>
-            </TabsList>
-          
+        <div className="flex items-center gap-3 mb-8">
+          <LayoutDashboard className="h-8 w-8 text-primary" />
+          <h1 className="text-3xl font-bold">Admin Cockpit</h1>
+        </div>
+
+        {/* Stats Overview */}
+        <div className="mb-8">
+          <AdminStats />
+        </div>
+
+        <Tabs defaultValue="analytics" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-6">
+            <TabsTrigger value="analytics" className="flex items-center gap-2">
+              <LayoutDashboard className="h-4 w-4" />
+              <span className="hidden sm:inline">Analytics</span>
+            </TabsTrigger>
+            <TabsTrigger value="users" className="flex items-center gap-2">
+              <Users className="h-4 w-4" />
+              <span className="hidden sm:inline">Users</span>
+            </TabsTrigger>
+            <TabsTrigger value="products" className="flex items-center gap-2">
+              <Package className="h-4 w-4" />
+              <span className="hidden sm:inline">Products</span>
+            </TabsTrigger>
+            <TabsTrigger value="orders" className="flex items-center gap-2">
+              <ShoppingCart className="h-4 w-4" />
+              <span className="hidden sm:inline">Orders</span>
+            </TabsTrigger>
+            <TabsTrigger value="admins" className="flex items-center gap-2">
+              <Shield className="h-4 w-4" />
+              <span className="hidden sm:inline">Admins</span>
+            </TabsTrigger>
+            <TabsTrigger value="logs" className="flex items-center gap-2">
+              <ClipboardList className="h-4 w-4" />
+              <span className="hidden sm:inline">Logs</span>
+            </TabsTrigger>
+          </TabsList>
+
           <TabsContent value="analytics">
-            <SalesAnalytics />
+            <AnalyticsCharts />
           </TabsContent>
-          
+
+          <TabsContent value="users">
+            <UsersManagement />
+          </TabsContent>
+
+          <TabsContent value="products">
+            <ProductsOverview />
+          </TabsContent>
+
           <TabsContent value="orders">
             <div className="bg-card rounded-lg shadow-lg p-6">
               <h2 className="text-2xl font-semibold mb-4">Order Management</h2>
-          
-          {orders.length === 0 ? (
-            <p className="text-muted-foreground">No orders found</p>
-          ) : (
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Order ID</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Total</TableHead>
-                    <TableHead>Payment Method</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Update Status</TableHead>
-                    <TableHead>Details</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {orders.map((order) => (
-                    <TableRow key={order.id}>
-                      <TableCell className="font-mono text-sm">
-                        {order.id.substring(0, 8)}...
-                      </TableCell>
-                      <TableCell>
-                        {new Date(order.created_at).toLocaleDateString()}
-                      </TableCell>
-                      <TableCell>KES {order.total.toLocaleString()}</TableCell>
-                      <TableCell className="capitalize">
-                        {order.payment_method}
-                      </TableCell>
-                      <TableCell>
-                        <Badge className={getStatusColor(order.status)}>
-                          {order.status}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        <Select
-                          value={order.status}
-                          onValueChange={(value) => updateOrderStatus(order.id, value)}
-                        >
-                          <SelectTrigger className="w-[140px]">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="pending">Pending</SelectItem>
-                            <SelectItem value="paid">Paid</SelectItem>
-                            <SelectItem value="processing">Processing</SelectItem>
-                            <SelectItem value="shipped">Shipped</SelectItem>
-                            <SelectItem value="delivered">Delivered</SelectItem>
-                            <SelectItem value="cancelled">Cancelled</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </TableCell>
-                      <TableCell>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => {
-                            setSelectedOrderId(order.id);
-                            setDetailsModalOpen(true);
-                          }}
-                        >
-                          <Eye className="h-4 w-4 mr-2" />
-                          View
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          )}
+              {orders.length === 0 ? (
+                <p className="text-muted-foreground">No orders found</p>
+              ) : (
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Order ID</TableHead>
+                        <TableHead>Date</TableHead>
+                        <TableHead>Total</TableHead>
+                        <TableHead>Payment</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead>Update</TableHead>
+                        <TableHead>Details</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {orders.map((order) => (
+                        <TableRow key={order.id}>
+                          <TableCell className="font-mono text-sm">
+                            {order.id.substring(0, 8)}...
+                          </TableCell>
+                          <TableCell>{new Date(order.created_at).toLocaleDateString()}</TableCell>
+                          <TableCell>KES {order.total.toLocaleString()}</TableCell>
+                          <TableCell className="capitalize">{order.payment_method}</TableCell>
+                          <TableCell>
+                            <Badge className={getStatusColor(order.status)}>{order.status}</Badge>
+                          </TableCell>
+                          <TableCell>
+                            <Select value={order.status} onValueChange={(v) => updateOrderStatus(order.id, v)}>
+                              <SelectTrigger className="w-[130px]">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {["pending", "paid", "processing", "shipped", "delivered", "cancelled"].map((s) => (
+                                  <SelectItem key={s} value={s}>{s}</SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </TableCell>
+                          <TableCell>
+                            <Button variant="outline" size="sm" onClick={() => { setSelectedOrderId(order.id); setDetailsModalOpen(true); }}>
+                              <Eye className="h-4 w-4 mr-1" />View
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              )}
             </div>
           </TabsContent>
-          
-          <TabsContent value="sellers">
-            <SellerApplicationsManagement />
+
+          <TabsContent value="admins">
+            <AdminManagement />
           </TabsContent>
-          
-          <TabsContent value="inventory">
-            <InventoryManagement />
-            </TabsContent>
-            
-            <TabsContent value="products">
-              <ProductManagement />
-            </TabsContent>
-          </Tabs>
+
+          <TabsContent value="logs">
+            <AdminActionLogs />
+          </TabsContent>
+        </Tabs>
       </main>
       <Footer />
-      
-      <OrderDetailsModal
-        orderId={selectedOrderId}
-        open={detailsModalOpen}
-        onOpenChange={setDetailsModalOpen}
-      />
+      <OrderDetailsModal orderId={selectedOrderId} open={detailsModalOpen} onOpenChange={setDetailsModalOpen} />
     </div>
   );
 };
