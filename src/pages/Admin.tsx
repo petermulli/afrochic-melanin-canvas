@@ -9,6 +9,8 @@ import UsersManagement from "@/components/admin/UsersManagement";
 import ProductsOverview from "@/components/admin/ProductsOverview";
 import AdminManagement from "@/components/admin/AdminManagement";
 import AdminActionLogs from "@/components/admin/AdminActionLogs";
+import WaitlistManagement from "@/components/admin/WaitlistManagement";
+import ProductSuggestions from "@/components/admin/ProductSuggestions";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -31,7 +33,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Loader2, Eye, LayoutDashboard, Users, Package, ShoppingCart, Shield, ClipboardList } from "lucide-react";
+import { Loader2, Eye, LayoutDashboard, Users, Package, ShoppingCart, Shield, ClipboardList, Clock } from "lucide-react";
 
 interface Order {
   id: string;
@@ -159,7 +161,7 @@ const Admin = () => {
         </div>
 
         <Tabs defaultValue="analytics" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-6">
+          <TabsList className="grid w-full grid-cols-7">
             <TabsTrigger value="analytics" className="flex items-center gap-2">
               <LayoutDashboard className="h-4 w-4" />
               <span className="hidden sm:inline">Analytics</span>
@@ -176,6 +178,10 @@ const Admin = () => {
               <ShoppingCart className="h-4 w-4" />
               <span className="hidden sm:inline">Orders</span>
             </TabsTrigger>
+            <TabsTrigger value="waitlist" className="flex items-center gap-2">
+              <Clock className="h-4 w-4" />
+              <span className="hidden sm:inline">Waitlist</span>
+            </TabsTrigger>
             <TabsTrigger value="admins" className="flex items-center gap-2">
               <Shield className="h-4 w-4" />
               <span className="hidden sm:inline">Admins</span>
@@ -187,7 +193,10 @@ const Admin = () => {
           </TabsList>
 
           <TabsContent value="analytics">
-            <AnalyticsCharts />
+            <div className="space-y-6">
+              <AnalyticsCharts />
+              <ProductSuggestions />
+            </div>
           </TabsContent>
 
           <TabsContent value="users">
@@ -253,6 +262,10 @@ const Admin = () => {
                 </div>
               )}
             </div>
+          </TabsContent>
+
+          <TabsContent value="waitlist">
+            <WaitlistManagement />
           </TabsContent>
 
           <TabsContent value="admins">

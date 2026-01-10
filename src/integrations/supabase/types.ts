@@ -445,6 +445,45 @@ export type Database = {
           },
         ]
       }
+      waitlist: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          is_served: boolean
+          name: string
+          notified_at: string | null
+          phone: string
+          product_requested: string
+          skin_description: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          is_served?: boolean
+          name: string
+          notified_at?: string | null
+          phone: string
+          product_requested: string
+          skin_description?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          is_served?: boolean
+          name?: string
+          notified_at?: string | null
+          phone?: string
+          product_requested?: string
+          skin_description?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

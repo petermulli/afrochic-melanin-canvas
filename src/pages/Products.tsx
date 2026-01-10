@@ -2,10 +2,11 @@ import { useState, useMemo, useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
+import WaitlistDialog from "@/components/WaitlistDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, Loader2 } from "lucide-react";
+import { Search, Loader2, Bell } from "lucide-react";
 
 interface Product {
   id: string;
@@ -25,6 +26,7 @@ const Products = () => {
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [waitlistOpen, setWaitlistOpen] = useState(false);
 
   useEffect(() => {
     fetchProducts();
@@ -143,9 +145,18 @@ const Products = () => {
 
             {filteredProducts.length === 0 && (
               <div className="text-center py-20">
-                <p className="text-lg text-muted-foreground">
-                  No products found in this category
-                </p>
+                <div className="max-w-md mx-auto">
+                  <p className="text-lg text-muted-foreground mb-4">
+                    No products found matching your search
+                  </p>
+                  <p className="text-sm text-muted-foreground mb-6">
+                    Can't find what you're looking for? Let us know and we'll notify you when it's available!
+                  </p>
+                  <Button onClick={() => setWaitlistOpen(true)} className="gap-2">
+                    <Bell className="h-4 w-4" />
+                    Join Waitlist
+                  </Button>
+                </div>
               </div>
             )}
           </>
@@ -153,6 +164,12 @@ const Products = () => {
       </main>
 
       <Footer />
+
+      <WaitlistDialog
+        open={waitlistOpen}
+        onOpenChange={setWaitlistOpen}
+        searchQuery={searchQuery}
+      />
     </div>
   );
 };
