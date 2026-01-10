@@ -252,7 +252,7 @@ const WaitlistManagement = () => {
                 <TableRow>
                   <TableHead>Name</TableHead>
                   <TableHead>Contact</TableHead>
-                  <TableHead>Skin Description</TableHead>
+                  <TableHead>Skin Condition</TableHead>
                   <TableHead>Product Requested</TableHead>
                   <TableHead>Date</TableHead>
                   <TableHead>Status</TableHead>

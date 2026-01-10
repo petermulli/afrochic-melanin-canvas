@@ -43,16 +43,11 @@ serve(async (req) => {
           </div>
           
           <div style="background: #fff; padding: 30px; border: 1px solid #eee; border-top: none;">
-            <h2 style="color: #1a1a2e; margin-top: 0;">Great News, ${name}! 🎉</h2>
+            <p style="font-size: 16px; margin-top: 0;">Dear <strong>${name}</strong>,</p>
             
-            <p>The product you've been waiting for is now available!</p>
+            <p>We are glad to let you know that the product <strong>"${productRequested}"</strong> is now available in our store!</p>
             
-            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #d4af37;">
-              <p style="margin: 0; font-weight: bold;">Product you requested:</p>
-              <p style="margin: 5px 0 0 0; color: #666;">${productRequested}</p>
-            </div>
-            
-            <p>Visit our store now to get your hands on it before it sells out!</p>
+            <p>You can now shop conveniently at Kenya Shipment using the link below:</p>
             
             <div style="text-align: center; margin: 30px 0;">
               <a href="https://kenyashipment.com/products" 
@@ -63,18 +58,28 @@ serve(async (req) => {
                         border-radius: 25px; 
                         font-weight: bold;
                         display: inline-block;">
-                Shop Now
+                Shop Now at kenyashipment.com
               </a>
             </div>
             
-            <p style="color: #666; font-size: 14px;">
-              Thank you for your patience and for being a valued member of the Kenya Shipment community!
+            <p>Don't miss out – grab yours before it sells out!</p>
+            
+            <p style="color: #666; font-size: 14px; margin-top: 30px;">
+              Thank you for your patience and for being a valued member of the Kenya Shipment community.
+            </p>
+            
+            <p style="margin-top: 20px;">
+              Warm regards,<br>
+              <strong>The Kenya Shipment Team</strong>
             </p>
           </div>
           
           <div style="background: #f8f9fa; padding: 20px; text-align: center; border-radius: 0 0 10px 10px; border: 1px solid #eee; border-top: none;">
             <p style="margin: 0; color: #666; font-size: 12px;">
               © ${new Date().getFullYear()} Kenya Shipment. All rights reserved.
+            </p>
+            <p style="margin: 10px 0 0 0; color: #888; font-size: 11px;">
+              <a href="https://kenyashipment.com" style="color: #d4af37; text-decoration: none;">kenyashipment.com</a>
             </p>
           </div>
         </body>
