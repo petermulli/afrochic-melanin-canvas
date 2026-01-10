@@ -117,10 +117,10 @@ const WaitlistDialog = ({ open, onOpenChange, searchQuery = "" }: WaitlistDialog
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="skinDescription">Describe Your Skin (Optional)</Label>
+            <Label htmlFor="skinDescription">What are we treating? (Skin Condition)</Label>
             <Textarea
               id="skinDescription"
-              placeholder="E.g., Oily skin, dark spots, sensitive..."
+              placeholder="E.g., Acne, dark spots, hyperpigmentation, dry skin..."
               value={formData.skinDescription}
               onChange={(e) => setFormData({ ...formData, skinDescription: e.target.value })}
               rows={2}
