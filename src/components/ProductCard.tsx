@@ -61,7 +61,7 @@ const ProductCard = ({ product, compact = false }: ProductCardProps) => {
         setImageIndex(0);
       }}
     >
-      <div className={`relative ${compact ? 'aspect-[3/4]' : 'aspect-square'} overflow-hidden ${compact ? 'rounded-lg' : 'rounded-2xl'} bg-muted ${compact ? 'mb-2' : 'mb-4'}`}>
+      <div className={`relative ${compact ? 'aspect-[3/4]' : 'aspect-square'} overflow-hidden ${compact ? 'rounded-lg' : 'rounded-2xl'} bg-muted ${compact ? 'mb-2' : 'mb-3'}`}>
         <img
           src={product.images[imageIndex]}
           alt={product.name}
@@ -73,17 +73,8 @@ const ProductCard = ({ product, compact = false }: ProductCardProps) => {
             isHovered ? "opacity-100" : "opacity-0"
           }`}
         />
-        <Button
-          onClick={handleAddToCart}
-          size={compact ? "sm" : "icon"}
-          className={`absolute ${compact ? 'bottom-2 right-2' : 'bottom-4 right-4'} rounded-full shadow-elevated transition-all duration-300 ${
-            isHovered ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
-          }`}
-        >
-          <ShoppingCart className={compact ? "h-3 w-3" : "h-4 w-4"} />
-        </Button>
       </div>
-      <div className={compact ? 'space-y-0.5' : 'space-y-1'}>
+      <div className={compact ? 'space-y-1' : 'space-y-2'}>
         <h3 className={`font-medium ${compact ? 'text-xs md:text-sm' : 'text-base'} text-foreground group-hover:text-primary transition-colors line-clamp-1`}>
           {product.name}
         </h3>
@@ -93,6 +84,15 @@ const ProductCard = ({ product, compact = false }: ProductCardProps) => {
         <p className={`${compact ? 'text-sm md:text-base' : 'text-lg'} font-semibold text-primary`}>
           {formatPrice(product.price)}
         </p>
+        {/* Always visible Add to Cart button */}
+        <Button
+          onClick={handleAddToCart}
+          size={compact ? "sm" : "default"}
+          className={`w-full rounded-lg transition-all duration-300 ${compact ? 'text-xs py-1' : ''}`}
+        >
+          <ShoppingCart className={compact ? "h-3 w-3 mr-1" : "h-4 w-4 mr-2"} />
+          Add to Cart
+        </Button>
       </div>
     </div>
   );

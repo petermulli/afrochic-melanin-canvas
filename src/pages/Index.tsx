@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import BestSellersSection from "@/components/BestSellersSection";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowRight, Star, Truck, Shield, Clock, ChevronLeft, ChevronRight, Mail } from "lucide-react";
@@ -273,6 +274,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Best Sellers Section */}
+      <BestSellersSection />
 
       {/* Newsletter Subscription Card - Prominent placement */}
       <section className="py-20 md:py-28 bg-muted/30">
