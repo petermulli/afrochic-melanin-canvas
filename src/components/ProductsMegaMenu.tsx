@@ -1,5 +1,5 @@
 import { NavLink } from "./NavLink";
-import { ChevronDown } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -10,68 +10,91 @@ import {
 
 interface MenuCategory {
   title: string;
-  items: { name: string; href: string }[];
+  items: { name: string; href: string; category?: string }[];
 }
 
 const menuCategories: MenuCategory[] = [
   {
     title: "SKINCARE",
     items: [
-      { name: "All Products", href: "/products" },
-      { name: "Cleansers", href: "/products?category=skincare" },
-      { name: "Moisturizers", href: "/products?category=skincare" },
-      { name: "Serums", href: "/products?category=skincare" },
-      { name: "Exfoliators", href: "/products?category=skincare" },
+      { name: "All Skincare", href: "/products?group=skincare" },
+      { name: "Cleansers", href: "/products?category=cleanser", category: "cleanser" },
+      { name: "Moisturizers", href: "/products?category=moisturizer", category: "moisturizer" },
+      { name: "Serums", href: "/products?category=serum", category: "serum" },
+      { name: "Exfoliators", href: "/products?category=exfoliator", category: "exfoliator" },
+      { name: "Toners", href: "/products?category=toner", category: "toner" },
+      { name: "Face Masks", href: "/products?category=mask", category: "mask" },
     ],
   },
   {
     title: "HAIR CARE",
     items: [
-      { name: "Complete Hair Range", href: "/products?category=hair" },
-      { name: "Shampoos", href: "/products?category=hair" },
-      { name: "Conditioners", href: "/products?category=hair" },
-      { name: "Hair Oils", href: "/products?category=hair" },
-      { name: "Scalp Treatments", href: "/products?category=hair" },
+      { name: "All Hair Care", href: "/products?group=haircare" },
+      { name: "Shampoos", href: "/products?category=shampoo", category: "shampoo" },
+      { name: "Conditioners", href: "/products?category=conditioner", category: "conditioner" },
+      { name: "Hair Oils", href: "/products?category=hair-oil", category: "hair-oil" },
+      { name: "Scalp Treatments", href: "/products?category=scalp-treatment", category: "scalp-treatment" },
     ],
   },
   {
     title: "BODY CARE",
     items: [
-      { name: "Complete Body Range", href: "/products?category=body" },
-      { name: "Body Wash", href: "/products?category=body" },
-      { name: "Body Lotions", href: "/products?category=body" },
-      { name: "Body Oils", href: "/products?category=body" },
-      { name: "Exfoliators", href: "/products?category=body" },
+      { name: "All Body Care", href: "/products?group=bodycare" },
+      { name: "Body Wash", href: "/products?category=body-wash", category: "body-wash" },
+      { name: "Body Lotions", href: "/products?category=body-lotion", category: "body-lotion" },
+      { name: "Body Oils", href: "/products?category=body-oil", category: "body-oil" },
+      { name: "Body Scrubs", href: "/products?category=body-scrub", category: "body-scrub" },
     ],
   },
   {
     title: "SUN PROTECTION",
     items: [
-      { name: "Sunscreens SPF50", href: "/products?category=sunscreen" },
-      { name: "After Sun Care", href: "/products?category=sunscreen" },
+      { name: "All Sun Care", href: "/products?group=sunprotection" },
+      { name: "Sunscreens SPF50", href: "/products?category=sunscreen", category: "sunscreen" },
+      { name: "After Sun Care", href: "/products?category=after-sun", category: "after-sun" },
     ],
   },
   {
     title: "TREATMENTS",
     items: [
-      { name: "Hyperpigmentation", href: "/products?category=treatments" },
-      { name: "Acne Solutions", href: "/products?category=treatments" },
-      { name: "Anti-Aging", href: "/products?category=treatments" },
-      { name: "Dark Circles", href: "/products?category=treatments" },
+      { name: "All Treatments", href: "/products?group=treatments" },
+      { name: "Acne Solutions", href: "/products?category=acne-treatment", category: "acne-treatment" },
+      { name: "Hyperpigmentation", href: "/products?category=hyperpigmentation", category: "hyperpigmentation" },
+      { name: "Anti-Aging", href: "/products?category=anti-aging", category: "anti-aging" },
+      { name: "Eye Care", href: "/products?category=eye-care", category: "eye-care" },
     ],
   },
   {
     title: "QUICK LINKS",
     items: [
-      { name: "Bestsellers", href: "/products" },
-      { name: "New Arrivals", href: "/products" },
-      { name: "Gift Sets", href: "/products" },
-      { name: "Customer Reviews", href: "/about" },
+      { name: "All Products", href: "/products" },
+      { name: "Bestsellers", href: "/products?featured=true" },
+      { name: "Gift Sets", href: "/products?category=gift-set", category: "gift-set" },
+      { name: "Customer Reviews", href: "/#reviews" },
     ],
   },
 ];
 
 const ProductsMegaMenu = () => {
+  const navigate = useNavigate();
+
+  const handleNavigation = (href: string) => {
+    if (href.startsWith("/#")) {
+      // Handle anchor links
+      const anchor = href.replace("/", "");
+      if (window.location.pathname === "/") {
+        document.querySelector(anchor)?.scrollIntoView({ behavior: "smooth" });
+      } else {
+        navigate("/");
+        setTimeout(() => {
+          document.querySelector(anchor)?.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+      }
+    } else {
+      navigate(href);
+    }
+  };
+
   return (
     <NavigationMenu>
       <NavigationMenuList>
@@ -90,12 +113,12 @@ const ProductsMegaMenu = () => {
                     <ul className="space-y-2">
                       {category.items.map((item) => (
                         <li key={item.name}>
-                          <NavLink
-                            to={item.href}
-                            className="text-sm text-foreground/70 hover:text-primary transition-colors block py-1"
+                          <button
+                            onClick={() => handleNavigation(item.href)}
+                            className="text-sm text-foreground/70 hover:text-primary transition-colors block py-1 text-left w-full"
                           >
                             {item.name}
-                          </NavLink>
+                          </button>
                         </li>
                       ))}
                     </ul>
@@ -105,9 +128,9 @@ const ProductsMegaMenu = () => {
               
               {/* Featured Banner */}
               <div className="mt-6 pt-6 border-t border-border">
-                <NavLink 
-                  to="/products" 
-                  className="flex items-center justify-between p-4 bg-primary/5 rounded-lg hover:bg-primary/10 transition-colors group"
+                <button 
+                  onClick={() => navigate("/products")}
+                  className="flex items-center justify-between p-4 bg-primary/5 rounded-lg hover:bg-primary/10 transition-colors group w-full text-left"
                 >
                   <div>
                     <p className="font-semibold text-foreground">Shop All Products</p>
@@ -116,7 +139,7 @@ const ProductsMegaMenu = () => {
                   <span className="text-primary font-medium group-hover:translate-x-1 transition-transform">
                     View All →
                   </span>
-                </NavLink>
+                </button>
               </div>
             </div>
           </NavigationMenuContent>

@@ -29,6 +29,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2, Upload } from "lucide-react";
+import { productCategories } from "@/data/productCategories";
 
 interface Product {
   id: string;
@@ -288,23 +289,12 @@ const ProductManagement = () => {
                     <SelectTrigger>
                       <SelectValue placeholder="Select category" />
                     </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Foundation">Foundation</SelectItem>
-                      <SelectItem value="Lipstick">Lipstick</SelectItem>
-                      <SelectItem value="Eyeshadow">Eyeshadow</SelectItem>
-                      <SelectItem value="Skincare">Skincare</SelectItem>
-                      <SelectItem value="Blush">Blush</SelectItem>
-                      <SelectItem value="Concealer">Concealer</SelectItem>
-                      <SelectItem value="Mascara">Mascara</SelectItem>
-                      <SelectItem value="Primer">Primer</SelectItem>
-                      <SelectItem value="Setting Spray">Setting Spray</SelectItem>
-                      <SelectItem value="Body Care">Body Care</SelectItem>
-                      <SelectItem value="Lip Gloss">Lip Gloss</SelectItem>
-                      <SelectItem value="Highlighter">Highlighter</SelectItem>
-                      <SelectItem value="Bronzer">Bronzer</SelectItem>
-                      <SelectItem value="Contour">Contour</SelectItem>
-                      <SelectItem value="Brows">Brows</SelectItem>
-                      <SelectItem value="Eyeliner">Eyeliner</SelectItem>
+                    <SelectContent className="max-h-60">
+                      {productCategories.map((category) => (
+                        <SelectItem key={category.id} value={category.id}>
+                          {category.label}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
