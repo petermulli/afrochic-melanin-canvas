@@ -4,9 +4,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BestSellersSection from "@/components/BestSellersSection";
+import ReviewsCarousel from "@/components/ReviewsCarousel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowRight, Star, Truck, Shield, Clock, ChevronLeft, ChevronRight, Mail } from "lucide-react";
+import { ArrowRight, Truck, Shield, Clock, ChevronLeft, ChevronRight, Mail } from "lucide-react";
 import { toast } from "sonner";
 
 // Skin condition showcases with product images
@@ -339,81 +340,10 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Customer Reviews Section */}
-      <section className="py-20 md:py-28 bg-background">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div 
-            className="text-center mb-12"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif tracking-tight mb-4">
-              Feel the Love
-            </h2>
-            <p className="text-muted-foreground">
-              from thousands of happy customers
-            </p>
-          </motion.div>
-
-          {/* Reviews Carousel */}
-          <div className="relative max-w-3xl mx-auto">
-            <div className="overflow-hidden">
-              <motion.div
-                key={currentReviewIndex}
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -50 }}
-                transition={{ duration: 0.4 }}
-                className="bg-card border border-border p-8 md:p-12 text-center"
-              >
-                <div className="flex justify-center gap-1 mb-6">
-                  {[...Array(customerReviews[currentReviewIndex].rating)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 fill-primary text-primary" />
-                  ))}
-                </div>
-                <p className="text-lg md:text-xl font-serif italic text-foreground mb-6 leading-relaxed">
-                  "{customerReviews[currentReviewIndex].review}"
-                </p>
-                <p className="font-medium text-foreground">
-                  {customerReviews[currentReviewIndex].name}
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  {customerReviews[currentReviewIndex].product}
-                </p>
-              </motion.div>
-            </div>
-
-            {/* Navigation Arrows */}
-            <button
-              onClick={() => setCurrentReviewIndex((prev) => (prev - 1 + customerReviews.length) % customerReviews.length)}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-12 p-2 hover:bg-muted rounded-full transition-colors"
-            >
-              <ChevronLeft className="h-6 w-6 text-muted-foreground" />
-            </button>
-            <button
-              onClick={() => setCurrentReviewIndex((prev) => (prev + 1) % customerReviews.length)}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-12 p-2 hover:bg-muted rounded-full transition-colors"
-            >
-              <ChevronRight className="h-6 w-6 text-muted-foreground" />
-            </button>
-
-            {/* Dots indicator */}
-            <div className="flex justify-center gap-2 mt-6">
-              {customerReviews.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentReviewIndex(index)}
-                  className={`w-2 h-2 rounded-full transition-all ${
-                    index === currentReviewIndex ? 'bg-primary w-6' : 'bg-muted-foreground/30'
-                  }`}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Customer Reviews Carousel */}
+      <div id="reviews">
+        <ReviewsCarousel />
+      </div>
 
       {/* Brand Values - Minimal Icons */}
       <section className="py-20 bg-muted/30 border-y border-border">

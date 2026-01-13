@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ProductReviews from "@/components/ProductReviews";
 import { Button } from "@/components/ui/button";
 import { Check, ShoppingCart, ArrowLeft, Loader2, Star, Store } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -267,6 +268,9 @@ const ProductDetail = () => {
             </Button>
           </div>
         </div>
+
+        {/* Product Reviews Section */}
+        <ProductReviews productId={product.id} productName={product.name} />
       </main>
 
       <Footer />
