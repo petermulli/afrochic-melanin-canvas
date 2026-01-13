@@ -1,19 +1,30 @@
 import { useState } from "react";
 import { NavLink } from "./NavLink";
 import { Button } from "./ui/button";
-import { ShoppingCart, Menu, X, User, Store } from "lucide-react";
+import { ShoppingCart, Menu, X, User, Store, ChevronDown } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { useUserRole } from "@/hooks/useUserRole";
 import CurrencySelector from "./CurrencySelector";
+import ProductsMegaMenu from "./ProductsMegaMenu";
 import logo from "@/assets/kenyashipping-logo.png";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
   const { items } = useCart();
   const { user } = useAuth();
   const { isAdmin } = useUserRole();
   const cartCount = items.reduce((sum, item) => sum + item.quantity, 0);
+
+  const mobileCategories = [
+    { title: "SKINCARE", href: "/products?category=skincare" },
+    { title: "HAIR CARE", href: "/products?category=hair" },
+    { title: "BODY CARE", href: "/products?category=body" },
+    { title: "SUN PROTECTION", href: "/products?category=sunscreen" },
+    { title: "TREATMENTS", href: "/products?category=treatments" },
+    { title: "ALL PRODUCTS", href: "/products" },
+  ];
 
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
@@ -29,35 +40,29 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <NavLink
-              to="/products"
-              className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors relative group"
-            >
-              Shop
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
-            </NavLink>
+            <ProductsMegaMenu />
             <NavLink
               to="/about"
-              className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors relative group"
+              className="text-sm font-medium tracking-wide text-foreground/80 hover:text-foreground transition-colors relative group uppercase"
             >
-              Our Story
+              OUR STORY
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
             </NavLink>
             <NavLink
               to="/learn-more"
-              className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors relative group"
+              className="text-sm font-medium tracking-wide text-foreground/80 hover:text-foreground transition-colors relative group uppercase"
             >
-              Learn More
+              LEARN MORE
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
             </NavLink>
             {user && (
               <NavLink
                 to="/sell"
-                className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors relative group"
+                className="text-sm font-medium tracking-wide text-foreground/80 hover:text-foreground transition-colors relative group uppercase"
               >
                 <span className="flex items-center gap-1">
                   <Store className="h-4 w-4" />
-                  Sell
+                  SELL
                 </span>
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
               </NavLink>
@@ -65,9 +70,9 @@ const Header = () => {
             {isAdmin && (
               <NavLink
                 to="/admin"
-                className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors relative group"
+                className="text-sm font-medium tracking-wide text-foreground/80 hover:text-foreground transition-colors relative group uppercase"
               >
-                Admin
+                ADMIN
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
               </NavLink>
             )}
@@ -119,53 +124,74 @@ const Header = () => {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden py-4 space-y-3 animate-fade-in-up">
-            <NavLink
-              to="/products"
-              className="block py-2 text-base font-medium text-foreground/80 hover:text-foreground transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Shop
-            </NavLink>
+          <div className="md:hidden py-4 space-y-1 animate-fade-in-up border-t border-border">
+            {/* Products Dropdown */}
+            <div>
+              <button
+                onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
+                className="flex items-center justify-between w-full py-3 text-base font-medium tracking-wide text-foreground/80 hover:text-foreground transition-colors uppercase"
+              >
+                PRODUCTS
+                <ChevronDown className={`h-4 w-4 transition-transform ${mobileProductsOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {mobileProductsOpen && (
+                <div className="pl-4 pb-2 space-y-1 border-l-2 border-primary/20 ml-2">
+                  {mobileCategories.map((category) => (
+                    <NavLink
+                      key={category.title}
+                      to={category.href}
+                      className="block py-2 text-sm font-medium text-foreground/70 hover:text-primary transition-colors"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {category.title}
+                    </NavLink>
+                  ))}
+                </div>
+              )}
+            </div>
+            
             <NavLink
               to="/about"
-              className="block py-2 text-base font-medium text-foreground/80 hover:text-foreground transition-colors"
+              className="block py-3 text-base font-medium tracking-wide text-foreground/80 hover:text-foreground transition-colors uppercase"
               onClick={() => setMobileMenuOpen(false)}
             >
-              Our Story
+              OUR STORY
             </NavLink>
             <NavLink
               to="/learn-more"
-              className="block py-2 text-base font-medium text-foreground/80 hover:text-foreground transition-colors"
+              className="block py-3 text-base font-medium tracking-wide text-foreground/80 hover:text-foreground transition-colors uppercase"
               onClick={() => setMobileMenuOpen(false)}
             >
-              Learn More
+              LEARN MORE
             </NavLink>
             <NavLink
               to={user ? "/account" : "/auth"}
-              className="block py-2 text-base font-medium text-foreground/80 hover:text-foreground transition-colors"
+              className="block py-3 text-base font-medium tracking-wide text-foreground/80 hover:text-foreground transition-colors uppercase"
               onClick={() => setMobileMenuOpen(false)}
             >
-              {user ? "My Account" : "Sign In"}
+              {user ? "MY ACCOUNT" : "SIGN IN"}
             </NavLink>
             {user && (
               <NavLink
                 to="/sell"
-                className="block py-2 text-base font-medium text-foreground/80 hover:text-foreground transition-colors"
+                className="block py-3 text-base font-medium tracking-wide text-foreground/80 hover:text-foreground transition-colors uppercase"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Sell
+                SELL
               </NavLink>
             )}
             {isAdmin && (
               <NavLink
                 to="/admin"
-                className="block py-2 text-base font-medium text-foreground/80 hover:text-foreground transition-colors"
+                className="block py-3 text-base font-medium tracking-wide text-foreground/80 hover:text-foreground transition-colors uppercase"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Admin Dashboard
+                ADMIN DASHBOARD
               </NavLink>
             )}
+            <div className="pt-3 border-t border-border">
+              <CurrencySelector />
+            </div>
           </div>
         )}
       </nav>
