@@ -364,6 +364,7 @@ export type Database = {
       }
       products: {
         Row: {
+          admin_notes: string | null
           benefits: string[] | null
           category: string
           created_at: string | null
@@ -376,9 +377,11 @@ export type Database = {
           price: number
           seller_id: string | null
           shades: string[] | null
+          status: string
           updated_at: string | null
         }
         Insert: {
+          admin_notes?: string | null
           benefits?: string[] | null
           category: string
           created_at?: string | null
@@ -391,9 +394,11 @@ export type Database = {
           price: number
           seller_id?: string | null
           shades?: string[] | null
+          status?: string
           updated_at?: string | null
         }
         Update: {
+          admin_notes?: string | null
           benefits?: string[] | null
           category?: string
           created_at?: string | null
@@ -406,6 +411,7 @@ export type Database = {
           price?: number
           seller_id?: string | null
           shades?: string[] | null
+          status?: string
           updated_at?: string | null
         }
         Relationships: []

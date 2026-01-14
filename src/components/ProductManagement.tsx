@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -26,9 +27,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Alert,
+  AlertDescription,
+} from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { Plus, Pencil, Trash2, Upload } from "lucide-react";
+import { Plus, Pencil, Trash2, Clock, CheckCircle, XCircle, Info } from "lucide-react";
 import { productCategories } from "@/data/productCategories";
 
 interface Product {
@@ -42,9 +47,12 @@ interface Product {
   featured: boolean;
   benefits?: string[];
   ingredients?: string[];
+  status: string;
+  admin_notes?: string;
 }
 
 const ProductManagement = () => {
+  const { user } = useAuth();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -70,10 +78,13 @@ const ProductManagement = () => {
   }, []);
 
   const fetchProducts = async () => {
+    if (!user) return;
+    
     try {
       const { data, error } = await supabase
         .from("products")
         .select("*")
+        .eq("seller_id", user.id)
         .order("created_at", { ascending: false });
 
       if (error) throw error;
@@ -128,20 +139,36 @@ const ProductManagement = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const productData = {
-      id: formData.id || `product-${Date.now()}`,
-      name: formData.name,
-      description: formData.description,
-      price: parseFloat(formData.price),
-      category: formData.category,
-      images: formData.images,
-      shades: formData.shades ? formData.shades.split(",").map((s) => s.trim()) : null,
-      featured: formData.featured,
-      benefits: formData.benefits ? formData.benefits.split(",").map((s) => s.trim()) : null,
-      ingredients: formData.ingredients ? formData.ingredients.split(",").map((s) => s.trim()) : null,
-    };
-
     try {
+      // Check if product name exists in approved products catalog
+      const { data: approvedProduct, error: checkError } = await supabase
+        .from("approved_products")
+        .select("id, name")
+        .ilike("name", formData.name.trim())
+        .maybeSingle();
+
+      if (checkError) {
+        console.error("Error checking approved products:", checkError);
+      }
+
+      // Determine status based on whether product is in approved catalog
+      const productStatus = approvedProduct ? "approved" : "pending";
+
+      const productData = {
+        id: formData.id || `product-${Date.now()}`,
+        name: formData.name,
+        description: formData.description,
+        price: parseFloat(formData.price),
+        category: formData.category,
+        images: formData.images,
+        shades: formData.shades ? formData.shades.split(",").map((s) => s.trim()) : null,
+        featured: formData.featured,
+        benefits: formData.benefits ? formData.benefits.split(",").map((s) => s.trim()) : null,
+        ingredients: formData.ingredients ? formData.ingredients.split(",").map((s) => s.trim()) : null,
+        seller_id: user?.id,
+        status: editingProduct ? editingProduct.status : productStatus,
+      };
+
       if (editingProduct) {
         const { error } = await supabase
           .from("products")
@@ -154,7 +181,12 @@ const ProductManagement = () => {
         const { error } = await supabase.from("products").insert(productData);
 
         if (error) throw error;
-        toast.success("Product added successfully");
+        
+        if (productStatus === "approved") {
+          toast.success("Product added and is now live!");
+        } else {
+          toast.info("Product submitted for review. It will appear in the shop once approved by admin.");
+        }
       }
 
       setDialogOpen(false);
@@ -214,8 +246,30 @@ const ProductManagement = () => {
     setEditingProduct(null);
   };
 
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case "approved":
+        return <Badge variant="default" className="bg-green-500"><CheckCircle className="h-3 w-3 mr-1" />Approved</Badge>;
+      case "pending":
+        return <Badge variant="secondary" className="bg-yellow-500 text-white"><Clock className="h-3 w-3 mr-1" />Pending</Badge>;
+      case "rejected":
+        return <Badge variant="destructive"><XCircle className="h-3 w-3 mr-1" />Rejected</Badge>;
+      default:
+        return <Badge variant="outline">{status}</Badge>;
+    }
+  };
+
   return (
     <div className="space-y-6">
+      {/* Info Alert */}
+      <Alert>
+        <Info className="h-4 w-4" />
+        <AlertDescription>
+          Products matching our <strong>approved catalog</strong> go live immediately. 
+          New products not in the catalog will be reviewed by admin before appearing in the shop.
+        </AlertDescription>
+      </Alert>
+
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-2xl font-semibold">Product Management</h2>
@@ -450,9 +504,12 @@ const ProductManagement = () => {
                   <TableCell className="capitalize">{product.category}</TableCell>
                   <TableCell>KSh {product.price.toLocaleString()}</TableCell>
                   <TableCell>
-                    {product.featured && (
-                      <Badge variant="secondary">Featured</Badge>
-                    )}
+                    <div className="flex flex-col gap-1">
+                      {getStatusBadge(product.status)}
+                      {product.status === "rejected" && product.admin_notes && (
+                        <span className="text-xs text-destructive">{product.admin_notes}</span>
+                      )}
+                    </div>
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
