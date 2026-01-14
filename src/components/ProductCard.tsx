@@ -84,11 +84,12 @@ const ProductCard = ({ product, compact = false }: ProductCardProps) => {
         <p className={`${compact ? 'text-sm md:text-base' : 'text-lg'} font-semibold text-primary`}>
           {formatPrice(product.price)}
         </p>
-        {/* Always visible Add to Cart button */}
+        {/* Always visible Add to Cart button - 90 degree edges, outline style, fill on hover */}
         <Button
           onClick={handleAddToCart}
+          variant="outline"
           size={compact ? "sm" : "default"}
-          className={`w-full rounded-lg transition-all duration-300 ${compact ? 'text-xs py-1' : ''}`}
+          className={`w-full rounded-none border-2 border-foreground bg-transparent text-foreground hover:bg-foreground hover:text-background transition-all duration-300 ${compact ? 'text-xs py-1' : ''}`}
         >
           <ShoppingCart className={compact ? "h-3 w-3 mr-1" : "h-4 w-4 mr-2"} />
           Add to Cart

@@ -217,11 +217,12 @@ const BestSellersSection = () => {
                   {formatPrice(product.price)}
                 </p>
 
-                {/* Add to Cart Button */}
+                {/* Add to Cart Button - 90 degree edges, outline style, fill on hover */}
                 <Button
                   onClick={(e) => handleAddToCart(e, product)}
+                  variant="outline"
                   size="sm"
-                  className="w-full rounded-lg text-xs"
+                  className="w-full rounded-none border-2 border-foreground bg-transparent text-foreground hover:bg-foreground hover:text-background transition-all duration-300 text-xs"
                 >
                   <ShoppingCart className="h-3 w-3 mr-1" />
                   Add to Cart
