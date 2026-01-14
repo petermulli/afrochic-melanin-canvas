@@ -56,6 +56,11 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/approved-products" className="hover:text-foreground transition-colors">
+                  Approved Products
+                </Link>
+              </li>
+              <li>
                 <Link to="/auth" className="hover:text-foreground transition-colors">
                   Sign In / Sign Up
                 </Link>

@@ -91,6 +91,45 @@ export type Database = {
         }
         Relationships: []
       }
+      approved_products: {
+        Row: {
+          created_at: string
+          created_by: string
+          description: string | null
+          id: string
+          image_url: string | null
+          ingredients: string[] | null
+          name: string
+          skin_types: string[] | null
+          treats: string[] | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          ingredients?: string[] | null
+          name: string
+          skin_types?: string[] | null
+          treats?: string[] | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          ingredients?: string[] | null
+          name?: string
+          skin_types?: string[] | null
+          treats?: string[] | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       inventory: {
         Row: {
           created_at: string
