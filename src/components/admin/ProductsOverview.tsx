@@ -24,7 +24,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
-import { Loader2, Search, Trash2, ExternalLink } from "lucide-react";
+import { Loader2, Search, Trash2, ExternalLink, CheckCircle, Clock, XCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface Product {
@@ -35,6 +35,7 @@ interface Product {
   images: string[];
   seller_id: string | null;
   created_at: string | null;
+  status: string;
 }
 
 const ProductsOverview = () => {
@@ -100,6 +101,19 @@ const ProductsOverview = () => {
       p.category.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case "approved":
+        return <Badge className="bg-green-500"><CheckCircle className="h-3 w-3 mr-1" />Live</Badge>;
+      case "pending":
+        return <Badge className="bg-yellow-500"><Clock className="h-3 w-3 mr-1" />Pending</Badge>;
+      case "rejected":
+        return <Badge variant="destructive"><XCircle className="h-3 w-3 mr-1" />Rejected</Badge>;
+      default:
+        return <Badge variant="outline">{status}</Badge>;
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
@@ -131,6 +145,7 @@ const ProductsOverview = () => {
               <TableHead>Name</TableHead>
               <TableHead>Category</TableHead>
               <TableHead>Price</TableHead>
+              <TableHead>Status</TableHead>
               <TableHead>Listed</TableHead>
               <TableHead>Actions</TableHead>
             </TableRow>
@@ -138,7 +153,7 @@ const ProductsOverview = () => {
           <TableBody>
             {filteredProducts.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
+                <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
                   No products found
                 </TableCell>
               </TableRow>
@@ -157,6 +172,9 @@ const ProductsOverview = () => {
                     <Badge variant="secondary">{product.category}</Badge>
                   </TableCell>
                   <TableCell>KES {product.price.toLocaleString()}</TableCell>
+                  <TableCell>
+                    {getStatusBadge(product.status)}
+                  </TableCell>
                   <TableCell>
                     {product.created_at
                       ? new Date(product.created_at).toLocaleDateString()

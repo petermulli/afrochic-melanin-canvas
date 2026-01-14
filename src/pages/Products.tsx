@@ -41,9 +41,11 @@ const Products = () => {
 
   const fetchProducts = async () => {
     try {
+      // Only fetch approved products for the public shop
       const { data, error } = await supabase
         .from("products")
         .select("*")
+        .eq("status", "approved")
         .order("created_at", { ascending: false });
 
       if (error) throw error;

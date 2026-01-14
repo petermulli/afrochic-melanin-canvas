@@ -12,6 +12,7 @@ import AdminActionLogs from "@/components/admin/AdminActionLogs";
 import WaitlistManagement from "@/components/admin/WaitlistManagement";
 import ProductSuggestions from "@/components/admin/ProductSuggestions";
 import ApprovedProductsManagement from "@/components/admin/ApprovedProductsManagement";
+import ProductReviewManagement from "@/components/admin/ProductReviewManagement";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -34,7 +35,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Loader2, Eye, LayoutDashboard, Users, Package, ShoppingCart, Shield, ClipboardList, Clock, CheckSquare } from "lucide-react";
+import { Loader2, Eye, LayoutDashboard, Users, Package, ShoppingCart, Shield, ClipboardList, Clock, CheckSquare, FileSearch } from "lucide-react";
 
 interface Order {
   id: string;
@@ -162,7 +163,7 @@ const Admin = () => {
         </div>
 
         <Tabs defaultValue="analytics" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 md:grid-cols-8">
+          <TabsList className="grid w-full grid-cols-5 md:grid-cols-9">
             <TabsTrigger value="analytics" className="flex items-center gap-2">
               <LayoutDashboard className="h-4 w-4" />
               <span className="hidden sm:inline">Analytics</span>
@@ -175,9 +176,13 @@ const Admin = () => {
               <Package className="h-4 w-4" />
               <span className="hidden sm:inline">Products</span>
             </TabsTrigger>
+            <TabsTrigger value="review" className="flex items-center gap-2">
+              <FileSearch className="h-4 w-4" />
+              <span className="hidden sm:inline">Review</span>
+            </TabsTrigger>
             <TabsTrigger value="approved" className="flex items-center gap-2">
               <CheckSquare className="h-4 w-4" />
-              <span className="hidden sm:inline">Approved</span>
+              <span className="hidden sm:inline">Catalog</span>
             </TabsTrigger>
             <TabsTrigger value="orders" className="flex items-center gap-2">
               <ShoppingCart className="h-4 w-4" />
@@ -210,6 +215,10 @@ const Admin = () => {
 
           <TabsContent value="products">
             <ProductsOverview />
+          </TabsContent>
+
+          <TabsContent value="review">
+            <ProductReviewManagement />
           </TabsContent>
 
           <TabsContent value="approved">
