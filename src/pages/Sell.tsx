@@ -35,6 +35,7 @@ import { toast } from "sonner";
 import { Plus, Pencil, Trash2, Loader2, Package, ImagePlus, X } from "lucide-react";
 import { useCurrency } from "@/contexts/CurrencyContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { productCategories, categoryGroups, getCategoryLabel } from "@/data/productCategories";
 
 interface Product {
   id: string;
@@ -50,23 +51,21 @@ interface Product {
   seller_id?: string;
 }
 
-const CATEGORIES = [
-  "Electronics",
-  "Fashion",
-  "Home & Garden",
-  "Sports & Outdoors",
-  "Beauty & Health",
-  "Toys & Games",
-  "Books & Media",
-  "Automotive",
-  "Food & Beverages",
-  "Art & Crafts",
-  "Jewelry & Accessories",
-  "Pet Supplies",
-  "Office Supplies",
-  "Baby & Kids",
-  "Other",
+// Category groups for dropdown
+const CATEGORY_GROUPS = [
+  { id: "skincare", label: "Skincare" },
+  { id: "haircare", label: "Hair Care" },
+  { id: "bodycare", label: "Body Care" },
+  { id: "sunprotection", label: "Sun Protection" },
+  { id: "treatments", label: "Treatments" },
+  { id: "specialty", label: "Specialty" },
 ];
+
+// Get subcategories for a group
+const getSubcategoriesForGroup = (groupId: string) => {
+  const categoryIds = categoryGroups[groupId as keyof typeof categoryGroups] || [];
+  return productCategories.filter(cat => categoryIds.includes(cat.id));
+};
 
 const Sell = () => {
   const { user, loading: authLoading } = useAuth();
@@ -83,6 +82,7 @@ const Sell = () => {
     name: "",
     description: "",
     price: "",
+    categoryGroup: "",
     category: "",
     images: [] as string[],
     shades: "",
@@ -243,10 +243,19 @@ const Sell = () => {
 
   const handleEdit = (product: Product) => {
     setEditingProduct(product);
+    // Find the category group for this product
+    let foundGroup = "";
+    for (const [groupId, categoryIds] of Object.entries(categoryGroups)) {
+      if (categoryIds.includes(product.category)) {
+        foundGroup = groupId;
+        break;
+      }
+    }
     setFormData({
       name: product.name,
       description: product.description,
       price: product.price.toString(),
+      categoryGroup: foundGroup,
       category: product.category,
       images: product.images,
       shades: product.shades?.join(", ") || "",
@@ -280,6 +289,7 @@ const Sell = () => {
       name: "",
       description: "",
       price: "",
+      categoryGroup: "",
       category: "",
       images: [],
       shades: "",
@@ -395,35 +405,55 @@ const Sell = () => {
                     />
                   </div>
 
-                  {/* Price and Category */}
+                  {/* Price */}
+                  <div className="space-y-2">
+                    <Label htmlFor="price">Price *</Label>
+                    <Input
+                      id="price"
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      value={formData.price}
+                      onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                      placeholder="Enter price"
+                      required
+                    />
+                  </div>
+
+                  {/* Category Group and Subcategory */}
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="price">Price *</Label>
-                      <Input
-                        id="price"
-                        type="number"
-                        step="0.01"
-                        min="0"
-                        value={formData.price}
-                        onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                        placeholder="Enter price"
-                        required
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="category">Category *</Label>
+                      <Label htmlFor="categoryGroup">Category *</Label>
                       <Select
-                        value={formData.category}
-                        onValueChange={(value) => setFormData({ ...formData, category: value })}
-                        required
+                        value={formData.categoryGroup}
+                        onValueChange={(value) => setFormData({ ...formData, categoryGroup: value, category: "" })}
                       >
                         <SelectTrigger>
                           <SelectValue placeholder="Select category" />
                         </SelectTrigger>
                         <SelectContent>
-                          {CATEGORIES.map((cat) => (
-                            <SelectItem key={cat} value={cat}>
-                              {cat}
+                          {CATEGORY_GROUPS.map((group) => (
+                            <SelectItem key={group.id} value={group.id}>
+                              {group.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="category">Product Type *</Label>
+                      <Select
+                        value={formData.category}
+                        onValueChange={(value) => setFormData({ ...formData, category: value })}
+                        disabled={!formData.categoryGroup}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder={formData.categoryGroup ? "Select type" : "Select category first"} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {formData.categoryGroup && getSubcategoriesForGroup(formData.categoryGroup).map((cat) => (
+                            <SelectItem key={cat.id} value={cat.id}>
+                              {cat.label}
                             </SelectItem>
                           ))}
                         </SelectContent>
