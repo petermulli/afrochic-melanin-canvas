@@ -49,6 +49,7 @@ interface Product {
   benefits?: string[];
   ingredients?: string[];
   seller_id?: string;
+  brand?: string;
 }
 
 // Category groups for dropdown
@@ -88,6 +89,7 @@ const Sell = () => {
     shades: "",
     benefits: "",
     ingredients: "",
+    brand: "",
   });
 
   useEffect(() => {
@@ -196,8 +198,8 @@ const Sell = () => {
       return;
     }
 
-    if (!formData.name || !formData.price || !formData.category || !formData.description) {
-      toast.error("Please fill in all required fields");
+    if (!formData.name || !formData.price || !formData.category || !formData.description || !formData.brand) {
+      toast.error("Please fill in all required fields including brand name");
       return;
     }
 
@@ -213,6 +215,7 @@ const Sell = () => {
       benefits: formData.benefits ? formData.benefits.split(",").map((s) => s.trim()).filter(Boolean) : null,
       ingredients: formData.ingredients ? formData.ingredients.split(",").map((s) => s.trim()).filter(Boolean) : null,
       seller_id: user.id,
+      brand: formData.brand.trim(),
     };
 
     try {
@@ -261,6 +264,7 @@ const Sell = () => {
       shades: product.shades?.join(", ") || "",
       benefits: product.benefits?.join(", ") || "",
       ingredients: product.ingredients?.join(", ") || "",
+      brand: product.brand || "",
     });
     setDialogOpen(true);
   };
@@ -295,6 +299,7 @@ const Sell = () => {
       shades: "",
       benefits: "",
       ingredients: "",
+      brand: "",
     });
     setEditingProduct(null);
   };
@@ -393,14 +398,26 @@ const Sell = () => {
                     {uploading && <p className="text-sm text-muted-foreground">Uploading...</p>}
                   </div>
 
+                  {/* Brand Name */}
+                  <div className="space-y-2">
+                    <Label htmlFor="brand">Brand Name *</Label>
+                    <Input
+                      id="brand"
+                      value={formData.brand}
+                      onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
+                      placeholder="e.g., CeraVe, The Ordinary, Nivea"
+                      required
+                    />
+                  </div>
+
                   {/* Product Title */}
                   <div className="space-y-2">
-                    <Label htmlFor="name">Product Title *</Label>
+                    <Label htmlFor="name">Product Name *</Label>
                     <Input
                       id="name"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      placeholder="e.g., Wireless Bluetooth Headphones"
+                      placeholder="e.g., Hydrating Facial Cleanser"
                       required
                     />
                   </div>

@@ -49,6 +49,7 @@ interface Product {
   ingredients?: string[];
   status: string;
   admin_notes?: string;
+  brand?: string;
 }
 
 const ProductManagement = () => {
@@ -71,6 +72,7 @@ const ProductManagement = () => {
     featured: false,
     benefits: "",
     ingredients: "",
+    brand: "",
   });
 
   useEffect(() => {
@@ -167,6 +169,7 @@ const ProductManagement = () => {
         ingredients: formData.ingredients ? formData.ingredients.split(",").map((s) => s.trim()) : null,
         seller_id: user?.id,
         status: editingProduct ? editingProduct.status : productStatus,
+        brand: formData.brand.trim() || null,
       };
 
       if (editingProduct) {
@@ -211,6 +214,7 @@ const ProductManagement = () => {
       featured: product.featured,
       benefits: product.benefits?.join(", ") || "",
       ingredients: product.ingredients?.join(", ") || "",
+      brand: product.brand || "",
     });
     setDialogOpen(true);
   };
@@ -242,6 +246,7 @@ const ProductManagement = () => {
       featured: false,
       benefits: "",
       ingredients: "",
+      brand: "",
     });
     setEditingProduct(null);
   };
@@ -291,9 +296,23 @@ const ProductManagement = () => {
               </DialogTitle>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Brand Field */}
+              <div className="space-y-2">
+                <Label htmlFor="brand">Brand Name *</Label>
+                <Input
+                  id="brand"
+                  value={formData.brand}
+                  onChange={(e) =>
+                    setFormData({ ...formData, brand: e.target.value })
+                  }
+                  placeholder="e.g., CeraVe, The Ordinary"
+                  required
+                />
+              </div>
+
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Product Name</Label>
+                  <Label htmlFor="name">Product Name *</Label>
                   <Input
                     id="name"
                     value={formData.name}

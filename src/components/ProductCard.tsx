@@ -17,6 +17,7 @@ interface Product {
   featured?: boolean;
   benefits?: string[];
   ingredients?: string[];
+  brand?: string;
 }
 
 interface ProductCardProps {
@@ -75,6 +76,11 @@ const ProductCard = ({ product, compact = false }: ProductCardProps) => {
         />
       </div>
       <div className={compact ? 'space-y-1' : 'space-y-2'}>
+        {product.brand && (
+          <p className={`${compact ? 'text-[10px] md:text-xs' : 'text-xs'} text-muted-foreground uppercase tracking-wide`}>
+            {product.brand}
+          </p>
+        )}
         <h3 className={`font-medium ${compact ? 'text-xs md:text-sm' : 'text-base'} text-foreground group-hover:text-primary transition-colors line-clamp-1`}>
           {product.name}
         </h3>
