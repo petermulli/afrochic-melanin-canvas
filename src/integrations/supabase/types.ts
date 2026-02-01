@@ -366,6 +366,7 @@ export type Database = {
         Row: {
           admin_notes: string | null
           benefits: string[] | null
+          brand: string | null
           category: string
           created_at: string | null
           description: string
@@ -383,6 +384,7 @@ export type Database = {
         Insert: {
           admin_notes?: string | null
           benefits?: string[] | null
+          brand?: string | null
           category: string
           created_at?: string | null
           description: string
@@ -400,6 +402,7 @@ export type Database = {
         Update: {
           admin_notes?: string | null
           benefits?: string[] | null
+          brand?: string | null
           category?: string
           created_at?: string | null
           description?: string
@@ -448,34 +451,52 @@ export type Database = {
       }
       seller_applications: {
         Row: {
+          address_line: string | null
           admin_notes: string | null
           business_description: string | null
           business_name: string
+          city: string | null
           created_at: string | null
+          email: string | null
           id: string
+          map_coordinates: Json | null
+          national_id: string | null
           phone: string
+          shop_name: string | null
           status: string
           updated_at: string | null
           user_id: string
         }
         Insert: {
+          address_line?: string | null
           admin_notes?: string | null
           business_description?: string | null
           business_name: string
+          city?: string | null
           created_at?: string | null
+          email?: string | null
           id?: string
+          map_coordinates?: Json | null
+          national_id?: string | null
           phone: string
+          shop_name?: string | null
           status?: string
           updated_at?: string | null
           user_id: string
         }
         Update: {
+          address_line?: string | null
           admin_notes?: string | null
           business_description?: string | null
           business_name?: string
+          city?: string | null
           created_at?: string | null
+          email?: string | null
           id?: string
+          map_coordinates?: Json | null
+          national_id?: string | null
           phone?: string
+          shop_name?: string | null
           status?: string
           updated_at?: string | null
           user_id?: string
@@ -484,31 +505,55 @@ export type Database = {
       }
       seller_profiles: {
         Row: {
+          address_line: string | null
           business_description: string | null
           business_name: string
+          city: string | null
           created_at: string | null
+          email: string | null
           id: string
+          is_profile_complete: boolean | null
+          map_coordinates: Json | null
+          national_id: string | null
+          phone: string | null
           rating: number | null
+          shop_name: string | null
           total_ratings: number | null
           updated_at: string | null
           user_id: string
         }
         Insert: {
+          address_line?: string | null
           business_description?: string | null
           business_name: string
+          city?: string | null
           created_at?: string | null
+          email?: string | null
           id?: string
+          is_profile_complete?: boolean | null
+          map_coordinates?: Json | null
+          national_id?: string | null
+          phone?: string | null
           rating?: number | null
+          shop_name?: string | null
           total_ratings?: number | null
           updated_at?: string | null
           user_id: string
         }
         Update: {
+          address_line?: string | null
           business_description?: string | null
           business_name?: string
+          city?: string | null
           created_at?: string | null
+          email?: string | null
           id?: string
+          is_profile_complete?: boolean | null
+          map_coordinates?: Json | null
+          national_id?: string | null
+          phone?: string | null
           rating?: number | null
+          shop_name?: string | null
           total_ratings?: number | null
           updated_at?: string | null
           user_id?: string
