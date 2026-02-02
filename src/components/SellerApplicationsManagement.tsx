@@ -27,6 +27,12 @@ interface SellerApplication {
   business_name: string;
   business_description: string | null;
   phone: string;
+  email: string | null;
+  shop_name: string | null;
+  national_id: string | null;
+  address_line: string | null;
+  city: string | null;
+  map_coordinates: any;
   status: string;
   admin_notes: string | null;
   created_at: string;
@@ -74,13 +80,21 @@ const SellerApplicationsManagement = () => {
 
       if (updateError) throw updateError;
 
-      // Create seller profile
+      // Create seller profile with all application details
       const { error: profileError } = await supabase
         .from("seller_profiles")
         .insert({
           user_id: selectedApp.user_id,
           business_name: selectedApp.business_name,
           business_description: selectedApp.business_description,
+          shop_name: selectedApp.shop_name,
+          national_id: selectedApp.national_id,
+          email: selectedApp.email,
+          phone: selectedApp.phone,
+          address_line: selectedApp.address_line,
+          city: selectedApp.city,
+          map_coordinates: selectedApp.map_coordinates,
+          is_profile_complete: true,
         });
 
       if (profileError) throw profileError;
@@ -208,30 +222,70 @@ const SellerApplicationsManagement = () => {
             <DialogTitle>Review Application</DialogTitle>
           </DialogHeader>
           {selectedApp && (
-            <div className="space-y-4">
-              <div>
-                <strong>Business Name:</strong> {selectedApp.business_name}
-              </div>
-              <div>
-                <strong>Phone:</strong> {selectedApp.phone}
-              </div>
-              {selectedApp.business_description && (
+            <div className="space-y-4 max-h-[60vh] overflow-y-auto">
+              <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
-                  <strong>Description:</strong>
-                  <p className="text-muted-foreground mt-1">{selectedApp.business_description}</p>
+                  <p className="font-medium text-muted-foreground">Shop Name</p>
+                  <p>{selectedApp.shop_name || selectedApp.business_name}</p>
                 </div>
-              )}
-              <div>
-                <strong>Status:</strong> {getStatusBadge(selectedApp.status)}
+                <div>
+                  <p className="font-medium text-muted-foreground">Business Name</p>
+                  <p>{selectedApp.business_name}</p>
+                </div>
+                <div>
+                  <p className="font-medium text-muted-foreground">Email</p>
+                  <p>{selectedApp.email || "-"}</p>
+                </div>
+                <div>
+                  <p className="font-medium text-muted-foreground">Phone</p>
+                  <p>{selectedApp.phone}</p>
+                </div>
+                <div>
+                  <p className="font-medium text-muted-foreground">National ID</p>
+                  <p>{selectedApp.national_id || "-"}</p>
+                </div>
+                <div>
+                  <p className="font-medium text-muted-foreground">City</p>
+                  <p>{selectedApp.city || "-"}</p>
+                </div>
+                <div className="col-span-2">
+                  <p className="font-medium text-muted-foreground">Address</p>
+                  <p>{selectedApp.address_line || "-"}</p>
+                </div>
+                {selectedApp.map_coordinates && (
+                  <div className="col-span-2">
+                    <p className="font-medium text-muted-foreground">Map Coordinates</p>
+                    <p>Lat: {selectedApp.map_coordinates.lat}, Lng: {selectedApp.map_coordinates.lng}</p>
+                  </div>
+                )}
               </div>
               
+              {selectedApp.business_description && (
+                <div>
+                  <p className="font-medium text-muted-foreground text-sm">Business Description</p>
+                  <p className="text-sm mt-1">{selectedApp.business_description}</p>
+                </div>
+              )}
+              
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium">Status:</span>
+                {getStatusBadge(selectedApp.status)}
+              </div>
+
+              {selectedApp.status !== "pending" && selectedApp.admin_notes && (
+                <div className="bg-muted p-3 rounded-lg">
+                  <p className="text-sm font-medium">Admin Notes:</p>
+                  <p className="text-sm text-muted-foreground">{selectedApp.admin_notes}</p>
+                </div>
+              )}
+              
               {selectedApp.status === "pending" && (
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Admin Notes</label>
+                <div className="space-y-2 border-t pt-4">
+                  <label className="text-sm font-medium">Admin Notes / Feedback</label>
                   <Textarea
                     value={adminNotes}
                     onChange={(e) => setAdminNotes(e.target.value)}
-                    placeholder="Optional notes (required for rejection)"
+                    placeholder="Add notes or feedback (required for rejection)"
                     rows={3}
                   />
                 </div>

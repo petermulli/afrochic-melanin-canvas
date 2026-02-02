@@ -7,7 +7,7 @@ import BestSellersSection from "@/components/BestSellersSection";
 import ReviewsCarousel from "@/components/ReviewsCarousel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowRight, Truck, Shield, Clock, ChevronLeft, ChevronRight, Mail } from "lucide-react";
+import { ArrowRight, Truck, Shield, Clock, ChevronLeft, ChevronRight, Mail, Store } from "lucide-react";
 import { toast } from "sonner";
 
 // Skin condition showcases with product images
@@ -435,6 +435,38 @@ const Index = () => {
             </Button>
           </div>
         </motion.div>
+      </section>
+
+      {/* Become a Seller CTA */}
+      <section className="py-20 bg-gradient-to-br from-primary/5 to-primary/10 border-y border-border">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div 
+            className="max-w-3xl mx-auto text-center space-y-6"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-2">
+              <Store className="h-8 w-8 text-primary" />
+            </div>
+            <h2 className="text-2xl md:text-3xl font-serif tracking-tight">
+              Have Products to Sell?
+            </h2>
+            <p className="text-muted-foreground max-w-lg mx-auto">
+              Join our marketplace and reach thousands of customers across Kenya. 
+              Open your shop on Kenyashipment today and start growing your business.
+            </p>
+            <Button
+              size="lg"
+              onClick={() => navigate("/become-seller")}
+              className="rounded-none px-10 py-6 uppercase tracking-widest text-sm bg-primary text-primary-foreground hover:bg-primary/90 transition-all group"
+            >
+              Become a Seller
+              <ArrowRight className="ml-3 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </motion.div>
+        </div>
       </section>
 
       <Footer />
