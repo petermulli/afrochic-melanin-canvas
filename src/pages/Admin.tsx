@@ -13,6 +13,8 @@ import WaitlistManagement from "@/components/admin/WaitlistManagement";
 import ProductSuggestions from "@/components/admin/ProductSuggestions";
 import ApprovedProductsManagement from "@/components/admin/ApprovedProductsManagement";
 import ProductReviewManagement from "@/components/admin/ProductReviewManagement";
+import SellerApplicationsManagement from "@/components/SellerApplicationsManagement";
+import SellerManagement from "@/components/admin/SellerManagement";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -35,7 +37,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Loader2, Eye, LayoutDashboard, Users, Package, ShoppingCart, Shield, ClipboardList, Clock, CheckSquare, FileSearch } from "lucide-react";
+import { Loader2, Eye, LayoutDashboard, Users, Package, ShoppingCart, Shield, ClipboardList, Clock, CheckSquare, FileSearch, Store, UserCheck } from "lucide-react";
 
 interface Order {
   id: string;
@@ -163,7 +165,7 @@ const Admin = () => {
         </div>
 
         <Tabs defaultValue="analytics" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5 md:grid-cols-9">
+          <TabsList className="grid w-full grid-cols-5 md:grid-cols-11">
             <TabsTrigger value="analytics" className="flex items-center gap-2">
               <LayoutDashboard className="h-4 w-4" />
               <span className="hidden sm:inline">Analytics</span>
@@ -171,6 +173,14 @@ const Admin = () => {
             <TabsTrigger value="users" className="flex items-center gap-2">
               <Users className="h-4 w-4" />
               <span className="hidden sm:inline">Users</span>
+            </TabsTrigger>
+            <TabsTrigger value="seller-applications" className="flex items-center gap-2">
+              <UserCheck className="h-4 w-4" />
+              <span className="hidden sm:inline">Applications</span>
+            </TabsTrigger>
+            <TabsTrigger value="sellers" className="flex items-center gap-2">
+              <Store className="h-4 w-4" />
+              <span className="hidden sm:inline">Sellers</span>
             </TabsTrigger>
             <TabsTrigger value="products" className="flex items-center gap-2">
               <Package className="h-4 w-4" />
@@ -211,6 +221,14 @@ const Admin = () => {
 
           <TabsContent value="users">
             <UsersManagement />
+          </TabsContent>
+
+          <TabsContent value="seller-applications">
+            <SellerApplicationsManagement />
+          </TabsContent>
+
+          <TabsContent value="sellers">
+            <SellerManagement />
           </TabsContent>
 
           <TabsContent value="products">

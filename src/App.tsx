@@ -18,6 +18,7 @@ import Auth from "./pages/Auth";
 import Account from "./pages/Account";
 import Admin from "./pages/Admin";
 import Sell from "./pages/Sell";
+import BecomeSeller from "./pages/BecomeSeller";
 import ApprovedProducts from "./pages/ApprovedProducts";
 import NotFound from "./pages/NotFound";
 
@@ -45,6 +46,7 @@ const App = () => (
                 <Route path="/account" element={<Account />} />
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/sell" element={<Sell />} />
+                <Route path="/become-seller" element={<BecomeSeller />} />
                 <Route path="/approved-products" element={<ApprovedProducts />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
