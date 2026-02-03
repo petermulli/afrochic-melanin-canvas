@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Store } from "lucide-react";
 import { z } from "zod";
 
 const signUpSchema = z.object({
@@ -202,6 +203,25 @@ const Auth = () => {
                   <Button type="submit" size="lg" className="w-full mt-6 rounded-full">
                     Create Account
                   </Button>
+
+                  {/* Open a Shop CTA */}
+                  <div className="mt-6 pt-6 border-t border-border">
+                    <div className="text-center space-y-3">
+                      <p className="text-sm text-muted-foreground">
+                        Want to sell on Kenyashipment?
+                      </p>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="lg"
+                        onClick={() => navigate("/become-seller")}
+                        className="w-full rounded-full border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all"
+                      >
+                        <Store className="h-4 w-4 mr-2" />
+                        Open a Shop
+                      </Button>
+                    </div>
+                  </div>
                 </form>
               </TabsContent>
             </Tabs>
