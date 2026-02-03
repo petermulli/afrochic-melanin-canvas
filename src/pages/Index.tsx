@@ -4,6 +4,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BestSellersSection from "@/components/BestSellersSection";
+import NewProductsSection from "@/components/NewProductsSection";
+import SaleProductsSection from "@/components/SaleProductsSection";
+import CommunitySection from "@/components/CommunitySection";
+import OfficialStoreBadge from "@/components/OfficialStoreBadge";
 import ReviewsCarousel from "@/components/ReviewsCarousel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -169,6 +173,15 @@ const Index = () => {
                 className="text-cream space-y-6"
               >
                 <div className="space-y-2">
+                  {/* Official Store Badge */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                    className="mb-4"
+                  >
+                    <OfficialStoreBadge />
+                  </motion.div>
                   <motion.span 
                     className="text-sm uppercase tracking-[0.3em] text-cream/70"
                     initial={{ opacity: 0, y: 20 }}
@@ -279,6 +292,12 @@ const Index = () => {
       {/* Best Sellers Section */}
       <BestSellersSection />
 
+      {/* New Products Section */}
+      <NewProductsSection />
+
+      {/* Sale Products Section */}
+      <SaleProductsSection />
+
       {/* Newsletter Subscription Card - Prominent placement */}
       <section className="py-20 md:py-28 bg-muted/30">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -339,6 +358,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Community Membership Section */}
+      <CommunitySection />
 
       {/* Customer Reviews Carousel */}
       <div id="reviews">
