@@ -7,7 +7,7 @@ import BestSellersSection from "@/components/BestSellersSection";
 import NewProductsSection from "@/components/NewProductsSection";
 import SaleProductsSection from "@/components/SaleProductsSection";
 import CommunitySection from "@/components/CommunitySection";
-import OfficialStoreBadge from "@/components/OfficialStoreBadge";
+
 import ReviewsCarousel from "@/components/ReviewsCarousel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -173,15 +173,6 @@ const Index = () => {
                 className="text-cream space-y-6"
               >
                 <div className="space-y-2">
-                  {/* Official Store Badge */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 }}
-                    className="mb-4"
-                  >
-                    <OfficialStoreBadge />
-                  </motion.div>
                   <motion.span 
                     className="text-sm uppercase tracking-[0.3em] text-cream/70"
                     initial={{ opacity: 0, y: 20 }}
