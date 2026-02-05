@@ -77,7 +77,7 @@ const CommunitySection = () => {
 
             <Button
               size="lg"
-              onClick={() => navigate("/auth")}
+              onClick={() => navigate("/community")}
               className="rounded-none px-10 py-6 uppercase tracking-widest text-sm bg-primary text-primary-foreground hover:bg-primary/90 transition-all group"
             >
               Join the Community
