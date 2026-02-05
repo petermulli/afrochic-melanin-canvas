@@ -5,6 +5,7 @@ import { ShoppingCart } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { useCurrency } from "@/contexts/CurrencyContext";
 import { toast } from "sonner";
+import OfficialStoreBadge from "./OfficialStoreBadge";
 
 interface Product {
   id: string;
@@ -18,6 +19,7 @@ interface Product {
   benefits?: string[];
   ingredients?: string[];
   brand?: string;
+  seller_id?: string | null;
 }
 
 interface ProductCardProps {
@@ -74,6 +76,12 @@ const ProductCard = ({ product, compact = false }: ProductCardProps) => {
             isHovered ? "opacity-100" : "opacity-0"
           }`}
         />
+        {/* Show Official Store badge for seller products */}
+        {product.seller_id && (
+          <div className="absolute top-2 left-2">
+            <OfficialStoreBadge variant="compact" />
+          </div>
+        )}
       </div>
       <div className={compact ? 'space-y-1' : 'space-y-2'}>
         {product.brand && (
