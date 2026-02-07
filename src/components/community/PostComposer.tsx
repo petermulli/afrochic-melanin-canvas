@@ -1,13 +1,20 @@
 import { useState, useRef } from "react";
-import { motion } from "framer-motion";
-import { Image, X, Send, Sparkles } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Image, X, Sparkles, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 import { z } from "zod";
+import { COMMUNITY_CATEGORIES, getCategoryById } from "./CategoryBadge";
 
 const postSchema = z.object({
   content: z
@@ -19,15 +26,17 @@ const postSchema = z.object({
 
 interface PostComposerProps {
   onPostCreated: () => void;
+  defaultCategory?: string;
 }
 
-const PostComposer = ({ onPostCreated }: PostComposerProps) => {
+const PostComposer = ({ onPostCreated, defaultCategory = "general" }: PostComposerProps) => {
   const { user } = useAuth();
   const [content, setContent] = useState("");
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(defaultCategory);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const userName = user?.user_metadata?.full_name || "User";
@@ -37,6 +46,9 @@ const PostComposer = ({ onPostCreated }: PostComposerProps) => {
     .join("")
     .toUpperCase()
     .slice(0, 2);
+
+  const currentCategory = getCategoryById(selectedCategory);
+  const CategoryIcon = currentCategory.icon;
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -99,6 +111,7 @@ const PostComposer = ({ onPostCreated }: PostComposerProps) => {
         user_id: user.id,
         content: content.trim(),
         image_url: imageUrl,
+        category: selectedCategory,
       });
 
       if (error) throw error;
@@ -119,14 +132,14 @@ const PostComposer = ({ onPostCreated }: PostComposerProps) => {
   return (
     <motion.div
       layout
-      className={`bg-card border rounded-2xl overflow-hidden transition-all duration-300 ${
-        isFocused ? "border-primary shadow-elevated" : "border-border"
+      className={`bg-card border-2 rounded-2xl overflow-hidden transition-all duration-300 ${
+        isFocused ? "border-primary shadow-lg" : "border-border"
       }`}
     >
       <div className="p-6">
         <div className="flex gap-4">
-          <Avatar className="h-12 w-12 border-2 border-primary/20 flex-shrink-0">
-            <AvatarFallback className="bg-primary/10 text-primary font-medium">
+          <Avatar className="h-12 w-12 border-2 border-primary/20 flex-shrink-0 ring-2 ring-background">
+            <AvatarFallback className="bg-gradient-to-br from-primary/20 to-primary/10 text-primary font-semibold">
               {userInitials}
             </AvatarFallback>
           </Avatar>
@@ -137,31 +150,34 @@ const PostComposer = ({ onPostCreated }: PostComposerProps) => {
               value={content}
               onChange={(e) => setContent(e.target.value)}
               onFocus={() => setIsFocused(true)}
-              className="min-h-[80px] resize-none border-0 bg-transparent p-0 text-base placeholder:text-muted-foreground/60 focus-visible:ring-0"
+              className="min-h-[100px] resize-none border-0 bg-transparent p-0 text-base placeholder:text-muted-foreground/60 focus-visible:ring-0"
             />
 
             {/* Image Preview */}
-            {imageUrl && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="relative inline-block"
-              >
-                <img
-                  src={imageUrl}
-                  alt="Upload preview"
-                  className="max-h-48 rounded-xl object-cover"
-                />
-                <Button
-                  variant="secondary"
-                  size="icon"
-                  onClick={() => setImageUrl(null)}
-                  className="absolute top-2 right-2 h-8 w-8 rounded-full bg-background/80 backdrop-blur-sm hover:bg-background"
+            <AnimatePresence>
+              {imageUrl && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  className="relative inline-block"
                 >
-                  <X className="h-4 w-4" />
-                </Button>
-              </motion.div>
-            )}
+                  <img
+                    src={imageUrl}
+                    alt="Upload preview"
+                    className="max-h-48 rounded-xl object-cover"
+                  />
+                  <Button
+                    variant="secondary"
+                    size="icon"
+                    onClick={() => setImageUrl(null)}
+                    className="absolute top-2 right-2 h-8 w-8 rounded-full bg-background/80 backdrop-blur-sm hover:bg-background"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </div>
@@ -172,7 +188,7 @@ const PostComposer = ({ onPostCreated }: PostComposerProps) => {
         animate={{ height: isFocused || content ? "auto" : 0, opacity: isFocused || content ? 1 : 0 }}
         className="border-t border-border overflow-hidden"
       >
-        <div className="p-4 flex items-center justify-between">
+        <div className="p-4 flex items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <input
               ref={fileInputRef}
@@ -191,23 +207,58 @@ const PostComposer = ({ onPostCreated }: PostComposerProps) => {
               <Image className="h-5 w-5" />
               {uploading ? "Uploading..." : "Photo"}
             </Button>
+
+            {/* Category Selector */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className={`gap-2 rounded-full ${currentCategory.color}`}
+                >
+                  <CategoryIcon className="h-4 w-4" />
+                  {currentCategory.name}
+                  <ChevronDown className="h-3 w-3" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-56 rounded-xl p-2">
+                {COMMUNITY_CATEGORIES.map((category) => {
+                  const Icon = category.icon;
+                  return (
+                    <DropdownMenuItem
+                      key={category.id}
+                      onClick={() => setSelectedCategory(category.id)}
+                      className={`rounded-lg cursor-pointer ${
+                        selectedCategory === category.id ? category.bgColor : ""
+                      }`}
+                    >
+                      <Icon className={`h-4 w-4 mr-2 ${category.color}`} />
+                      <div className="flex-1">
+                        <p className="font-medium">{category.name}</p>
+                        <p className="text-xs text-muted-foreground">{category.description}</p>
+                      </div>
+                    </DropdownMenuItem>
+                  );
+                })}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="text-xs text-muted-foreground">
+            <span className={`text-xs ${content.length > 1800 ? "text-destructive" : "text-muted-foreground"}`}>
               {content.length}/2000
             </span>
             <Button
               onClick={handleSubmit}
               disabled={!content.trim() || submitting}
-              className="gap-2 rounded-full"
+              className="gap-2 rounded-full px-6"
             >
               {submitting ? (
                 "Posting..."
               ) : (
                 <>
                   <Sparkles className="h-4 w-4" />
-                  Share
+                  Post
                 </>
               )}
             </Button>

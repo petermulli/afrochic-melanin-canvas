@@ -207,36 +207,55 @@ export type Database = {
       }
       community_posts: {
         Row: {
+          category: string | null
           comments_count: number
           content: string
           created_at: string
           id: string
           image_url: string | null
           likes_count: number
+          quote_content: string | null
+          repost_of: string | null
+          reposts_count: number
           updated_at: string
           user_id: string
         }
         Insert: {
+          category?: string | null
           comments_count?: number
           content: string
           created_at?: string
           id?: string
           image_url?: string | null
           likes_count?: number
+          quote_content?: string | null
+          repost_of?: string | null
+          reposts_count?: number
           updated_at?: string
           user_id: string
         }
         Update: {
+          category?: string | null
           comments_count?: number
           content?: string
           created_at?: string
           id?: string
           image_url?: string | null
           likes_count?: number
+          quote_content?: string | null
+          repost_of?: string | null
+          reposts_count?: number
           updated_at?: string
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "community_posts_repost_of_fkey"
+            columns: ["repost_of"]
+            isOneToOne: false
+            referencedRelation: "community_posts"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "community_posts_user_id_fkey"
             columns: ["user_id"]
