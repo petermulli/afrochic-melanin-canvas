@@ -171,16 +171,19 @@ const Auth = () => {
 
   const handleUpdatePassword = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (newPassword.length < 8) {
+    const formData = new FormData(e.currentTarget);
+    const pw = formData.get("newPassword") as string;
+    const pwConfirm = formData.get("confirmNewPassword") as string;
+    if (pw.length < 8) {
       toast.error("Password must be at least 8 characters");
       return;
     }
-    if (newPassword !== newPasswordConfirm) {
+    if (pw !== pwConfirm) {
       toast.error("Passwords do not match");
       return;
     }
     setUpdateLoading(true);
-    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    const { error } = await supabase.auth.updateUser({ password: pw });
     setUpdateLoading(false);
     if (error) {
       toast.error(error.message);
