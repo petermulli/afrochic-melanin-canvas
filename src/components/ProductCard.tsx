@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Store } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { useCurrency } from "@/contexts/CurrencyContext";
 import { toast } from "sonner";
 import OfficialStoreBadge from "./OfficialStoreBadge";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Product {
   id: string;
@@ -33,6 +34,20 @@ const ProductCard = ({ product, compact = false }: ProductCardProps) => {
   const { formatPrice } = useCurrency();
   const [isHovered, setIsHovered] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
+  const [shopName, setShopName] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (product.seller_id) {
+      supabase
+        .from("seller_profiles")
+        .select("business_name, shop_name")
+        .eq("user_id", product.seller_id)
+        .maybeSingle()
+        .then(({ data }) => {
+          if (data) setShopName(data.shop_name || data.business_name);
+        });
+    }
+  }, [product.seller_id]);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -84,7 +99,19 @@ const ProductCard = ({ product, compact = false }: ProductCardProps) => {
         )}
       </div>
       <div className={compact ? 'space-y-1' : 'space-y-2'}>
-        {product.brand && (
+        {shopName && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/shop/${product.seller_id}`);
+            }}
+            className={`flex items-center gap-1 ${compact ? 'text-[10px] md:text-xs' : 'text-xs'} text-primary hover:text-primary/80 transition-colors`}
+          >
+            <Store className={compact ? "h-2.5 w-2.5" : "h-3 w-3"} />
+            <span className="truncate">{shopName}</span>
+          </button>
+        )}
+        {product.brand && !shopName && (
           <p className={`${compact ? 'text-[10px] md:text-xs' : 'text-xs'} text-muted-foreground uppercase tracking-wide`}>
             {product.brand}
           </p>

@@ -149,7 +149,7 @@ const ProductReviews = ({ productId, productName }: ProductReviewsProps) => {
   };
 
   return (
-    <div className="mt-16 border-t border-border pt-12">
+    <div className="border-t border-border pt-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <h2 className="text-2xl font-serif tracking-tight mb-2">Customer Reviews</h2>

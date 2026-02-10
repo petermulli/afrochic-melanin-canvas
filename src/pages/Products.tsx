@@ -36,6 +36,7 @@ interface Product {
   benefits?: string[];
   ingredients?: string[];
   brand?: string;
+  seller_id?: string | null;
 }
 
 const Products = () => {

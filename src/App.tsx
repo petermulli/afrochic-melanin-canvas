@@ -21,6 +21,7 @@ import Sell from "./pages/Sell";
 import BecomeSeller from "./pages/BecomeSeller";
 import ApprovedProducts from "./pages/ApprovedProducts";
 import Community from "./pages/Community";
+import SellerProfile from "./pages/SellerProfile";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -50,6 +51,7 @@ const App = () => (
                 <Route path="/become-seller" element={<BecomeSeller />} />
                 <Route path="/approved-products" element={<ApprovedProducts />} />
                 <Route path="/community" element={<Community />} />
+                <Route path="/shop/:sellerId" element={<SellerProfile />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
