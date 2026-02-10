@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProductReviews from "@/components/ProductReviews";
@@ -12,6 +12,7 @@ import { toast } from "sonner";
 
 interface SellerProfile {
   business_name: string;
+  shop_name: string | null;
   rating: number;
   total_ratings: number;
 }
@@ -44,10 +45,7 @@ const ProductDetail = () => {
 
   useEffect(() => {
     const fetchProduct = async () => {
-      if (!id) {
-        setLoading(false);
-        return;
-      }
+      if (!id) { setLoading(false); return; }
 
       try {
         const { data, error } = await supabase
@@ -59,17 +57,14 @@ const ProductDetail = () => {
         if (error) throw error;
         setProduct(data);
 
-        // Fetch seller profile if product has seller_id
         if (data?.seller_id) {
           const { data: sellerData } = await supabase
             .from("seller_profiles")
-            .select("business_name, rating, total_ratings")
+            .select("business_name, shop_name, rating, total_ratings")
             .eq("user_id", data.seller_id)
             .maybeSingle();
 
-          if (sellerData) {
-            setSellerProfile(sellerData);
-          }
+          if (sellerData) setSellerProfile(sellerData);
         }
       } catch (error) {
         console.error("Error fetching product:", error);
@@ -126,22 +121,24 @@ const ProductDetail = () => {
     );
   }
 
+  const sellerDisplayName = sellerProfile?.shop_name || sellerProfile?.business_name;
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
 
-      <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <Button
           variant="ghost"
           onClick={() => navigate("/products")}
-          className="mb-8 hover:bg-muted"
+          className="mb-6 hover:bg-muted"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to Products
         </Button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Images */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+          {/* LEFT COLUMN: Images + Seller Link */}
           <div className="space-y-4 animate-fade-in-up">
             <div className="aspect-square rounded-2xl overflow-hidden bg-muted">
               <img
@@ -151,7 +148,7 @@ const ProductDetail = () => {
               />
             </div>
             {product.images.length > 1 && (
-              <div className="grid grid-cols-4 gap-4">
+              <div className="grid grid-cols-4 gap-3">
                 {product.images.map((image, index) => (
                   <button
                     key={index}
@@ -167,49 +164,54 @@ const ProductDetail = () => {
                 ))}
               </div>
             )}
+
+            {/* Seller Card under images */}
+            {sellerProfile && product.seller_id && (
+              <Link
+                to={`/shop/${product.seller_id}`}
+                className="flex items-center gap-3 p-4 bg-muted/50 rounded-xl hover:bg-muted transition-colors group"
+              >
+                <div className="bg-primary/10 p-2.5 rounded-full">
+                  <Store className="h-5 w-5 text-primary" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium group-hover:text-primary transition-colors truncate">
+                    {sellerDisplayName}
+                  </p>
+                  <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                    {sellerProfile.rating > 0 ? (
+                      <>
+                        <Star className="h-3.5 w-3.5 fill-primary text-primary" />
+                        <span>{sellerProfile.rating.toFixed(1)} ({sellerProfile.total_ratings} reviews)</span>
+                      </>
+                    ) : (
+                      <span>New Seller</span>
+                    )}
+                  </div>
+                </div>
+                <span className="text-xs text-primary font-medium">Visit Shop →</span>
+              </Link>
+            )}
           </div>
 
-          {/* Product Info */}
+          {/* RIGHT COLUMN: Product Info + Add to Cart + Reviews */}
           <div className="space-y-6 animate-fade-in-up" style={{ animationDelay: "100ms" }}>
             <div>
-              <h1 className="text-4xl font-light tracking-tight mb-2">{product.name}</h1>
-              <p className="text-3xl font-semibold text-primary">
+              <h1 className="text-3xl md:text-4xl font-light tracking-tight mb-2">{product.name}</h1>
+              <p className="text-2xl md:text-3xl font-semibold text-primary">
                 {formatPrice(product.price)}
               </p>
             </div>
 
-            <p className="text-lg text-muted-foreground leading-relaxed">
+            <p className="text-muted-foreground leading-relaxed">
               {product.description}
             </p>
 
-            {/* Seller Info */}
-            {sellerProfile && (
-              <div className="flex items-center gap-3 p-4 bg-muted/50 rounded-lg">
-                <div className="bg-primary/10 p-2 rounded-full">
-                  <Store className="h-5 w-5 text-primary" />
-                </div>
-                <div className="flex-1">
-                  <p className="font-medium">{sellerProfile.business_name}</p>
-                  <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                    <span>
-                      {sellerProfile.rating > 0 
-                        ? `${sellerProfile.rating.toFixed(1)} (${sellerProfile.total_ratings} reviews)`
-                        : "New Seller"
-                      }
-                    </span>
-                  </div>
-                </div>
-              </div>
-            )}
-
             {/* Shade Selector */}
             {product.shades && product.shades.length > 0 && (
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-semibold uppercase tracking-wide">
-                    Select Shade
-                  </h3>
+                  <h3 className="text-sm font-semibold uppercase tracking-wide">Select Shade</h3>
                   {selectedShade && (
                     <span className="text-sm text-muted-foreground">{selectedShade}</span>
                   )}
@@ -234,13 +236,13 @@ const ProductDetail = () => {
 
             {/* Benefits */}
             {product.benefits && product.benefits.length > 0 && (
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <h3 className="text-sm font-semibold uppercase tracking-wide">Benefits</h3>
-                <ul className="space-y-2">
+                <ul className="space-y-1.5">
                   {product.benefits.map((benefit) => (
                     <li key={benefit} className="flex items-start">
-                      <Check className="h-5 w-5 text-accent mr-2 mt-0.5 flex-shrink-0" />
-                      <span className="text-muted-foreground">{benefit}</span>
+                      <Check className="h-4 w-4 text-accent mr-2 mt-0.5 flex-shrink-0" />
+                      <span className="text-sm text-muted-foreground">{benefit}</span>
                     </li>
                   ))}
                 </ul>
@@ -249,11 +251,9 @@ const ProductDetail = () => {
 
             {/* Key Ingredients */}
             {product.ingredients && product.ingredients.length > 0 && (
-              <div className="space-y-3">
-                <h3 className="text-sm font-semibold uppercase tracking-wide">
-                  Key Ingredients
-                </h3>
-                <p className="text-muted-foreground">{product.ingredients.join(", ")}</p>
+              <div className="space-y-2">
+                <h3 className="text-sm font-semibold uppercase tracking-wide">Key Ingredients</h3>
+                <p className="text-sm text-muted-foreground">{product.ingredients.join(", ")}</p>
               </div>
             )}
 
@@ -261,16 +261,18 @@ const ProductDetail = () => {
             <Button
               size="lg"
               onClick={handleAddToCart}
-              className="w-full rounded-full py-6 text-lg shadow-elevated hover:shadow-soft transition-all"
+              className="w-full rounded-none border-2 border-foreground bg-foreground text-background hover:bg-transparent hover:text-foreground transition-all py-6 text-lg"
             >
               <ShoppingCart className="mr-2 h-5 w-5" />
               Add to Cart
             </Button>
+
+            {/* Reviews Section - compact, right under Add to Cart */}
+            <div className="pt-4">
+              <ProductReviews productId={product.id} productName={product.name} />
+            </div>
           </div>
         </div>
-
-        {/* Product Reviews Section */}
-        <ProductReviews productId={product.id} productName={product.name} />
       </main>
 
       <Footer />
