@@ -205,15 +205,7 @@ const Auth = () => {
               <form onSubmit={handleUpdatePassword} className="space-y-4">
                 <PasswordInput id="new-pw" name="newPassword" label="New Password" />
                 <PasswordInput id="confirm-new-pw" name="confirmNewPassword" label="Confirm New Password" />
-                <Button type="submit" size="lg" className="w-full rounded-full mt-2" disabled={updateLoading}
-                  onClick={(e) => {
-                    // Grab values from form inputs before submit
-                    const form = (e.target as HTMLElement).closest('form')!;
-                    const fd = new FormData(form);
-                    setNewPassword(fd.get("newPassword") as string || "");
-                    setNewPasswordConfirm(fd.get("confirmNewPassword") as string || "");
-                  }}
-                >
+                <Button type="submit" size="lg" className="w-full rounded-full mt-2" disabled={updateLoading}>
                   {updateLoading ? "Updating..." : "Update Password"}
                 </Button>
               </form>
