@@ -81,8 +81,6 @@ const Auth = () => {
   const [resetEmail, setResetEmail] = useState("");
   const [resetLoading, setResetLoading] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
-  const [newPassword, setNewPassword] = useState("");
-  const [newPasswordConfirm, setNewPasswordConfirm] = useState("");
   const [updateLoading, setUpdateLoading] = useState(false);
 
   useEffect(() => {
