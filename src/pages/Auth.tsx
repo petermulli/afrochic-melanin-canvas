@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -7,44 +7,110 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Store } from "lucide-react";
+import { Store, Eye, EyeOff, ArrowLeft } from "lucide-react";
 import { z } from "zod";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 const signUpSchema = z.object({
   fullName: z.string().trim().min(2, "Name must be at least 2 characters"),
   email: z.string().trim().email("Invalid email address"),
   phone: z.string().trim().min(10, "Phone must be at least 10 characters"),
-  password: z.string().min(8, "Password must be at least 8 characters")
+  password: z.string().min(8, "Password must be at least 8 characters"),
+  confirmPassword: z.string().min(1, "Please confirm your password"),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords do not match",
+  path: ["confirmPassword"],
 });
 
 const signInSchema = z.object({
   email: z.string().trim().email("Invalid email address"),
-  password: z.string().min(1, "Password is required")
+  password: z.string().min(1, "Password is required"),
 });
+
+const PasswordInput = ({
+  id,
+  name,
+  label,
+  error,
+  placeholder,
+  required = true,
+}: {
+  id: string;
+  name: string;
+  label: string;
+  error?: string;
+  placeholder?: string;
+  required?: boolean;
+}) => {
+  const [visible, setVisible] = useState(false);
+  return (
+    <div className="space-y-2">
+      <Label htmlFor={id}>{label}</Label>
+      <div className="relative">
+        <Input
+          id={id}
+          name={name}
+          type={visible ? "text" : "password"}
+          required={required}
+          placeholder={placeholder}
+          className={`pr-10 ${error ? "border-destructive" : ""}`}
+        />
+        <button
+          type="button"
+          onClick={() => setVisible(!visible)}
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+          tabIndex={-1}
+          aria-label={visible ? "Hide password" : "Show password"}
+        >
+          {visible ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+        </button>
+      </div>
+      {error && <p className="text-sm text-destructive">{error}</p>}
+    </div>
+  );
+};
 
 const Auth = () => {
   const navigate = useNavigate();
-  const { user, signUp, signIn } = useAuth();
+  const [searchParams] = useSearchParams();
+  const { user, signUp, signIn, resetPassword } = useAuth();
   const [activeTab, setActiveTab] = useState<"signin" | "signup">("signin");
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [resetEmail, setResetEmail] = useState("");
+  const [resetLoading, setResetLoading] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
+  const [newPasswordConfirm, setNewPasswordConfirm] = useState("");
+  const [updateLoading, setUpdateLoading] = useState(false);
 
-  // Redirect if already logged in
   useEffect(() => {
-    if (user) {
+    if (user && !showNewPassword) {
       navigate("/");
     }
-  }, [user, navigate]);
+  }, [user, navigate, showNewPassword]);
+
+  // Handle password reset callback
+  useEffect(() => {
+    const tab = searchParams.get("tab");
+    if (tab === "reset") {
+      // User arrived via reset link — show new password form
+      setShowNewPassword(true);
+    }
+  }, [searchParams]);
 
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrors({});
-    
+
     const formData = new FormData(e.currentTarget);
     const data = {
       fullName: formData.get("fullName") as string,
       email: formData.get("email") as string,
       phone: formData.get("phone") as string,
-      password: formData.get("password") as string
+      password: formData.get("password") as string,
+      confirmPassword: formData.get("confirmPassword") as string,
     };
 
     try {
@@ -69,11 +135,11 @@ const Auth = () => {
   const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrors({});
-    
+
     const formData = new FormData(e.currentTarget);
     const data = {
       email: formData.get("email") as string,
-      password: formData.get("password") as string
+      password: formData.get("password") as string,
     };
 
     try {
@@ -95,6 +161,111 @@ const Auth = () => {
     }
   };
 
+  const handleForgotPassword = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!resetEmail.trim()) return;
+    setResetLoading(true);
+    await resetPassword(resetEmail.trim());
+    setResetLoading(false);
+  };
+
+  const handleUpdatePassword = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (newPassword.length < 8) {
+      toast.error("Password must be at least 8 characters");
+      return;
+    }
+    if (newPassword !== newPasswordConfirm) {
+      toast.error("Passwords do not match");
+      return;
+    }
+    setUpdateLoading(true);
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    setUpdateLoading(false);
+    if (error) {
+      toast.error(error.message);
+    } else {
+      toast.success("Password updated successfully!");
+      setShowNewPassword(false);
+      navigate("/");
+    }
+  };
+
+  // New password form (after clicking reset link)
+  if (showNewPassword) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-12 flex items-center justify-center">
+          <div className="w-full max-w-md">
+            <div className="bg-card rounded-2xl p-8 shadow-soft animate-fade-in-up">
+              <h1 className="text-2xl font-semibold tracking-tight mb-2 text-center">Set New Password</h1>
+              <p className="text-sm text-muted-foreground text-center mb-6">Enter your new password below.</p>
+              <form onSubmit={handleUpdatePassword} className="space-y-4">
+                <PasswordInput id="new-pw" name="newPassword" label="New Password" />
+                <PasswordInput id="confirm-new-pw" name="confirmNewPassword" label="Confirm New Password" />
+                <Button type="submit" size="lg" className="w-full rounded-full mt-2" disabled={updateLoading}
+                  onClick={(e) => {
+                    // Grab values from form inputs before submit
+                    const form = (e.target as HTMLElement).closest('form')!;
+                    const fd = new FormData(form);
+                    setNewPassword(fd.get("newPassword") as string || "");
+                    setNewPasswordConfirm(fd.get("confirmNewPassword") as string || "");
+                  }}
+                >
+                  {updateLoading ? "Updating..." : "Update Password"}
+                </Button>
+              </form>
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  // Forgot password form
+  if (showForgotPassword) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-12 flex items-center justify-center">
+          <div className="w-full max-w-md">
+            <div className="bg-card rounded-2xl p-8 shadow-soft animate-fade-in-up">
+              <button
+                onClick={() => setShowForgotPassword(false)}
+                className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors mb-4"
+              >
+                <ArrowLeft className="h-4 w-4" /> Back to Sign In
+              </button>
+              <h1 className="text-2xl font-semibold tracking-tight mb-2">Reset Password</h1>
+              <p className="text-sm text-muted-foreground mb-6">
+                Enter the email you registered with. We'll send you a reset link.
+              </p>
+              <form onSubmit={handleForgotPassword} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="reset-email">Email</Label>
+                  <Input
+                    id="reset-email"
+                    type="email"
+                    required
+                    value={resetEmail}
+                    onChange={(e) => setResetEmail(e.target.value)}
+                    placeholder="you@example.com"
+                  />
+                </div>
+                <Button type="submit" size="lg" className="w-full rounded-full" disabled={resetLoading}>
+                  {resetLoading ? "Sending..." : "Send Reset Link"}
+                </Button>
+              </form>
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -106,7 +277,7 @@ const Auth = () => {
               Welcome to Kenyashipment
             </h1>
 
-            <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "signin" | "signup")}>
+            <Tabs value={activeTab} onValueChange={(v) => { setActiveTab(v as "signin" | "signup"); setErrors({}); }}>
               <TabsList className="grid w-full grid-cols-2 mb-6">
                 <TabsTrigger value="signin">Sign In</TabsTrigger>
                 <TabsTrigger value="signup">Sign Up</TabsTrigger>
@@ -123,24 +294,19 @@ const Auth = () => {
                       required
                       className={errors.email ? "border-destructive" : ""}
                     />
-                    {errors.email && (
-                      <p className="text-sm text-destructive">{errors.email}</p>
-                    )}
+                    {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="signin-password">Password</Label>
-                    <Input
-                      id="signin-password"
-                      name="password"
-                      type="password"
-                      required
-                      className={errors.password ? "border-destructive" : ""}
-                    />
-                    {errors.password && (
-                      <p className="text-sm text-destructive">{errors.password}</p>
-                    )}
+                  <PasswordInput id="signin-password" name="password" label="Password" error={errors.password} />
+                  <div className="flex justify-end">
+                    <button
+                      type="button"
+                      onClick={() => setShowForgotPassword(true)}
+                      className="text-sm text-primary hover:underline"
+                    >
+                      Forgot password?
+                    </button>
                   </div>
-                  <Button type="submit" size="lg" className="w-full mt-6 rounded-full">
+                  <Button type="submit" size="lg" className="w-full rounded-full">
                     Sign In
                   </Button>
                 </form>
@@ -150,66 +316,28 @@ const Auth = () => {
                 <form onSubmit={handleSignUp} className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="signup-name">Full Name</Label>
-                    <Input
-                      id="signup-name"
-                      name="fullName"
-                      required
-                      className={errors.fullName ? "border-destructive" : ""}
-                    />
-                    {errors.fullName && (
-                      <p className="text-sm text-destructive">{errors.fullName}</p>
-                    )}
+                    <Input id="signup-name" name="fullName" required className={errors.fullName ? "border-destructive" : ""} />
+                    {errors.fullName && <p className="text-sm text-destructive">{errors.fullName}</p>}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="signup-email">Email</Label>
-                    <Input
-                      id="signup-email"
-                      name="email"
-                      type="email"
-                      required
-                      className={errors.email ? "border-destructive" : ""}
-                    />
-                    {errors.email && (
-                      <p className="text-sm text-destructive">{errors.email}</p>
-                    )}
+                    <Input id="signup-email" name="email" type="email" required className={errors.email ? "border-destructive" : ""} />
+                    {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="signup-phone">Phone Number</Label>
-                    <Input
-                      id="signup-phone"
-                      name="phone"
-                      type="tel"
-                      placeholder="+254"
-                      required
-                      className={errors.phone ? "border-destructive" : ""}
-                    />
-                    {errors.phone && (
-                      <p className="text-sm text-destructive">{errors.phone}</p>
-                    )}
+                    <Input id="signup-phone" name="phone" type="tel" placeholder="+254" required className={errors.phone ? "border-destructive" : ""} />
+                    {errors.phone && <p className="text-sm text-destructive">{errors.phone}</p>}
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="signup-password">Password</Label>
-                    <Input
-                      id="signup-password"
-                      name="password"
-                      type="password"
-                      required
-                      className={errors.password ? "border-destructive" : ""}
-                    />
-                    {errors.password && (
-                      <p className="text-sm text-destructive">{errors.password}</p>
-                    )}
-                  </div>
+                  <PasswordInput id="signup-password" name="password" label="Password" error={errors.password} />
+                  <PasswordInput id="signup-confirm" name="confirmPassword" label="Confirm Password" error={errors.confirmPassword} />
                   <Button type="submit" size="lg" className="w-full mt-6 rounded-full">
                     Create Account
                   </Button>
 
-                  {/* Open a Shop CTA */}
                   <div className="mt-6 pt-6 border-t border-border">
                     <div className="text-center space-y-3">
-                      <p className="text-sm text-muted-foreground">
-                        Want to sell on Kenyashipment?
-                      </p>
+                      <p className="text-sm text-muted-foreground">Want to sell on Kenyashipment?</p>
                       <Button
                         type="button"
                         variant="outline"
