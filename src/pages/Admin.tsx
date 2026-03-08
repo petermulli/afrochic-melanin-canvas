@@ -15,6 +15,7 @@ import ApprovedProductsManagement from "@/components/admin/ApprovedProductsManag
 import ProductReviewManagement from "@/components/admin/ProductReviewManagement";
 import SellerApplicationsManagement from "@/components/SellerApplicationsManagement";
 import SellerManagement from "@/components/admin/SellerManagement";
+import RecommendationsManagement from "@/components/admin/RecommendationsManagement";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
