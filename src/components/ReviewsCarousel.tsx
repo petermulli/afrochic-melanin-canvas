@@ -84,9 +84,12 @@ const ReviewsCarousel = () => {
           transition={{ duration: 0.6 }}
         >
           <span className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3 block font-bold">
-            What They Say
+            ⭐ 4.9 Average Rating From Verified Buyers
           </span>
           <h2 className="font-serif">Real Results, Real People</h2>
+          <p className="text-muted-foreground text-sm mt-2 max-w-md mx-auto">
+            See what our customers are saying about their skincare transformations.
+          </p>
         </motion.div>
 
         {/* Desktop */}

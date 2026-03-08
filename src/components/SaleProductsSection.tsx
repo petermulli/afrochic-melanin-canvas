@@ -83,9 +83,12 @@ const SaleProductsSection = () => {
           transition={{ duration: 0.6 }}
         >
           <span className="text-xs uppercase tracking-[0.3em] text-accent mb-3 block font-bold">
-            Limited Time Offers
+            🏷️ Deals End Soon — Don't Miss Out
           </span>
           <h2 className="font-serif">Sale Products</h2>
+          <p className="text-muted-foreground text-sm mt-2 max-w-md mx-auto">
+            Grab these featured products at the best prices. Limited availability.
+          </p>
         </motion.div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">

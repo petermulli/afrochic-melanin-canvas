@@ -120,9 +120,12 @@ const BestSellersSection = () => {
           transition={{ duration: 0.6 }}
         >
           <span className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3 block font-bold">
-            Customer Favorites
+            🔥 Loved by 10,000+ customers
           </span>
           <h2 className="font-serif">Best Sellers</h2>
+          <p className="text-muted-foreground text-sm mt-2 max-w-md mx-auto">
+            Our most-purchased products this month. Don't miss what everyone's raving about.
+          </p>
         </motion.div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">

@@ -83,9 +83,12 @@ const NewProductsSection = () => {
           transition={{ duration: 0.6 }}
         >
           <span className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3 block font-bold">
-            Just Arrived
+            ⚡ Just Dropped — Be First To Try
           </span>
-          <h2 className="font-serif">New Products</h2>
+          <h2 className="font-serif">New Arrivals</h2>
+          <p className="text-muted-foreground text-sm mt-2 max-w-md mx-auto">
+            Fresh products added this week. Get them before they sell out.
+          </p>
         </motion.div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
