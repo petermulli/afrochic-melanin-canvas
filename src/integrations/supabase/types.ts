@@ -443,6 +443,36 @@ export type Database = {
         }
         Relationships: []
       }
+      product_recommendations: {
+        Row: {
+          created_at: string
+          created_by: string
+          id: string
+          incentive_text: string | null
+          product_id: string
+          recommended_product_id: string
+          sort_order: number | null
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          id?: string
+          incentive_text?: string | null
+          product_id: string
+          recommended_product_id: string
+          sort_order?: number | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          id?: string
+          incentive_text?: string | null
+          product_id?: string
+          recommended_product_id?: string
+          sort_order?: number | null
+        }
+        Relationships: []
+      }
       product_reviews: {
         Row: {
           created_at: string

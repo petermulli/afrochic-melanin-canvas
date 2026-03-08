@@ -15,6 +15,7 @@ import ApprovedProductsManagement from "@/components/admin/ApprovedProductsManag
 import ProductReviewManagement from "@/components/admin/ProductReviewManagement";
 import SellerApplicationsManagement from "@/components/SellerApplicationsManagement";
 import SellerManagement from "@/components/admin/SellerManagement";
+import RecommendationsManagement from "@/components/admin/RecommendationsManagement";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -37,7 +38,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Loader2, Eye, LayoutDashboard, Users, Package, ShoppingCart, Shield, ClipboardList, Clock, CheckSquare, FileSearch, Store, UserCheck } from "lucide-react";
+import { Loader2, Eye, LayoutDashboard, Users, Package, ShoppingCart, Shield, ClipboardList, Clock, CheckSquare, FileSearch, Store, UserCheck, Sparkles } from "lucide-react";
 
 interface Order {
   id: string;
@@ -165,7 +166,7 @@ const Admin = () => {
         </div>
 
         <Tabs defaultValue="analytics" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5 md:grid-cols-11">
+          <TabsList className="grid w-full grid-cols-6 md:grid-cols-12">
             <TabsTrigger value="analytics" className="flex items-center gap-2">
               <LayoutDashboard className="h-4 w-4" />
               <span className="hidden sm:inline">Analytics</span>
@@ -205,6 +206,10 @@ const Admin = () => {
             <TabsTrigger value="admins" className="flex items-center gap-2">
               <Shield className="h-4 w-4" />
               <span className="hidden sm:inline">Admins</span>
+            </TabsTrigger>
+            <TabsTrigger value="recommendations" className="flex items-center gap-2">
+              <Sparkles className="h-4 w-4" />
+              <span className="hidden sm:inline">Cross-Sell</span>
             </TabsTrigger>
             <TabsTrigger value="logs" className="flex items-center gap-2">
               <ClipboardList className="h-4 w-4" />
@@ -306,6 +311,10 @@ const Admin = () => {
 
           <TabsContent value="admins">
             <AdminManagement />
+          </TabsContent>
+
+          <TabsContent value="recommendations">
+            <RecommendationsManagement />
           </TabsContent>
 
           <TabsContent value="logs">
