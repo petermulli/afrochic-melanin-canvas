@@ -20,10 +20,7 @@ const CurrencySelector = () => {
       <SelectContent align="end">
         {Object.values(currencies).map((curr) => (
           <SelectItem key={curr.code} value={curr.code}>
-            <span className="flex items-center gap-2">
-              <span className="font-medium">{curr.code}</span>
-              <span className="text-muted-foreground text-sm">- {curr.name}</span>
-            </span>
+            <span className="font-medium">{curr.code}</span>
           </SelectItem>
         ))}
       </SelectContent>
