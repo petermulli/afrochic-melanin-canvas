@@ -200,7 +200,7 @@ const Products = () => {
         sunprotection: "Sun Protection",
         treatments: "Treatments",
       };
-      return titles[groupParam] || "Our Collection";
+      return titles[groupParam] || "";
     }
     if (categoryParam) {
       return getCategoryLabel(categoryParam);
