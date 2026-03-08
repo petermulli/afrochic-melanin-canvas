@@ -166,7 +166,7 @@ const Admin = () => {
         </div>
 
         <Tabs defaultValue="analytics" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5 md:grid-cols-11">
+          <TabsList className="grid w-full grid-cols-6 md:grid-cols-12">
             <TabsTrigger value="analytics" className="flex items-center gap-2">
               <LayoutDashboard className="h-4 w-4" />
               <span className="hidden sm:inline">Analytics</span>
