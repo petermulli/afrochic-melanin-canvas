@@ -200,10 +200,15 @@ const Products = () => {
         sunprotection: "Sun Protection",
         treatments: "Treatments",
       };
-      return titles[groupParam] || "f (categoryParam) {
+      return titles[groupParam] || "";
+    }
+    if (categoryParam) {
       return getCategoryLabel(categoryParam);
     }
-    return "Our CollectionFilter Sheet Content
+    return "";
+  };
+
+  // Filter Sheet Content
   const FilterContent = () => (
     <div className="space-y-6">
       {/* Sort By */}
