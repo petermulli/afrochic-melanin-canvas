@@ -7,29 +7,16 @@ const CommunitySection = () => {
   const navigate = useNavigate();
 
   const benefits = [
-    {
-      icon: Gift,
-      title: "Exclusive Discounts",
-      description: "Members-only prices and early access to sales",
-    },
-    {
-      icon: Star,
-      title: "Reward Points",
-      description: "Earn points on every purchase, redeem for products",
-    },
-    {
-      icon: Crown,
-      title: "VIP Access",
-      description: "First look at new arrivals and limited editions",
-    },
+    { icon: Gift, title: "Exclusive Discounts", description: "Members-only prices and early access to sales" },
+    { icon: Star, title: "Reward Points", description: "Earn points on every purchase, redeem for products" },
+    { icon: Crown, title: "VIP Access", description: "First look at new arrivals and limited editions" },
   ];
 
   return (
-    <section className="py-20 md:py-28 bg-gradient-to-br from-primary/5 via-primary/10 to-primary/5 border-y border-border">
+    <section className="py-16 md:py-24 bg-muted border-y border-border">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left side - Content */}
-          <motion.div 
+          <motion.div
             className="space-y-8"
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -37,24 +24,20 @@ const CommunitySection = () => {
             transition={{ duration: 0.6 }}
           >
             <div className="space-y-4">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10">
-                <Users className="h-8 w-8 text-primary" />
-              </div>
-              <span className="text-sm uppercase tracking-[0.3em] text-primary block">
+              <span className="text-xs uppercase tracking-[0.3em] text-primary font-bold block">
                 Join The Movement
               </span>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif tracking-tight">
-                Become a Member of<br />
-                <span className="italic">The Glow Community</span>
+              <h2 className="font-serif">
+                The Glow<br />
+                <span className="italic">Collective</span>
               </h2>
-              <p className="text-muted-foreground max-w-lg text-lg">
-                Join thousands of beauty enthusiasts who trust Kenyashipment for their skincare journey. 
-                Unlock exclusive benefits and be part of our growing family.
+              <p className="text-muted-foreground max-w-lg text-base">
+                Members save more — exclusive discounts all year, plus surprise gifts and VIP perks.
+                Join thousands who trust Kenyashipment for their skincare journey.
               </p>
             </div>
 
-            {/* Benefits Grid */}
-            <div className="grid gap-4">
+            <div className="grid gap-3">
               {benefits.map((benefit, index) => (
                 <motion.div
                   key={benefit.title}
@@ -62,14 +45,14 @@ const CommunitySection = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: index * 0.1 }}
-                  className="flex items-start gap-4 p-4 bg-background/50 rounded-lg border border-border/50"
+                  className="flex items-start gap-4 p-4 bg-background border border-border"
                 >
-                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                  <div className="flex-shrink-0 w-10 h-10 bg-primary/10 flex items-center justify-center">
                     <benefit.icon className="h-5 w-5 text-primary" />
                   </div>
                   <div>
-                    <h3 className="font-medium text-foreground">{benefit.title}</h3>
-                    <p className="text-sm text-muted-foreground">{benefit.description}</p>
+                    <h3 className="font-sans font-bold text-sm text-foreground">{benefit.title}</h3>
+                    <p className="text-xs text-muted-foreground">{benefit.description}</p>
                   </div>
                 </motion.div>
               ))}
@@ -78,56 +61,31 @@ const CommunitySection = () => {
             <Button
               size="lg"
               onClick={() => navigate("/community")}
-              className="rounded-none px-10 py-6 uppercase tracking-widest text-sm bg-primary text-primary-foreground hover:bg-primary/90 transition-all group"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-none px-10 py-6 uppercase tracking-widest text-xs font-bold group"
             >
-              Join the Community
+              Join Now
               <ArrowRight className="ml-3 h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </Button>
           </motion.div>
 
-          {/* Right side - Visual */}
-          <motion.div 
+          <motion.div
             className="relative"
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <div className="relative aspect-square max-w-md mx-auto">
-              {/* Decorative circles */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-full h-full rounded-full border-2 border-primary/20 animate-pulse" />
+            <div className="relative aspect-square max-w-md mx-auto overflow-hidden">
+              <img
+                src="https://images.unsplash.com/photo-1589156280159-27698a70f29e?w=600&h=600&fit=crop&crop=face"
+                alt="Community member"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent" />
+              <div className="absolute bottom-6 left-6 right-6 text-background">
+                <p className="text-4xl md:text-5xl font-serif font-bold">10K+</p>
+                <p className="text-xs uppercase tracking-widest">Happy Members</p>
               </div>
-              <div className="absolute inset-8 flex items-center justify-center">
-                <div className="w-full h-full rounded-full border-2 border-primary/30" />
-              </div>
-              <div className="absolute inset-16 flex items-center justify-center">
-                <div className="w-full h-full rounded-full bg-primary/10 flex items-center justify-center">
-                  <div className="text-center space-y-2">
-                    <p className="text-5xl md:text-6xl font-serif font-bold text-primary">10K+</p>
-                    <p className="text-sm uppercase tracking-widest text-muted-foreground">Happy Members</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Floating badges */}
-              <motion.div
-                className="absolute top-4 right-4 bg-background shadow-lg rounded-full px-4 py-2 flex items-center gap-2"
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <Star className="h-4 w-4 text-primary fill-primary" />
-                <span className="text-sm font-medium">4.9 Rating</span>
-              </motion.div>
-
-              <motion.div
-                className="absolute bottom-8 left-0 bg-background shadow-lg rounded-full px-4 py-2 flex items-center gap-2"
-                animate={{ y: [0, 10, 0] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-              >
-                <Gift className="h-4 w-4 text-primary" />
-                <span className="text-sm font-medium">Free Shipping</span>
-              </motion.div>
             </div>
           </motion.div>
         </div>

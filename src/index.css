@@ -2,95 +2,91 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
 @layer base {
   :root {
-    /* AfroChic Brand Colors - Warm, Earthy, Sophisticated */
-    --background: 35 70% 97%;
-    --foreground: 15 29% 18%;
+    /* Uncover-inspired: Clean white base with olive/chartreuse accents */
+    --background: 0 0% 100%;
+    --foreground: 20 10% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 15 29% 18%;
+    --card-foreground: 20 10% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 15 29% 18%;
+    --popover-foreground: 20 10% 12%;
 
-    /* Primary - Dusty Terracotta */
-    --primary: 14 52% 46%;
-    --primary-foreground: 35 70% 97%;
+    /* Primary - Olive/Chartreuse Green (like Uncover's CTA buttons) */
+    --primary: 72 60% 45%;
+    --primary-foreground: 20 10% 12%;
 
-    /* Secondary - Muted Clay */
-    --secondary: 30 33% 65%;
-    --secondary-foreground: 15 29% 18%;
+    /* Secondary - Warm Grey */
+    --secondary: 30 5% 93%;
+    --secondary-foreground: 20 10% 12%;
 
-    /* Muted - Warm cream tones */
-    --muted: 35 50% 92%;
-    --muted-foreground: 15 20% 45%;
+    /* Muted - Light warm grey */
+    --muted: 40 10% 96%;
+    --muted-foreground: 20 5% 45%;
 
-    /* Accent - Sage Green */
-    --accent: 78 22% 51%;
-    --accent-foreground: 35 70% 97%;
+    /* Accent - Deep terracotta/rust for warmth */
+    --accent: 14 65% 52%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 35 70% 97%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 35 30% 88%;
-    --input: 35 30% 88%;
-    --ring: 14 52% 46%;
+    --border: 30 10% 90%;
+    --input: 30 10% 90%;
+    --ring: 72 60% 45%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
-    /* Custom AfroChic tokens */
-    --clay: 30 33% 65%;
-    --terracotta: 14 52% 46%;
-    --sage: 78 22% 51%;
-    --chocolate: 15 29% 18%;
-    --cream: 35 70% 97%;
-    
-    /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(35 70% 97%) 0%, hsl(35 50% 92%) 100%);
-    --gradient-warm: linear-gradient(135deg, hsl(30 33% 65%) 0%, hsl(14 52% 46%) 100%);
-    
+    /* Custom tokens */
+    --olive: 72 60% 45%;
+    --chartreuse: 72 75% 55%;
+    --rust: 14 65% 52%;
+    --charcoal: 20 10% 12%;
+    --cream: 40 30% 97%;
+    --warm-grey: 30 5% 93%;
+
+    /* Announcement bar */
+    --announcement: 14 65% 52%;
+    --announcement-foreground: 0 0% 100%;
+
     /* Shadows */
-    --shadow-soft: 0 2px 20px -5px hsl(15 29% 18% / 0.08);
-    --shadow-elevated: 0 10px 40px -10px hsl(15 29% 18% / 0.12);
-    
+    --shadow-soft: 0 2px 20px -5px hsl(20 10% 12% / 0.06);
+    --shadow-elevated: 0 10px 40px -10px hsl(20 10% 12% / 0.1);
+
     /* Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-spring: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   .dark {
-    --background: 15 29% 18%;
-    --foreground: 35 70% 97%;
+    --background: 20 10% 8%;
+    --foreground: 40 30% 97%;
 
-    --card: 15 20% 22%;
-    --card-foreground: 35 70% 97%;
+    --card: 20 10% 12%;
+    --card-foreground: 40 30% 97%;
 
-    --popover: 15 20% 22%;
-    --popover-foreground: 35 70% 97%;
+    --popover: 20 10% 12%;
+    --popover-foreground: 40 30% 97%;
 
-    --primary: 14 52% 56%;
-    --primary-foreground: 15 29% 18%;
+    --primary: 72 60% 50%;
+    --primary-foreground: 20 10% 8%;
 
-    --secondary: 30 25% 35%;
-    --secondary-foreground: 35 70% 97%;
+    --secondary: 20 8% 20%;
+    --secondary-foreground: 40 30% 97%;
 
-    --muted: 15 20% 25%;
-    --muted-foreground: 35 30% 70%;
+    --muted: 20 8% 16%;
+    --muted-foreground: 30 10% 60%;
 
-    --accent: 78 22% 61%;
-    --accent-foreground: 15 29% 18%;
+    --accent: 14 65% 58%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 50.6%;
-    --destructive-foreground: 35 70% 97%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 15 20% 30%;
-    --input: 15 20% 30%;
-    --ring: 14 52% 56%;
+    --border: 20 8% 22%;
+    --input: 20 8% 22%;
+    --ring: 72 60% 50%;
   }
 }
 
@@ -106,25 +102,25 @@ All colors MUST be HSL.
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
   }
-  
+
   h1, h2, h3, h4, h5, h6 {
     @apply font-serif tracking-tight;
     font-feature-settings: 'kern' 1, 'liga' 1;
   }
-  
+
   h1 {
     @apply text-5xl md:text-6xl lg:text-7xl font-serif;
     font-weight: 400;
-    letter-spacing: -0.01em;
-    line-height: 1.05;
+    letter-spacing: -0.02em;
+    line-height: 1;
   }
-  
+
   h2 {
-    @apply text-4xl md:text-5xl font-serif;
+    @apply text-3xl md:text-4xl lg:text-5xl font-serif;
     font-weight: 400;
     letter-spacing: -0.01em;
   }
-  
+
   h3 {
     @apply text-2xl md:text-3xl font-serif;
     font-weight: 500;
@@ -135,15 +131,15 @@ All colors MUST be HSL.
   .hover-lift {
     @apply transition-transform duration-300 hover:scale-105 hover:shadow-elevated;
   }
-  
+
   .hover-glow {
     @apply transition-shadow duration-300 hover:shadow-elevated;
   }
-  
+
   .animate-fade-in-up {
     animation: fadeInUp 0.6s ease-out;
   }
-  
+
   @keyframes fadeInUp {
     from {
       opacity: 0;
@@ -154,8 +150,21 @@ All colors MUST be HSL.
       transform: translateY(0);
     }
   }
-  
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-marquee {
+    animation: marquee 25s linear infinite;
+  }
+
   .text-gradient-warm {
-    @apply bg-gradient-to-r from-terracotta to-clay bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent;
   }
 }
