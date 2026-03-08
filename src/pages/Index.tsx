@@ -9,6 +9,7 @@ import BestSellersSection from "@/components/BestSellersSection";
 import NewProductsSection from "@/components/NewProductsSection";
 import SaleProductsSection from "@/components/SaleProductsSection";
 import CommunitySection from "@/components/CommunitySection";
+import ShopByTreatment from "@/components/ShopByTreatment";
 import ReviewsCarousel from "@/components/ReviewsCarousel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -169,6 +170,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* ===== SHOP BY TREATMENT ===== */}
+      <ShopByTreatment />
 
       {/* ===== MARQUEE STRIP 1 ===== */}
       <MarqueeStrip
