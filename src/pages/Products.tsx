@@ -282,15 +282,14 @@ const Products = () => {
       <Header />
 
       <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Header */}
-        <div className="text-center mb-8 md:mb-12 animate-fade-in-up">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-light tracking-tight mb-4">
-            {getPageTitle()}
-          </h1>
-          <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
-            Discover premium cosmetics formulated for the beauty of melanin-rich skin
-          </p>
-        </div>
+        {/* Header - only show if there's a specific filter title */}
+        {getPageTitle() && (
+          <div className="text-center mb-8 md:mb-12 animate-fade-in-up">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-light tracking-tight mb-4">
+              {getPageTitle()}
+            </h1>
+          </div>
+        )}
 
         {/* Search and Filters Bar */}
         <div className="max-w-4xl mx-auto mb-6 md:mb-8 animate-fade-in-up px-2">
