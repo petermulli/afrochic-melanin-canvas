@@ -42,13 +42,6 @@ const Header = () => {
           <div className="hidden md:flex items-center space-x-8">
             <ProductsMegaMenu />
             <NavLink
-              to="/about"
-              className="text-sm font-medium tracking-wide text-foreground/80 hover:text-foreground transition-colors relative group uppercase"
-            >
-              OUR STORY
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
-            </NavLink>
-            <NavLink
               to="/learn-more"
               className="text-sm font-medium tracking-wide text-foreground/80 hover:text-foreground transition-colors relative group uppercase"
             >
@@ -150,13 +143,6 @@ const Header = () => {
               )}
             </div>
             
-            <NavLink
-              to="/about"
-              className="block py-3 text-base font-medium tracking-wide text-foreground/80 hover:text-foreground transition-colors uppercase"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              OUR STORY
-            </NavLink>
             <NavLink
               to="/learn-more"
               className="block py-3 text-base font-medium tracking-wide text-foreground/80 hover:text-foreground transition-colors uppercase"
