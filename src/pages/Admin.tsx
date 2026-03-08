@@ -313,6 +313,10 @@ const Admin = () => {
             <AdminManagement />
           </TabsContent>
 
+          <TabsContent value="recommendations">
+            <RecommendationsManagement />
+          </TabsContent>
+
           <TabsContent value="logs">
             <AdminActionLogs />
           </TabsContent>
