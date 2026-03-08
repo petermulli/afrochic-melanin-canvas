@@ -144,13 +144,6 @@ const Header = () => {
             </div>
             
             <NavLink
-              to="/about"
-              className="block py-3 text-base font-medium tracking-wide text-foreground/80 hover:text-foreground transition-colors uppercase"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              OUR STORY
-            </NavLink>
-            <NavLink
               to="/learn-more"
               className="block py-3 text-base font-medium tracking-wide text-foreground/80 hover:text-foreground transition-colors uppercase"
               onClick={() => setMobileMenuOpen(false)}
