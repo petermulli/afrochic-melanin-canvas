@@ -171,6 +171,9 @@ const Index = () => {
         </div>
       </section>
 
+      {/* ===== SHOP BY TREATMENT ===== */}
+      <ShopByTreatment />
+
       {/* ===== MARQUEE STRIP 1 ===== */}
       <MarqueeStrip
         text="Skincare That Works For You"
