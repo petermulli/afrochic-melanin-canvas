@@ -200,12 +200,12 @@ const Products = () => {
         sunprotection: "Sun Protection",
         treatments: "Treatments",
       };
-      return titles[groupParam] || "Our Collection";
+      return titles[groupParam] || "";
     }
     if (categoryParam) {
       return getCategoryLabel(categoryParam);
     }
-    return "Our Collection";
+    return "";
   };
 
   // Filter Sheet Content
@@ -287,18 +287,17 @@ const Products = () => {
       <Header />
 
       <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Header */}
-        <div className="text-center mb-8 md:mb-12 animate-fade-in-up">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-light tracking-tight mb-4">
-            {getPageTitle()}
-          </h1>
-          <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
-            Discover premium cosmetics formulated for the beauty of melanin-rich skin
-          </p>
-        </div>
+        {/* Header - only show if there's a specific filter title */}
+        {getPageTitle() && (
+          <div className="text-center mb-8 md:mb-12 animate-fade-in-up">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-light tracking-tight mb-4">
+              {getPageTitle()}
+            </h1>
+          </div>
+        )}
 
         {/* Search and Filters Bar */}
-        <div className="max-w-4xl mx-auto mb-6 md:mb-8 animate-fade-in-up px-2">
+        <div className="max-w-xl mx-auto mb-6 md:mb-8 animate-fade-in-up px-2">
           <div className="flex gap-2">
             <div className="relative flex-1">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
