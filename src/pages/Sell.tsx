@@ -32,7 +32,8 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { Plus, Pencil, Trash2, Loader2, Package, ImagePlus, X } from "lucide-react";
+import { Plus, Pencil, Trash2, Loader2, Package, ImagePlus, X, Link2 } from "lucide-react";
+import SellerComplementaryProducts from "@/components/seller/SellerComplementaryProducts";
 import { useCurrency } from "@/contexts/CurrencyContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { productCategories, categoryGroups, getCategoryLabel } from "@/data/productCategories";
