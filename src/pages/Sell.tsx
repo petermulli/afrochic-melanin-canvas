@@ -618,6 +618,9 @@ const Sell = () => {
               </Table>
             </div>
           )}
+
+          {/* Complementary Products Section */}
+          <SellerComplementaryProducts />
         </div>
       </main>
       <Footer />
