@@ -99,7 +99,7 @@ const ProductsMegaMenu = () => {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="bg-transparent text-sm font-medium tracking-wide text-foreground/80 hover:text-foreground hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent uppercase">
+          <NavigationMenuTrigger className="bg-transparent text-sm font-medium tracking-wide text-foreground/80 hover:text-foreground hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent data-[active]:bg-transparent data-[state=open]:text-foreground data-[active]:text-foreground/80 uppercase">
             PRODUCTS
           </NavigationMenuTrigger>
           <NavigationMenuContent className="bg-background border border-border shadow-xl">
