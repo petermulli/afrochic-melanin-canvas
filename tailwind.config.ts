@@ -56,6 +56,8 @@ export default {
         rust: "hsl(var(--rust))",
         charcoal: "hsl(var(--charcoal))",
         cream: "hsl(var(--cream))",
+        amber: "hsl(var(--amber))",
+        "deep-red": "hsl(var(--deep-red))",
         // Keep old names for backward compat
         clay: "hsl(var(--warm-grey))",
         terracotta: "hsl(var(--rust))",
