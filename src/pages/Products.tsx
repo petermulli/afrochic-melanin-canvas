@@ -232,12 +232,12 @@ const Products = () => {
       {availableBrands.length > 0 && (
         <div className="space-y-2">
           <label className="text-sm font-medium">Brand</label>
-          <Select value={brandFilter} onValueChange={setBrandFilter}>
+          <Select value={brandFilter || "all"} onValueChange={(v) => setBrandFilter(v === "all" ? "" : v)}>
             <SelectTrigger>
               <SelectValue placeholder="All brands" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Brands</SelectItem>
+              <SelectItem value="all">All Brands</SelectItem>
               {availableBrands.map((brand) => (
                 <SelectItem key={brand} value={brand}>
                   {brand}
@@ -252,9 +252,9 @@ const Products = () => {
       <div className="space-y-2">
         <label className="text-sm font-medium">Category</label>
         <Select 
-          value={categoryParam || ""} 
+          value={categoryParam || "all"} 
           onValueChange={(value) => {
-            if (value) {
+            if (value && value !== "all") {
               setSearchParams({ category: value });
             } else {
               searchParams.delete("category");
@@ -266,7 +266,7 @@ const Products = () => {
             <SelectValue placeholder="All categories" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Categories</SelectItem>
+            <SelectItem value="all">All Categories</SelectItem>
             {availableCategories.map((cat) => (
               <SelectItem key={cat} value={cat}>
                 {getCategoryLabel(cat)}
@@ -326,12 +326,12 @@ const Products = () => {
               </Select>
 
               {availableBrands.length > 0 && (
-                <Select value={brandFilter} onValueChange={setBrandFilter}>
+                <Select value={brandFilter || "all"} onValueChange={(v) => setBrandFilter(v === "all" ? "" : v)}>
                   <SelectTrigger className="w-40 h-12">
                     <SelectValue placeholder="All brands" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Brands</SelectItem>
+                    <SelectItem value="all">All Brands</SelectItem>
                     {availableBrands.map((brand) => (
                       <SelectItem key={brand} value={brand}>
                         {brand}
