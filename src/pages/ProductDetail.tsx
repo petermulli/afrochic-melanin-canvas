@@ -141,7 +141,7 @@ const ProductDetail = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           {/* LEFT COLUMN: Smaller Image + Seller Link */}
           <div className="space-y-4 animate-fade-in-up">
-            <div className="aspect-[4/5] max-w-md mx-auto rounded-2xl overflow-hidden bg-muted">
+            <div className="aspect-[4/5] max-w-xs mx-auto rounded-2xl overflow-hidden bg-muted">
               <img
                 src={product.images[selectedImage]}
                 alt={product.name}
@@ -149,7 +149,7 @@ const ProductDetail = () => {
               />
             </div>
             {product.images.length > 1 && (
-              <div className="grid grid-cols-4 gap-3 max-w-md mx-auto">
+              <div className="grid grid-cols-4 gap-3 max-w-xs mx-auto">
                 {product.images.map((image, index) => (
                   <button
                     key={index}
@@ -170,7 +170,7 @@ const ProductDetail = () => {
             {sellerProfile && product.seller_id && (
               <Link
                 to={`/shop/${product.seller_id}`}
-                className="flex items-center gap-3 p-4 bg-muted/50 rounded-xl hover:bg-muted transition-colors group max-w-md mx-auto"
+                className="flex items-center gap-3 p-4 bg-muted/50 rounded-xl hover:bg-muted transition-colors group max-w-xs mx-auto"
               >
                 <div className="bg-primary/10 p-2.5 rounded-full">
                   <Store className="h-5 w-5 text-primary" />
