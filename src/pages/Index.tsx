@@ -199,7 +199,7 @@ const Index = () => {
       {/* ===== MARQUEE STRIP 1 ===== */}
       <MarqueeStrip
         text="Free Shipping On Orders Over KES 5,000 • Same Day Delivery In Nairobi • Genuine Products Only"
-        className="bg-primary text-primary-foreground"
+        className="bg-amber text-white"
         speed="25s"
       />
 
@@ -222,7 +222,7 @@ const Index = () => {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-foreground/40 to-transparent" />
           <div className="absolute bottom-6 left-6 right-6">
-            <span className="inline-block bg-primary text-primary-foreground text-[10px] uppercase tracking-wider px-3 py-1 font-bold mb-2">
+            <span className="inline-block bg-fire-red text-white text-[10px] uppercase tracking-wider px-3 py-1 font-bold mb-2">
               Most Popular
             </span>
           </div>
@@ -262,7 +262,7 @@ const Index = () => {
       {/* ===== MARQUEE STRIP 2 ===== */}
       <MarqueeStrip
         text="Trusted By 10,000+ Customers • 100% Genuine Products • Expert-Curated Selection"
-        className="bg-foreground text-background"
+        className="bg-deep-red text-white"
         speed="30s"
       />
 
@@ -272,7 +272,7 @@ const Index = () => {
       </div>
 
       {/* ===== URGENCY CTA BANNER ===== */}
-      <section className="py-12 bg-primary">
+      <section className="py-12 bg-golden">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             className="flex flex-col md:flex-row items-center justify-between gap-6"
@@ -281,10 +281,10 @@ const Index = () => {
             viewport={{ once: true }}
           >
             <div className="text-center md:text-left">
-              <h3 className="text-xl md:text-2xl font-serif text-primary-foreground mb-1">
+              <h3 className="text-xl md:text-2xl font-serif text-foreground mb-1">
                 Don't Miss Out — Limited Stock Available
               </h3>
-              <p className="text-primary-foreground/80 text-sm">
+              <p className="text-foreground/70 text-sm">
                 Our most popular products sell out fast. Add to cart before they're gone.
               </p>
             </div>
@@ -400,7 +400,7 @@ const Index = () => {
       </section>
 
       {/* ===== BECOME A SELLER CTA ===== */}
-      <section className="py-20 bg-foreground">
+      <section className="py-20 bg-primary">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             className="max-w-3xl mx-auto text-center space-y-6"
@@ -409,13 +409,13 @@ const Index = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-primary/20 mb-2">
-              <Store className="h-7 w-7 text-primary" />
+            <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-golden/30 mb-2">
+              <Store className="h-7 w-7 text-golden" />
             </div>
-            <h2 className="text-2xl md:text-3xl font-serif text-background">
+            <h2 className="text-2xl md:text-3xl font-serif text-primary-foreground">
               Have Products to Sell?
             </h2>
-            <p className="text-background/60 max-w-lg mx-auto">
+            <p className="text-primary-foreground/60 max-w-lg mx-auto">
               Join our marketplace and reach thousands of customers across Kenya.
               Open your shop on Kenyashipment today.
             </p>

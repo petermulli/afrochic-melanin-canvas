@@ -38,8 +38,8 @@ const TrustBanner = () => {
               transition={{ delay: i * 0.1 }}
               className="flex items-center gap-3 justify-center"
             >
-              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                <b.icon className="h-5 w-5 text-primary" />
+              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-amber/15 flex items-center justify-center">
+                <b.icon className="h-5 w-5 text-amber" />
               </div>
               <div>
                 <p className="text-sm font-bold text-foreground leading-tight">{b.title}</p>
