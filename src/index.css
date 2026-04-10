@@ -30,7 +30,11 @@
     --accent: 40 89% 55%;
     --accent-foreground: 195 30% 10%;
 
-    --destructive: 5 91% 50%;
+    /* Sale/urgency red (#F21F0C) */
+    --sale: 5 91% 50%;
+    --sale-foreground: 0 0% 100%;
+
+    --destructive: 0 95% 34%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 40 15% 88%;
@@ -48,6 +52,8 @@
     --warm-grey: 40 10% 93%;
     --amber: 30 73% 50%;
     --deep-red: 0 95% 34%;
+    --golden: 40 89% 55%;
+    --fire-red: 5 91% 50%;
 
     /* Announcement bar */
     --announcement: 30 73% 50%;

@@ -65,7 +65,7 @@ const FeaturedCollections = () => {
               
               {/* Tag */}
               <div className="absolute top-4 left-4">
-                <span className="bg-primary text-primary-foreground text-[10px] uppercase tracking-wider px-3 py-1 font-bold">
+                <span className="bg-golden text-foreground text-[10px] uppercase tracking-wider px-3 py-1 font-bold">
                   {col.tag}
                 </span>
               </div>

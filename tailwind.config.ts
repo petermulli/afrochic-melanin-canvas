@@ -58,6 +58,9 @@ export default {
         cream: "hsl(var(--cream))",
         amber: "hsl(var(--amber))",
         "deep-red": "hsl(var(--deep-red))",
+        golden: "hsl(var(--golden))",
+        "fire-red": "hsl(var(--fire-red))",
+        sale: "hsl(var(--sale))",
         // Keep old names for backward compat
         clay: "hsl(var(--warm-grey))",
         terracotta: "hsl(var(--rust))",
