@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-primary text-primary-foreground mt-20">
+    <footer className="bg-accent text-accent-foreground mt-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="space-y-4">
             <h3 className="text-2xl font-semibold tracking-tight">Kenya<span className="text-golden">shipment</span></h3>
-            <p className="text-sm text-primary-foreground/70">
+            <p className="text-sm text-accent-foreground/70">
               Fast, reliable shipping and logistics services across Kenya and beyond.
             </p>
           </div>
