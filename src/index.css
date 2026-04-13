@@ -14,8 +14,8 @@
     --popover: 0 0% 100%;
     --popover-foreground: 195 30% 10%;
 
-    /* Primary - Deep Teal (#065473) */
-    --primary: 195 93% 24%;
+    /* Primary - Golden Yellow (#F2AB27) */
+    --primary: 40 89% 55%;
     --primary-foreground: 0 0% 100%;
 
     /* Secondary - Warm cream */
@@ -26,9 +26,9 @@
     --muted: 40 15% 96%;
     --muted-foreground: 195 10% 45%;
 
-    /* Accent - Golden Yellow (#F2AB27) */
-    --accent: 40 89% 55%;
-    --accent-foreground: 195 30% 10%;
+    /* Accent - Deep Teal (#065473) */
+    --accent: 195 93% 24%;
+    --accent-foreground: 0 0% 100%;
 
     /* Sale/urgency red (#F21F0C) */
     --sale: 5 91% 50%;
@@ -39,7 +39,7 @@
 
     --border: 40 15% 88%;
     --input: 40 15% 88%;
-    --ring: 195 93% 24%;
+    --ring: 40 89% 55%;
 
     --radius: 0.5rem;
 
@@ -77,7 +77,7 @@
     --popover: 195 25% 10%;
     --popover-foreground: 40 30% 97%;
 
-    --primary: 195 80% 35%;
+    --primary: 40 89% 55%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 195 15% 18%;
@@ -86,15 +86,15 @@
     --muted: 195 15% 14%;
     --muted-foreground: 40 10% 60%;
 
-    --accent: 40 89% 55%;
-    --accent-foreground: 195 30% 10%;
+    --accent: 195 80% 35%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 5 80% 45%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 195 15% 20%;
     --input: 195 15% 20%;
-    --ring: 195 80% 35%;
+    --ring: 40 89% 55%;
   }
 }
 
