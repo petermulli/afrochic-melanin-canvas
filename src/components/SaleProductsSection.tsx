@@ -83,7 +83,7 @@ const SaleProductsSection = () => {
           transition={{ duration: 0.6 }}
         >
           <span className="text-xs uppercase tracking-[0.3em] text-accent mb-3 block font-bold">
-            🏷️ Deals End Soon — Don't Miss Out
+            Deals End Soon — Don't Miss Out
           </span>
           <h2 className="font-serif">Sale Products</h2>
           <p className="text-muted-foreground text-sm mt-2 max-w-md mx-auto">
