@@ -120,7 +120,7 @@ const BestSellersSection = () => {
           transition={{ duration: 0.6 }}
         >
           <span className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3 block font-bold">
-            🔥 Loved by 10,000+ customers
+            Loved by 10,000+ customers
           </span>
           <h2 className="font-serif">Best Sellers</h2>
           <p className="text-muted-foreground text-sm mt-2 max-w-md mx-auto">

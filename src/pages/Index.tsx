@@ -26,7 +26,7 @@ const heroSlides = [
     ctaLink: "/products",
     image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=1920&h=1080&fit=crop",
     accent: "Best Sellers",
-    urgency: "🔥 Trending this week",
+    urgency: "Trending this week",
   },
   {
     headline: "Fade Dark\nSpots Fast",
@@ -35,7 +35,7 @@ const heroSlides = [
     ctaLink: "/products?category=serums",
     image: "https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=1920&h=1080&fit=crop",
     accent: "Serums",
-    urgency: "⚡ Most purchased this month",
+    urgency: "Most purchased this month",
   },
   {
     headline: "Hydrate &\nProtect",
@@ -44,7 +44,7 @@ const heroSlides = [
     ctaLink: "/products?group=sunprotection",
     image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=1920&h=1080&fit=crop",
     accent: "Sun Protection",
-    urgency: "☀️ Essential for daily protection",
+    urgency: "Essential for daily protection",
   },
 ];
 
@@ -137,11 +137,11 @@ const Index = () => {
                 {slide.accent}
               </motion.span>
 
-              <h1 className="text-6xl md:text-8xl lg:text-9xl font-serif leading-[0.9] text-background whitespace-pre-line">
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif leading-[0.95] text-background whitespace-pre-line tracking-[-0.03em] font-light">
                 {slide.headline}
               </h1>
 
-              <p className="text-base md:text-lg text-background/80 max-w-md leading-relaxed">
+              <p className="text-sm md:text-base text-background/70 max-w-md leading-relaxed font-sans font-light tracking-wide">
                 {slide.subtext}
               </p>
 
@@ -337,7 +337,7 @@ const Index = () => {
                 <p className="text-xs text-background/60 uppercase tracking-wider mt-1">Genuine Products</p>
               </div>
               <div className="text-center">
-                <p className="text-3xl md:text-4xl font-bold text-primary">4.9★</p>
+                <p className="text-3xl md:text-4xl font-bold text-primary">4.9</p>
                 <p className="text-xs text-background/60 uppercase tracking-wider mt-1">Average Rating</p>
               </div>
             </div>

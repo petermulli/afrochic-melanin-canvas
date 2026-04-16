@@ -83,7 +83,7 @@ const NewProductsSection = () => {
           transition={{ duration: 0.6 }}
         >
           <span className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3 block font-bold">
-            ⚡ Just Dropped — Be First To Try
+            Just Dropped — Be First To Try
           </span>
           <h2 className="font-serif">New Arrivals</h2>
           <p className="text-muted-foreground text-sm mt-2 max-w-md mx-auto">
