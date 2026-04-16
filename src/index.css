@@ -112,26 +112,30 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-serif tracking-tight;
+    @apply font-serif;
     font-feature-settings: 'kern' 1, 'liga' 1;
+    letter-spacing: -0.025em;
   }
 
   h1 {
     @apply text-5xl md:text-6xl lg:text-7xl font-serif;
-    font-weight: 400;
-    letter-spacing: -0.02em;
-    line-height: 1;
+    font-weight: 300;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
   }
 
   h2 {
     @apply text-3xl md:text-4xl lg:text-5xl font-serif;
-    font-weight: 400;
-    letter-spacing: -0.01em;
+    font-weight: 300;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
   }
 
   h3 {
     @apply text-2xl md:text-3xl font-serif;
-    font-weight: 500;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
   }
 }
 
