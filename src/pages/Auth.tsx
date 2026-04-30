@@ -313,6 +313,9 @@ const Auth = () => {
                   <Button type="submit" size="lg" className="w-full rounded-full">
                     Sign In
                   </Button>
+
+                  <GoogleDivider />
+                  <GoogleButton onClick={handleGoogleSignIn} label="Continue with Google" />
                 </form>
               </TabsContent>
 
@@ -328,16 +331,14 @@ const Auth = () => {
                     <Input id="signup-email" name="email" type="email" required className={errors.email ? "border-destructive" : ""} />
                     {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="signup-phone">Phone Number</Label>
-                    <Input id="signup-phone" name="phone" type="tel" placeholder="+254" required className={errors.phone ? "border-destructive" : ""} />
-                    {errors.phone && <p className="text-sm text-destructive">{errors.phone}</p>}
-                  </div>
                   <PasswordInput id="signup-password" name="password" label="Password" error={errors.password} />
                   <PasswordInput id="signup-confirm" name="confirmPassword" label="Confirm Password" error={errors.confirmPassword} />
                   <Button type="submit" size="lg" className="w-full mt-6 rounded-full">
                     Create Account
                   </Button>
+
+                  <GoogleDivider />
+                  <GoogleButton onClick={handleGoogleSignIn} label="Sign up with Google" />
 
                   <div className="mt-6 pt-6 border-t border-border">
                     <div className="text-center space-y-3">
