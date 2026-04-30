@@ -63,6 +63,15 @@ const ProductDetail = () => {
         if (error) throw error;
         setProduct(data);
 
+        if (data?.name) {
+          const { data: approvedMatch } = await supabase
+            .from("approved_products")
+            .select("id")
+            .ilike("name", data.name.trim())
+            .maybeSingle();
+          setIsApproved(!!approvedMatch);
+        }
+
         if (data?.seller_id) {
           const { data: sellerData } = await supabase
             .from("seller_profiles")
