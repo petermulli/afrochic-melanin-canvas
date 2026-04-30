@@ -32,6 +32,8 @@ interface Product {
   benefits?: string[];
   ingredients?: string[];
   seller_id?: string;
+  size_ml?: number | null;
+  location?: string | null;
 }
 
 const ProductDetail = () => {
@@ -39,12 +41,13 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const { addItem } = useCart();
   const { formatPrice } = useCurrency();
-  
+
   const [product, setProduct] = useState<Product | null>(null);
   const [sellerProfile, setSellerProfile] = useState<SellerProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedShade, setSelectedShade] = useState<string | null>(null);
+  const [isApproved, setIsApproved] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
