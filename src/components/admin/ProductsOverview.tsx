@@ -59,6 +59,8 @@ interface Product {
   benefits?: string[];
   ingredients?: string[];
   featured?: boolean;
+  size_ml?: number | null;
+  location?: string | null;
 }
 
 const ProductsOverview = () => {
@@ -82,6 +84,8 @@ const ProductsOverview = () => {
     benefits: "",
     ingredients: "",
     featured: false,
+    size_ml: "",
+    location: "",
   });
 
   useEffect(() => {
@@ -106,7 +110,7 @@ const ProductsOverview = () => {
   };
 
   const resetForm = () => {
-    setFormData({ name: "", description: "", price: "", category: "", brand: "", images: [], shades: "", benefits: "", ingredients: "", featured: false });
+    setFormData({ name: "", description: "", price: "", category: "", brand: "", images: [], shades: "", benefits: "", ingredients: "", featured: false, size_ml: "", location: "" });
     setEditingProduct(null);
   };
 
@@ -160,6 +164,8 @@ const ProductsOverview = () => {
         featured: formData.featured,
         status: "approved",
         seller_id: editingProduct?.seller_id || null,
+        size_ml: formData.size_ml ? parseInt(formData.size_ml, 10) : null,
+        location: formData.location.trim() || null,
       };
 
       if (editingProduct) {
@@ -202,6 +208,8 @@ const ProductsOverview = () => {
       benefits: product.benefits?.join(", ") || "",
       ingredients: product.ingredients?.join(", ") || "",
       featured: product.featured || false,
+      size_ml: product.size_ml ? String(product.size_ml) : "",
+      location: product.location || "",
     });
     setDialogOpen(true);
   };
@@ -337,6 +345,16 @@ const ProductsOverview = () => {
               <div className="space-y-2">
                 <Label>Shades (comma-separated)</Label>
                 <Input value={formData.shades} onChange={(e) => setFormData({ ...formData, shades: e.target.value })} placeholder="e.g., Honey, Caramel" />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="admin-size">Size (ml)</Label>
+                  <Input id="admin-size" type="number" min="0" value={formData.size_ml} onChange={(e) => setFormData({ ...formData, size_ml: e.target.value })} placeholder="e.g., 50" />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="admin-loc">Availability / Location</Label>
+                  <Input id="admin-loc" value={formData.location} onChange={(e) => setFormData({ ...formData, location: e.target.value })} placeholder="e.g., Ships from Nairobi" />
+                </div>
               </div>
               <div className="space-y-2">
                 <Label>Benefits (comma-separated)</Label>

@@ -50,6 +50,8 @@ interface Product {
   status: string;
   admin_notes?: string;
   brand?: string;
+  size_ml?: number | null;
+  location?: string | null;
 }
 
 const ProductManagement = () => {
@@ -73,6 +75,8 @@ const ProductManagement = () => {
     benefits: "",
     ingredients: "",
     brand: "",
+    size_ml: "",
+    location: "",
   });
 
   useEffect(() => {
@@ -170,6 +174,8 @@ const ProductManagement = () => {
         seller_id: user?.id,
         status: editingProduct ? editingProduct.status : productStatus,
         brand: formData.brand.trim() || null,
+        size_ml: formData.size_ml ? parseInt(formData.size_ml, 10) : null,
+        location: formData.location.trim() || null,
       };
 
       if (editingProduct) {
@@ -215,6 +221,8 @@ const ProductManagement = () => {
       benefits: product.benefits?.join(", ") || "",
       ingredients: product.ingredients?.join(", ") || "",
       brand: product.brand || "",
+      size_ml: product.size_ml ? String(product.size_ml) : "",
+      location: product.location || "",
     });
     setDialogOpen(true);
   };
@@ -247,6 +255,8 @@ const ProductManagement = () => {
       benefits: "",
       ingredients: "",
       brand: "",
+      size_ml: "",
+      location: "",
     });
     setEditingProduct(null);
   };
@@ -434,6 +444,29 @@ const ProductManagement = () => {
                   }
                   placeholder="e.g., Honey, Caramel, Espresso"
                 />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="size_ml">Size (ml)</Label>
+                  <Input
+                    id="size_ml"
+                    type="number"
+                    min="0"
+                    value={formData.size_ml}
+                    onChange={(e) => setFormData({ ...formData, size_ml: e.target.value })}
+                    placeholder="e.g., 50"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="location">Availability / Location</Label>
+                  <Input
+                    id="location"
+                    value={formData.location}
+                    onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                    placeholder="e.g., Ships from Nairobi"
+                  />
+                </div>
               </div>
 
               <div className="space-y-2">
