@@ -208,6 +208,8 @@ const ProductsOverview = () => {
       benefits: product.benefits?.join(", ") || "",
       ingredients: product.ingredients?.join(", ") || "",
       featured: product.featured || false,
+      size_ml: product.size_ml ? String(product.size_ml) : "",
+      location: product.location || "",
     });
     setDialogOpen(true);
   };
