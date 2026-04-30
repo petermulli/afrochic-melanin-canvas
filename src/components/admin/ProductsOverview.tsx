@@ -59,6 +59,8 @@ interface Product {
   benefits?: string[];
   ingredients?: string[];
   featured?: boolean;
+  size_ml?: number | null;
+  location?: string | null;
 }
 
 const ProductsOverview = () => {
@@ -82,6 +84,8 @@ const ProductsOverview = () => {
     benefits: "",
     ingredients: "",
     featured: false,
+    size_ml: "",
+    location: "",
   });
 
   useEffect(() => {
