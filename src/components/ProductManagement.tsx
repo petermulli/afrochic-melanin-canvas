@@ -174,6 +174,8 @@ const ProductManagement = () => {
         seller_id: user?.id,
         status: editingProduct ? editingProduct.status : productStatus,
         brand: formData.brand.trim() || null,
+        size_ml: formData.size_ml ? parseInt(formData.size_ml, 10) : null,
+        location: formData.location.trim() || null,
       };
 
       if (editingProduct) {
