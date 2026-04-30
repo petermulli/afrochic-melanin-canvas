@@ -164,6 +164,8 @@ const ProductsOverview = () => {
         featured: formData.featured,
         status: "approved",
         seller_id: editingProduct?.seller_id || null,
+        size_ml: formData.size_ml ? parseInt(formData.size_ml, 10) : null,
+        location: formData.location.trim() || null,
       };
 
       if (editingProduct) {
