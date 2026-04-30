@@ -110,7 +110,7 @@ const ProductsOverview = () => {
   };
 
   const resetForm = () => {
-    setFormData({ name: "", description: "", price: "", category: "", brand: "", images: [], shades: "", benefits: "", ingredients: "", featured: false });
+    setFormData({ name: "", description: "", price: "", category: "", brand: "", images: [], shades: "", benefits: "", ingredients: "", featured: false, size_ml: "", location: "" });
     setEditingProduct(null);
   };
 
