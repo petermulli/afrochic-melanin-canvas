@@ -313,6 +313,9 @@ const ProductDetail = () => {
             </div>
           </div>
         </div>
+
+        {/* Alternatives / Pairings */}
+        <ProductAlternatives productId={product.id} category={product.category} />
       </main>
 
       <Footer />
