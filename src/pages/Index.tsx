@@ -217,7 +217,7 @@ const Index = () => {
       <section className="grid md:grid-cols-2 min-h-[500px]">
         <div className="relative overflow-hidden">
           <img
-            src="https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?w=800&h=800&fit=crop"
+            src="https://images.unsplash.com/photo-1607779097040-26e80aa78e66?w=800&h=800&fit=crop"
             alt="Skincare routine"
             className="w-full h-full object-cover"
           />
@@ -305,7 +305,7 @@ const Index = () => {
       <section className="relative py-24 md:py-36 overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1571875257727-256c39da42af?w=1920&h=800&fit=crop"
+            src="https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=1920&h=800&fit=crop"
             alt="Our approach"
             className="w-full h-full object-cover"
           />
