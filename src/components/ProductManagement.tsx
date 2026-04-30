@@ -50,6 +50,8 @@ interface Product {
   status: string;
   admin_notes?: string;
   brand?: string;
+  size_ml?: number | null;
+  location?: string | null;
 }
 
 const ProductManagement = () => {
@@ -73,6 +75,8 @@ const ProductManagement = () => {
     benefits: "",
     ingredients: "",
     brand: "",
+    size_ml: "",
+    location: "",
   });
 
   useEffect(() => {
