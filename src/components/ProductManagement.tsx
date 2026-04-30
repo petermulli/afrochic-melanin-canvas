@@ -221,6 +221,8 @@ const ProductManagement = () => {
       benefits: product.benefits?.join(", ") || "",
       ingredients: product.ingredients?.join(", ") || "",
       brand: product.brand || "",
+      size_ml: product.size_ml ? String(product.size_ml) : "",
+      location: product.location || "",
     });
     setDialogOpen(true);
   };
