@@ -539,10 +539,12 @@ export type Database = {
           id: string
           images: string[]
           ingredients: string[] | null
+          location: string | null
           name: string
           price: number
           seller_id: string | null
           shades: string[] | null
+          size_ml: number | null
           status: string
           updated_at: string | null
         }
@@ -557,10 +559,12 @@ export type Database = {
           id: string
           images: string[]
           ingredients?: string[] | null
+          location?: string | null
           name: string
           price: number
           seller_id?: string | null
           shades?: string[] | null
+          size_ml?: number | null
           status?: string
           updated_at?: string | null
         }
@@ -575,10 +579,12 @@ export type Database = {
           id?: string
           images?: string[]
           ingredients?: string[] | null
+          location?: string | null
           name?: string
           price?: number
           seller_id?: string | null
           shades?: string[] | null
+          size_ml?: number | null
           status?: string
           updated_at?: string | null
         }
