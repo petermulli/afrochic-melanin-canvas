@@ -31,9 +31,9 @@ const Header = () => {
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <NavLink to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <img src={logo} alt="Kenyashipment" className="h-10 md:h-12 w-auto" />
-            <span className="text-xl md:text-2xl font-semibold tracking-tight text-foreground">
+          <NavLink to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity min-w-0 flex-shrink">
+            <img src={logo} alt="Kenyashipment" className="h-8 sm:h-10 md:h-12 w-auto flex-shrink-0" />
+            <span className="text-base sm:text-xl md:text-2xl font-semibold tracking-tight text-foreground truncate">
               Kenya<span className="text-primary">shipment</span>
             </span>
           </NavLink>
@@ -88,14 +88,14 @@ const Header = () => {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="flex items-center space-x-2 md:hidden">
+          <div className="flex items-center gap-0.5 sm:gap-1 md:hidden flex-shrink-0">
             <NavLink to={user ? "/account" : "/auth"}>
-              <Button variant="ghost" size="icon" className="hover:bg-muted">
+              <Button variant="ghost" size="icon" className="hover:bg-muted h-9 w-9">
                 <User className="h-5 w-5" />
               </Button>
             </NavLink>
             <NavLink to="/cart" className="relative">
-              <Button variant="ghost" size="icon" className="relative hover:bg-muted">
+              <Button variant="ghost" size="icon" className="relative hover:bg-muted h-9 w-9">
                 <ShoppingCart className="h-5 w-5" />
                 {cartCount > 0 && (
                   <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center font-medium">
@@ -108,7 +108,8 @@ const Header = () => {
               variant="ghost"
               size="icon"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="hover:bg-muted"
+              className="hover:bg-muted h-9 w-9"
+              aria-label="Toggle menu"
             >
               {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </Button>
