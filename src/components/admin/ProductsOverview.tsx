@@ -346,6 +346,16 @@ const ProductsOverview = () => {
                 <Label>Shades (comma-separated)</Label>
                 <Input value={formData.shades} onChange={(e) => setFormData({ ...formData, shades: e.target.value })} placeholder="e.g., Honey, Caramel" />
               </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="admin-size">Size (ml)</Label>
+                  <Input id="admin-size" type="number" min="0" value={formData.size_ml} onChange={(e) => setFormData({ ...formData, size_ml: e.target.value })} placeholder="e.g., 50" />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="admin-loc">Availability / Location</Label>
+                  <Input id="admin-loc" value={formData.location} onChange={(e) => setFormData({ ...formData, location: e.target.value })} placeholder="e.g., Ships from Nairobi" />
+                </div>
+              </div>
               <div className="space-y-2">
                 <Label>Benefits (comma-separated)</Label>
                 <Textarea value={formData.benefits} onChange={(e) => setFormData({ ...formData, benefits: e.target.value })} rows={2} placeholder="e.g., Long-lasting, Hydrating" />
