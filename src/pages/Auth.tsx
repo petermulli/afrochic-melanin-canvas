@@ -106,14 +106,13 @@ const Auth = () => {
     const data = {
       fullName: formData.get("fullName") as string,
       email: formData.get("email") as string,
-      phone: formData.get("phone") as string,
       password: formData.get("password") as string,
       confirmPassword: formData.get("confirmPassword") as string,
     };
 
     try {
       signUpSchema.parse(data);
-      const { error } = await signUp(data.email, data.password, data.fullName, data.phone);
+      const { error } = await signUp(data.email, data.password, data.fullName, "");
       if (!error) {
         navigate("/");
       }
@@ -128,6 +127,18 @@ const Auth = () => {
         setErrors(fieldErrors);
       }
     }
+  };
+
+  const handleGoogleSignIn = async () => {
+    const result = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: window.location.origin,
+    });
+    if (result.error) {
+      toast.error("Google sign-in failed. Please try again.");
+      return;
+    }
+    if (result.redirected) return;
+    navigate("/");
   };
 
   const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
