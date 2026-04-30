@@ -273,17 +273,17 @@ const Index = () => {
       </div>
 
       {/* ===== URGENCY CTA BANNER ===== */}
-      <section className="py-12 bg-golden">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-10 md:py-12 bg-golden">
+        <div className="container mx-auto">
           <motion.div
-            className="flex flex-col md:flex-row items-center justify-between gap-6"
+            className="flex flex-col md:flex-row items-center justify-between gap-5 md:gap-6 text-center md:text-left"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <div className="text-center md:text-left">
-              <h3 className="text-xl md:text-2xl font-serif text-foreground mb-1">
-                Don't Miss Out — Limited Stock Available
+            <div>
+              <h3 className="text-lg sm:text-xl md:text-2xl font-display font-light tracking-tight text-foreground mb-1">
+                Don't miss out — limited stock available
               </h3>
               <p className="text-foreground/70 text-sm">
                 Our most popular products sell out fast. Add to cart before they're gone.
@@ -292,7 +292,7 @@ const Index = () => {
             <Button
               size="lg"
               onClick={() => navigate("/products")}
-              className="bg-background text-foreground hover:bg-background/90 rounded-none px-10 py-6 uppercase tracking-widest text-sm font-bold whitespace-nowrap group"
+              className="bg-foreground text-background hover:bg-foreground/90 rounded-full px-8 md:px-10 py-6 uppercase tracking-[0.2em] text-xs sm:text-sm font-semibold whitespace-nowrap group"
             >
               Shop Now
               <ArrowRight className="ml-3 h-4 w-4 group-hover:translate-x-1 transition-transform" />
