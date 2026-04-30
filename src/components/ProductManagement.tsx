@@ -255,6 +255,8 @@ const ProductManagement = () => {
       benefits: "",
       ingredients: "",
       brand: "",
+      size_ml: "",
+      location: "",
     });
     setEditingProduct(null);
   };
