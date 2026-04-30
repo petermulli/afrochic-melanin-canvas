@@ -446,6 +446,29 @@ const ProductManagement = () => {
                 />
               </div>
 
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="size_ml">Size (ml)</Label>
+                  <Input
+                    id="size_ml"
+                    type="number"
+                    min="0"
+                    value={formData.size_ml}
+                    onChange={(e) => setFormData({ ...formData, size_ml: e.target.value })}
+                    placeholder="e.g., 50"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="location">Availability / Location</Label>
+                  <Input
+                    id="location"
+                    value={formData.location}
+                    onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                    placeholder="e.g., Ships from Nairobi"
+                  />
+                </div>
+              </div>
+
               <div className="space-y-2">
                 <Label htmlFor="benefits">Benefits (comma-separated)</Label>
                 <Textarea
