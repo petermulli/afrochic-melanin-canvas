@@ -77,7 +77,7 @@ const CommunitySection = () => {
           >
             <div className="relative aspect-square max-w-md mx-auto overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1589156280159-27698a70f29e?w=600&h=600&fit=crop&crop=face"
+                src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=600&h=600&fit=crop&crop=face"
                 alt="Community member"
                 className="w-full h-full object-cover"
               />

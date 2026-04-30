@@ -12,7 +12,7 @@ const LearnMore = () => {
   const featuredArticle = {
     title: "The Kenyashipment Story",
     excerpt: "Your trusted partner for fast, reliable shipping and logistics services across Kenya and beyond. Discover how we're transforming delivery.",
-    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1200&q=80",
+    image: "https://images.unsplash.com/photo-1607779097040-26e80aa78e66?w=1200&q=80",
     readTime: "5 min read",
   };
 
