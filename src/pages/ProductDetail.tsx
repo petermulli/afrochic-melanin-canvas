@@ -218,6 +218,28 @@ const ProductDetail = () => {
               </p>
             </div>
 
+            {/* Quick facts: size, location, approved */}
+            <div className="flex flex-wrap items-center gap-2">
+              {product.size_ml && (
+                <Badge variant="outline" className="gap-1.5 py-1.5 px-3 text-xs">
+                  <Droplet className="h-3.5 w-3.5" />
+                  {product.size_ml} ml
+                </Badge>
+              )}
+              {product.location && (
+                <Badge variant="outline" className="gap-1.5 py-1.5 px-3 text-xs">
+                  <MapPin className="h-3.5 w-3.5" />
+                  {product.location}
+                </Badge>
+              )}
+              {isApproved && (
+                <Badge className="gap-1.5 py-1.5 px-3 text-xs bg-accent text-accent-foreground hover:bg-accent">
+                  <ShieldCheck className="h-3.5 w-3.5" />
+                  Skin of Colour Approved
+                </Badge>
+              )}
+            </div>
+
             <p className="text-muted-foreground leading-relaxed">
               {product.description}
             </p>
