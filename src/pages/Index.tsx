@@ -20,29 +20,29 @@ import { toast } from "sonner";
 
 const heroSlides = [
   {
-    headline: "Your Skin,\nYour Glow",
+    headline: "Your Skin.\nYour Glow.",
     subtext: "Premium skincare crafted for melanin-rich beauty. Discover products that actually work.",
     cta: "Shop Now",
     ctaLink: "/products",
-    image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=1920&h=1080&fit=crop",
+    image: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=1920&h=1080&fit=crop",
     accent: "Best Sellers",
     urgency: "Trending this week",
   },
   {
-    headline: "Fade Dark\nSpots Fast",
+    headline: "Fade Dark Spots.\nFast.",
     subtext: "Clinically inspired formulas with vitamin C and niacinamide to reveal your natural radiance.",
     cta: "Shop Serums",
     ctaLink: "/products?category=serums",
-    image: "https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=1920&h=1080&fit=crop",
+    image: "https://images.unsplash.com/photo-1614108974832-1543c0fbf90b?w=1920&h=1080&fit=crop",
     accent: "Serums",
     urgency: "Most purchased this month",
   },
   {
-    headline: "Hydrate &\nProtect",
+    headline: "Hydrate.\nProtect.",
     subtext: "SPF that doesn't leave a white cast. Moisturizers that keep you glowing all day.",
     cta: "Shop Suncare",
     ctaLink: "/products?group=sunprotection",
-    image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=1920&h=1080&fit=crop",
+    image: "https://images.unsplash.com/photo-1592621385612-4d7129426394?w=1920&h=1080&fit=crop",
     accent: "Sun Protection",
     urgency: "Essential for daily protection",
   },
@@ -88,7 +88,7 @@ const Index = () => {
       <Header />
 
       {/* ===== HERO SECTION ===== */}
-      <section className="relative h-[85vh] md:h-screen flex items-center overflow-hidden">
+      <section className="relative h-[88vh] md:h-screen flex items-center overflow-hidden">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentSlide}
@@ -101,13 +101,13 @@ const Index = () => {
             <img
               src={slide.image}
               alt={slide.headline}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover object-center"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-foreground/80 via-foreground/50 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-foreground/85 via-foreground/55 to-foreground/20 md:to-transparent" />
           </motion.div>
         </AnimatePresence>
 
-        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentSlide}
@@ -115,14 +115,14 @@ const Index = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -40 }}
               transition={{ duration: 0.5 }}
-              className="max-w-2xl space-y-6"
+              className="max-w-2xl space-y-5 md:space-y-6"
             >
               {/* Urgency tag */}
               <motion.span
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.15 }}
-                className="inline-block bg-background/90 text-foreground text-xs font-bold px-4 py-1.5 rounded-full backdrop-blur-sm"
+                className="inline-block bg-background/90 text-foreground text-[10px] sm:text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-sm tracking-wide"
               >
                 {slide.urgency}
               </motion.span>
@@ -132,24 +132,24 @@ const Index = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.2 }}
-                className="inline-block bg-primary text-primary-foreground text-xs font-bold uppercase tracking-widest px-4 py-1.5"
+                className="inline-block bg-primary text-primary-foreground text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] px-3 py-1.5 ml-2"
               >
                 {slide.accent}
               </motion.span>
 
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif leading-[0.95] text-background whitespace-pre-line tracking-[-0.03em] font-light">
+              <h1 className="font-display text-background whitespace-pre-line text-[2.75rem] sm:text-6xl md:text-7xl lg:text-[7.5rem] font-light leading-[1] tracking-[-0.045em]">
                 {slide.headline}
               </h1>
 
-              <p className="text-sm md:text-base text-background/70 max-w-md leading-relaxed font-sans font-light tracking-wide">
+              <p className="text-base md:text-lg text-background/80 max-w-md leading-relaxed font-display font-light tracking-[-0.01em]">
                 {slide.subtext}
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-col sm:flex-row gap-3 pt-2">
                 <Button
                   size="lg"
                   onClick={() => navigate(slide.ctaLink)}
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 px-10 py-6 text-sm uppercase tracking-widest font-bold rounded-none shadow-lg group"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 sm:px-10 py-6 text-sm uppercase tracking-[0.2em] font-semibold rounded-full shadow-lg group"
                 >
                   {slide.cta}
                   <ArrowRight className="ml-3 h-4 w-4 group-hover:translate-x-1 transition-transform" />
@@ -158,7 +158,7 @@ const Index = () => {
                   variant="outline"
                   size="lg"
                   onClick={() => navigate("/products")}
-                  className="border-2 border-background/60 text-background hover:bg-background hover:text-foreground rounded-none px-8 py-6 text-sm uppercase tracking-widest font-bold backdrop-blur-sm"
+                  className="bg-background text-foreground border-2 border-background hover:bg-background/90 hover:text-foreground rounded-full px-8 py-6 text-sm uppercase tracking-[0.2em] font-semibold"
                 >
                   <ShoppingBag className="mr-2 h-4 w-4" />
                   Browse All
@@ -168,8 +168,8 @@ const Index = () => {
           </AnimatePresence>
 
           {/* Slide controls */}
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-4">
-            <button onClick={prevSlide} className="p-2 text-background/60 hover:text-background transition-colors">
+          <div className="absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3 md:gap-4">
+            <button onClick={prevSlide} aria-label="Previous slide" className="p-2 text-background/60 hover:text-background transition-colors">
               <ChevronLeft className="h-5 w-5" />
             </button>
             <div className="flex gap-2">
@@ -177,13 +177,14 @@ const Index = () => {
                 <button
                   key={index}
                   onClick={() => setCurrentSlide(index)}
+                  aria-label={`Go to slide ${index + 1}`}
                   className={`h-1 rounded-full transition-all duration-300 ${
                     index === currentSlide ? "w-10 bg-primary" : "w-4 bg-background/40 hover:bg-background/60"
                   }`}
                 />
               ))}
             </div>
-            <button onClick={nextSlide} className="p-2 text-background/60 hover:text-background transition-colors">
+            <button onClick={nextSlide} aria-label="Next slide" className="p-2 text-background/60 hover:text-background transition-colors">
               <ChevronRight className="h-5 w-5" />
             </button>
           </div>
