@@ -10,12 +10,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Store, Eye, EyeOff, ArrowLeft } from "lucide-react";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
+import { lovable } from "@/integrations/lovable";
 import { toast } from "sonner";
 
 const signUpSchema = z.object({
   fullName: z.string().trim().min(2, "Name must be at least 2 characters"),
   email: z.string().trim().email("Invalid email address"),
-  phone: z.string().trim().min(10, "Phone must be at least 10 characters"),
   password: z.string().min(8, "Password must be at least 8 characters"),
   confirmPassword: z.string().min(1, "Please confirm your password"),
 }).refine((data) => data.password === data.confirmPassword, {
