@@ -117,31 +117,34 @@ const Index = () => {
               transition={{ duration: 0.5 }}
               className="max-w-2xl space-y-5 md:space-y-6"
             >
-              {/* Urgency tag */}
-              <motion.span
+              {/* Interlocking lock-and-key tag pair */}
+              <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.15 }}
-                className="inline-block bg-background/90 text-foreground text-[10px] sm:text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-sm tracking-wide"
+                className="inline-flex items-stretch text-[10px] sm:text-xs font-semibold tracking-wide"
               >
-                {slide.urgency}
-              </motion.span>
+                {/* Left pill — convex right edge (the "key") */}
+                <span
+                  className="relative bg-background/95 text-foreground pl-4 pr-6 py-1.5 backdrop-blur-sm rounded-l-full"
+                  style={{ clipPath: "path('M 0 0 H 100% Q calc(100% + 10px) 50% 100% 100% H 0 Z')" }}
+                >
+                  {slide.urgency}
+                </span>
+                {/* Right pill — concave left edge (the "lock") that cradles the key */}
+                <span
+                  className="relative bg-primary text-primary-foreground uppercase tracking-[0.2em] pl-6 pr-4 py-1.5 rounded-r-full -ml-2"
+                  style={{ clipPath: "path('M 10px 0 Q 0 50% 10px 100% H 100% V 0 Z')" }}
+                >
+                  {slide.accent}
+                </span>
+              </motion.div>
 
-              {/* Accent tag */}
-              <motion.span
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2 }}
-                className="inline-block bg-primary text-primary-foreground text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] px-3 py-1.5 ml-2"
-              >
-                {slide.accent}
-              </motion.span>
-
-              <h1 className="font-display text-background whitespace-pre-line text-[2.75rem] sm:text-6xl md:text-7xl lg:text-[7.5rem] font-light leading-[1] tracking-[-0.045em]">
+              <h1 className="font-display text-background whitespace-pre-line text-[2.75rem] sm:text-6xl md:text-7xl lg:text-[7.5rem] font-medium leading-[0.95] tracking-[-0.05em]">
                 {slide.headline}
               </h1>
 
-              <p className="text-base md:text-lg text-background/80 max-w-md leading-relaxed font-display font-light tracking-[-0.01em]">
+              <p className="text-base md:text-lg text-background/90 max-w-md leading-relaxed font-display font-normal tracking-[-0.005em]">
                 {slide.subtext}
               </p>
 
