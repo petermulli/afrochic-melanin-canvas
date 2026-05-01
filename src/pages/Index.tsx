@@ -15,7 +15,7 @@ import TrustBanner from "@/components/TrustBanner";
 import FeaturedCollections from "@/components/FeaturedCollections";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowRight, ChevronLeft, ChevronRight, Mail, Store, Sparkles, ShoppingBag } from "lucide-react";
+import { ArrowRight, Mail, Store, Sparkles, ShoppingBag } from "lucide-react";
 import { toast } from "sonner";
 
 const heroSlides = [
