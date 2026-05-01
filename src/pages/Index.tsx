@@ -15,7 +15,7 @@ import TrustBanner from "@/components/TrustBanner";
 import FeaturedCollections from "@/components/FeaturedCollections";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowRight, ChevronLeft, ChevronRight, Mail, Store, Sparkles, ShoppingBag } from "lucide-react";
+import { ArrowRight, Mail, Store, Sparkles, ShoppingBag } from "lucide-react";
 import { toast } from "sonner";
 
 const heroSlides = [
@@ -117,26 +117,17 @@ const Index = () => {
               transition={{ duration: 0.5 }}
               className="max-w-2xl space-y-5 md:space-y-6"
             >
-              {/* Interlocking lock-and-key tag pair */}
+              {/* Pill with two halves divided by a clean straight line */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.15 }}
-                className="inline-flex items-center text-[10px] sm:text-xs font-semibold tracking-wide"
+                className="inline-flex items-stretch overflow-hidden rounded-full text-[10px] sm:text-xs font-medium tracking-wide shadow-sm backdrop-blur-sm"
               >
-                {/* Left pill — the "key" with rounded right edge protruding into the lock */}
-                <span className="relative z-10 bg-background/95 text-foreground pl-4 pr-5 py-2 backdrop-blur-sm rounded-l-full rounded-r-full shadow-sm">
+                <span className="bg-background/95 text-foreground px-4 py-2">
                   {slide.urgency}
                 </span>
-                {/* Right pill — the "lock" with a notched (curved-in) left edge cradling the key */}
-                <span
-                  className="relative -ml-3 bg-primary text-primary-foreground uppercase tracking-[0.2em] pl-5 pr-4 py-2 rounded-r-full"
-                  style={{
-                    borderTopLeftRadius: "9999px",
-                    borderBottomLeftRadius: "9999px",
-                    boxShadow: "inset 6px 0 0 -3px hsl(var(--background) / 0.95)",
-                  }}
-                >
+                <span className="bg-primary text-primary-foreground uppercase tracking-[0.2em] px-4 py-2">
                   {slide.accent}
                 </span>
               </motion.div>
@@ -171,27 +162,7 @@ const Index = () => {
             </motion.div>
           </AnimatePresence>
 
-          {/* Slide controls */}
-          <div className="absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3 md:gap-4">
-            <button onClick={prevSlide} aria-label="Previous slide" className="p-2 text-background/60 hover:text-background transition-colors">
-              <ChevronLeft className="h-5 w-5" />
-            </button>
-            <div className="flex gap-2">
-              {heroSlides.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentSlide(index)}
-                  aria-label={`Go to slide ${index + 1}`}
-                  className={`h-1 rounded-full transition-all duration-300 ${
-                    index === currentSlide ? "w-10 bg-primary" : "w-4 bg-background/40 hover:bg-background/60"
-                  }`}
-                />
-              ))}
-            </div>
-            <button onClick={nextSlide} aria-label="Next slide" className="p-2 text-background/60 hover:text-background transition-colors">
-              <ChevronRight className="h-5 w-5" />
-            </button>
-          </div>
+          {/* Slide indicator removed per design — auto-advances silently */}
         </div>
       </section>
 
