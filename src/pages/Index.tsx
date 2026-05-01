@@ -122,19 +122,20 @@ const Index = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.15 }}
-                className="inline-flex items-stretch text-[10px] sm:text-xs font-semibold tracking-wide"
+                className="inline-flex items-center text-[10px] sm:text-xs font-semibold tracking-wide"
               >
-                {/* Left pill — convex right edge (the "key") */}
-                <span
-                  className="relative bg-background/95 text-foreground pl-4 pr-6 py-1.5 backdrop-blur-sm rounded-l-full"
-                  style={{ clipPath: "path('M 0 0 H 100% Q calc(100% + 10px) 50% 100% 100% H 0 Z')" }}
-                >
+                {/* Left pill — the "key" with rounded right edge protruding into the lock */}
+                <span className="relative z-10 bg-background/95 text-foreground pl-4 pr-5 py-2 backdrop-blur-sm rounded-l-full rounded-r-full shadow-sm">
                   {slide.urgency}
                 </span>
-                {/* Right pill — concave left edge (the "lock") that cradles the key */}
+                {/* Right pill — the "lock" with a notched (curved-in) left edge cradling the key */}
                 <span
-                  className="relative bg-primary text-primary-foreground uppercase tracking-[0.2em] pl-6 pr-4 py-1.5 rounded-r-full -ml-2"
-                  style={{ clipPath: "path('M 10px 0 Q 0 50% 10px 100% H 100% V 0 Z')" }}
+                  className="relative -ml-3 bg-primary text-primary-foreground uppercase tracking-[0.2em] pl-5 pr-4 py-2 rounded-r-full"
+                  style={{
+                    borderTopLeftRadius: "9999px",
+                    borderBottomLeftRadius: "9999px",
+                    boxShadow: "inset 6px 0 0 -3px hsl(var(--background) / 0.95)",
+                  }}
                 >
                   {slide.accent}
                 </span>
