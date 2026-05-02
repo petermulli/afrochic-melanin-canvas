@@ -160,21 +160,22 @@ const Auth = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: window.location.origin,
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: `${window.location.origin}/auth`,
+          queryParams: { prompt: "select_account" },
+        },
       });
-      if (result.error) {
-        const msg = result.error instanceof Error ? result.error.message : String(result.error);
-        console.error("Google OAuth error:", result.error);
-        if (window.self !== window.top) {
-          toast.error("Google sign-in is blocked inside the preview iframe. Please open the published site or preview in a new tab.");
-        } else {
-          toast.error(`Google sign-in failed: ${msg}`);
-        }
+      if (error) {
+        console.error("Google OAuth error:", error);
+        toast.error(`Google sign-in failed: ${error.message}`);
         return;
       }
-      if (result.redirected) return;
-      navigate("/");
+      // Supabase will redirect the browser to Google
+      if (!data?.url) {
+        toast.error("Google sign-in could not start. Check that Google is enabled in backend Auth settings.");
+      }
     } catch (e: any) {
       console.error("Google OAuth exception:", e);
       toast.error(`Google sign-in error: ${e?.message ?? "Unknown error"}`);
