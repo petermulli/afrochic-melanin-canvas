@@ -159,15 +159,26 @@ const Auth = () => {
   };
 
   const handleGoogleSignIn = async () => {
-    const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
-    });
-    if (result.error) {
-      toast.error("Google sign-in failed. Please try again.");
-      return;
+    try {
+      const result = await lovable.auth.signInWithOAuth("google", {
+        redirect_uri: window.location.origin,
+      });
+      if (result.error) {
+        const msg = result.error instanceof Error ? result.error.message : String(result.error);
+        console.error("Google OAuth error:", result.error);
+        if (window.self !== window.top) {
+          toast.error("Google sign-in is blocked inside the preview iframe. Please open the published site or preview in a new tab.");
+        } else {
+          toast.error(`Google sign-in failed: ${msg}`);
+        }
+        return;
+      }
+      if (result.redirected) return;
+      navigate("/");
+    } catch (e: any) {
+      console.error("Google OAuth exception:", e);
+      toast.error(`Google sign-in error: ${e?.message ?? "Unknown error"}`);
     }
-    if (result.redirected) return;
-    navigate("/");
   };
 
   const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {

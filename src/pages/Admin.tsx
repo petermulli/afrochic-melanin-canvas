@@ -16,6 +16,7 @@ import ProductReviewManagement from "@/components/admin/ProductReviewManagement"
 import SellerApplicationsManagement from "@/components/SellerApplicationsManagement";
 import SellerManagement from "@/components/admin/SellerManagement";
 import RecommendationsManagement from "@/components/admin/RecommendationsManagement";
+import LandingImagesManager from "@/components/admin/LandingImagesManager";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -38,7 +39,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Loader2, Eye, LayoutDashboard, Users, Package, ShoppingCart, Shield, ClipboardList, Clock, CheckSquare, FileSearch, Store, UserCheck, Sparkles } from "lucide-react";
+import { Loader2, Eye, LayoutDashboard, Users, Package, ShoppingCart, Shield, ClipboardList, Clock, CheckSquare, FileSearch, Store, UserCheck, Sparkles, Image as ImageIcon } from "lucide-react";
 
 interface Order {
   id: string;
@@ -166,10 +167,14 @@ const Admin = () => {
         </div>
 
         <Tabs defaultValue="analytics" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-6 md:grid-cols-12">
+          <TabsList className="grid w-full grid-cols-6 md:[grid-template-columns:repeat(13,minmax(0,1fr))]">
             <TabsTrigger value="analytics" className="flex items-center gap-2">
               <LayoutDashboard className="h-4 w-4" />
               <span className="hidden sm:inline">Analytics</span>
+            </TabsTrigger>
+            <TabsTrigger value="landing-images" className="flex items-center gap-2">
+              <ImageIcon className="h-4 w-4" />
+              <span className="hidden sm:inline">Landing</span>
             </TabsTrigger>
             <TabsTrigger value="users" className="flex items-center gap-2">
               <Users className="h-4 w-4" />
@@ -222,6 +227,10 @@ const Admin = () => {
               <AnalyticsCharts />
               <ProductSuggestions />
             </div>
+          </TabsContent>
+
+          <TabsContent value="landing-images">
+            <LandingImagesManager />
           </TabsContent>
 
           <TabsContent value="users">
