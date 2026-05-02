@@ -167,10 +167,14 @@ const Admin = () => {
         </div>
 
         <Tabs defaultValue="analytics" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-6 md:grid-cols-12">
+          <TabsList className="grid w-full grid-cols-6 md:grid-cols-13">
             <TabsTrigger value="analytics" className="flex items-center gap-2">
               <LayoutDashboard className="h-4 w-4" />
               <span className="hidden sm:inline">Analytics</span>
+            </TabsTrigger>
+            <TabsTrigger value="landing-images" className="flex items-center gap-2">
+              <ImageIcon className="h-4 w-4" />
+              <span className="hidden sm:inline">Landing</span>
             </TabsTrigger>
             <TabsTrigger value="users" className="flex items-center gap-2">
               <Users className="h-4 w-4" />
@@ -223,6 +227,10 @@ const Admin = () => {
               <AnalyticsCharts />
               <ProductSuggestions />
             </div>
+          </TabsContent>
+
+          <TabsContent value="landing-images">
+            <LandingImagesManager />
           </TabsContent>
 
           <TabsContent value="users">
