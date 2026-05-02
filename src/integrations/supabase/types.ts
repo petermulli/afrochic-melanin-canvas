@@ -331,6 +331,27 @@ export type Database = {
         }
         Relationships: []
       }
+      landing_images: {
+        Row: {
+          image_url: string
+          slot: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          image_url: string
+          slot: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          image_url?: string
+          slot?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
       order_items: {
         Row: {
           created_at: string | null
