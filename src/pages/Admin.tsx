@@ -16,6 +16,7 @@ import ProductReviewManagement from "@/components/admin/ProductReviewManagement"
 import SellerApplicationsManagement from "@/components/SellerApplicationsManagement";
 import SellerManagement from "@/components/admin/SellerManagement";
 import RecommendationsManagement from "@/components/admin/RecommendationsManagement";
+import LandingImagesManager from "@/components/admin/LandingImagesManager";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -38,7 +39,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Loader2, Eye, LayoutDashboard, Users, Package, ShoppingCart, Shield, ClipboardList, Clock, CheckSquare, FileSearch, Store, UserCheck, Sparkles } from "lucide-react";
+import { Loader2, Eye, LayoutDashboard, Users, Package, ShoppingCart, Shield, ClipboardList, Clock, CheckSquare, FileSearch, Store, UserCheck, Sparkles, Image as ImageIcon } from "lucide-react";
 
 interface Order {
   id: string;
