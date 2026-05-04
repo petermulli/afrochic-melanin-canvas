@@ -405,10 +405,10 @@ const ApprovedProductsManagement = () => {
                       {isSubmitting ? (
                         <>
                           <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                          Adding...
+                          {editingId ? "Saving..." : "Adding..."}
                         </>
                       ) : (
-                        "Add Product"
+                        editingId ? "Save Changes" : "Add Product"
                       )}
                     </Button>
                   </DialogFooter>
