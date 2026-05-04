@@ -13,6 +13,14 @@ export const LANDING_IMAGE_SLOTS = [
   { key: "hero_3", label: "Hero Slide 3", width: 1920, height: 1080, note: "16:9 widescreen hero" },
   { key: "routine_cta", label: "Routine CTA (left panel)", width: 800, height: 800, note: "Square 1:1" },
   { key: "brand_story", label: "Brand Story Background", width: 1920, height: 800, note: "Wide 12:5 banner" },
+  { key: "treatment_dark_spots", label: "Treatment — Dark Spots", width: 600, height: 800, note: "Portrait 3:4" },
+  { key: "treatment_acne", label: "Treatment — Acne", width: 600, height: 800, note: "Portrait 3:4" },
+  { key: "treatment_dry_skin", label: "Treatment — Dry Skin", width: 600, height: 800, note: "Portrait 3:4" },
+  { key: "treatment_oily_skin", label: "Treatment — Oily Skin", width: 600, height: 800, note: "Portrait 3:4" },
+  { key: "treatment_wrinkles", label: "Treatment — Wrinkles", width: 600, height: 800, note: "Portrait 3:4" },
+  { key: "treatment_uneven_tone", label: "Treatment — Uneven Tone", width: 600, height: 800, note: "Portrait 3:4" },
+  { key: "treatment_sensitivity", label: "Treatment — Sensitivity", width: 600, height: 800, note: "Portrait 3:4" },
+  { key: "treatment_sun_damage", label: "Treatment — Sun Damage", width: 600, height: 800, note: "Portrait 3:4" },
 ] as const;
 
 type SlotKey = typeof LANDING_IMAGE_SLOTS[number]["key"];
