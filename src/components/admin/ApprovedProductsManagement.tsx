@@ -36,7 +36,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
-import { Loader2, Plus, Search, Trash2, Upload, Image as ImageIcon } from "lucide-react";
+import { Loader2, Plus, Search, Trash2, Upload, Image as ImageIcon, Pencil } from "lucide-react";
 
 interface ApprovedProduct {
   id: string;
