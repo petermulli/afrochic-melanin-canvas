@@ -75,7 +75,7 @@ const Index = () => {
     setIsSubmitting(false);
   };
 
-  const slide = dynamicHero[currentSlide];
+  const slide = dynamicHero[0];
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -84,23 +84,14 @@ const Index = () => {
 
       {/* ===== HERO SECTION ===== */}
       <section className="relative h-[88vh] md:h-screen flex items-center overflow-hidden">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentSlide}
-            initial={{ opacity: 0, scale: 1.05 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="absolute inset-0"
-          >
-            <img
-              src={slide.image}
-              alt={slide.headline}
-              className="w-full h-full object-cover object-center"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-foreground/85 via-foreground/55 to-foreground/20 md:to-transparent" />
-          </motion.div>
-        </AnimatePresence>
+        <div className="absolute inset-0">
+          <img
+            src={slide.image}
+            alt={slide.headline}
+            className="w-full h-full object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-foreground/85 via-foreground/55 to-foreground/20 md:to-transparent" />
+        </div>
 
         <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <AnimatePresence mode="wait">
