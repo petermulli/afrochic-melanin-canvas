@@ -513,6 +513,14 @@ const ApprovedProductsManagement = () => {
                         </p>
                       </TableCell>
                       <TableCell>
+                        <div className="flex items-center gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => openEdit(product)}
+                        >
+                          <Pencil className="h-4 w-4" />
+                        </Button>
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
                             <Button
