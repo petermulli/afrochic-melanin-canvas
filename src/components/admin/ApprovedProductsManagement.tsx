@@ -258,16 +258,16 @@ const ApprovedProductsManagement = () => {
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
             <span>Approved Products Catalog</span>
-            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <Dialog open={isDialogOpen} onOpenChange={(open) => { setIsDialogOpen(open); if (!open) resetForm(); }}>
               <DialogTrigger asChild>
-                <Button>
+                <Button onClick={resetForm}>
                   <Plus className="h-4 w-4 mr-2" />
                   Add Product
                 </Button>
               </DialogTrigger>
               <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
-                  <DialogTitle>Add Approved Product</DialogTitle>
+                  <DialogTitle>{editingId ? "Edit Approved Product" : "Add Approved Product"}</DialogTitle>
                   <DialogDescription>
                     Add a product to the approved catalog. Users can search for these products.
                   </DialogDescription>
