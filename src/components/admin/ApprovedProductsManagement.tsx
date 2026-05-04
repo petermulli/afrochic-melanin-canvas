@@ -120,6 +120,31 @@ const ApprovedProductsManagement = () => {
     }
   };
 
+  const resetForm = () => {
+    setFormData({
+      name: "",
+      description: "",
+      ingredients: "",
+      skin_types: "",
+      treats: "",
+      image_url: "",
+    });
+    setEditingId(null);
+  };
+
+  const openEdit = (product: ApprovedProduct) => {
+    setEditingId(product.id);
+    setFormData({
+      name: product.name,
+      description: product.description || "",
+      ingredients: product.ingredients.join(", "),
+      skin_types: product.skin_types.join(", "),
+      treats: product.treats.join(", "),
+      image_url: product.image_url || "",
+    });
+    setIsDialogOpen(true);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name.trim()) {
@@ -129,49 +154,52 @@ const ApprovedProductsManagement = () => {
 
     setIsSubmitting(true);
     try {
-      const { error } = await supabase.from("approved_products").insert({
+      const payload = {
         name: formData.name.trim(),
         description: formData.description.trim() || null,
-        ingredients: formData.ingredients
-          .split(",")
-          .map((i) => i.trim())
-          .filter(Boolean),
-        skin_types: formData.skin_types
-          .split(",")
-          .map((s) => s.trim())
-          .filter(Boolean),
-        treats: formData.treats
-          .split(",")
-          .map((t) => t.trim())
-          .filter(Boolean),
+        ingredients: formData.ingredients.split(",").map((i) => i.trim()).filter(Boolean),
+        skin_types: formData.skin_types.split(",").map((s) => s.trim()).filter(Boolean),
+        treats: formData.treats.split(",").map((t) => t.trim()).filter(Boolean),
         image_url: formData.image_url || null,
-        created_by: user?.id,
-      });
+      };
 
-      if (error) throw error;
+      if (editingId) {
+        const { error } = await supabase
+          .from("approved_products")
+          .update(payload)
+          .eq("id", editingId);
+        if (error) throw error;
 
-      // Log the action
-      await supabase.from("admin_action_logs").insert({
-        admin_id: user?.id,
-        action_type: "add_approved_product",
-        target_type: "approved_product",
-        details: { product_name: formData.name },
-      });
+        await supabase.from("admin_action_logs").insert({
+          admin_id: user?.id,
+          action_type: "update_approved_product",
+          target_type: "approved_product",
+          target_id: editingId,
+          details: { product_name: formData.name },
+        });
+        toast.success("Product updated");
+      } else {
+        const { error } = await supabase.from("approved_products").insert({
+          ...payload,
+          created_by: user?.id,
+        });
+        if (error) throw error;
 
-      toast.success("Product added to approved catalog");
-      setFormData({
-        name: "",
-        description: "",
-        ingredients: "",
-        skin_types: "",
-        treats: "",
-        image_url: "",
-      });
+        await supabase.from("admin_action_logs").insert({
+          admin_id: user?.id,
+          action_type: "add_approved_product",
+          target_type: "approved_product",
+          details: { product_name: formData.name },
+        });
+        toast.success("Product added to approved catalog");
+      }
+
+      resetForm();
       setIsDialogOpen(false);
       fetchProducts();
     } catch (error) {
-      console.error("Error adding product:", error);
-      toast.error("Failed to add product");
+      console.error("Error saving product:", error);
+      toast.error("Failed to save product");
     } finally {
       setIsSubmitting(false);
     }
