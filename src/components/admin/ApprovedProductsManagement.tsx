@@ -36,7 +36,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
-import { Loader2, Plus, Search, Trash2, Upload, Image as ImageIcon } from "lucide-react";
+import { Loader2, Plus, Search, Trash2, Upload, Image as ImageIcon, Pencil } from "lucide-react";
 
 interface ApprovedProduct {
   id: string;
@@ -57,6 +57,7 @@ const ApprovedProductsManagement = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [imageUploading, setImageUploading] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   // Form state
   const [formData, setFormData] = useState({
@@ -119,6 +120,31 @@ const ApprovedProductsManagement = () => {
     }
   };
 
+  const resetForm = () => {
+    setFormData({
+      name: "",
+      description: "",
+      ingredients: "",
+      skin_types: "",
+      treats: "",
+      image_url: "",
+    });
+    setEditingId(null);
+  };
+
+  const openEdit = (product: ApprovedProduct) => {
+    setEditingId(product.id);
+    setFormData({
+      name: product.name,
+      description: product.description || "",
+      ingredients: product.ingredients.join(", "),
+      skin_types: product.skin_types.join(", "),
+      treats: product.treats.join(", "),
+      image_url: product.image_url || "",
+    });
+    setIsDialogOpen(true);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name.trim()) {
@@ -128,49 +154,52 @@ const ApprovedProductsManagement = () => {
 
     setIsSubmitting(true);
     try {
-      const { error } = await supabase.from("approved_products").insert({
+      const payload = {
         name: formData.name.trim(),
         description: formData.description.trim() || null,
-        ingredients: formData.ingredients
-          .split(",")
-          .map((i) => i.trim())
-          .filter(Boolean),
-        skin_types: formData.skin_types
-          .split(",")
-          .map((s) => s.trim())
-          .filter(Boolean),
-        treats: formData.treats
-          .split(",")
-          .map((t) => t.trim())
-          .filter(Boolean),
+        ingredients: formData.ingredients.split(",").map((i) => i.trim()).filter(Boolean),
+        skin_types: formData.skin_types.split(",").map((s) => s.trim()).filter(Boolean),
+        treats: formData.treats.split(",").map((t) => t.trim()).filter(Boolean),
         image_url: formData.image_url || null,
-        created_by: user?.id,
-      });
+      };
 
-      if (error) throw error;
+      if (editingId) {
+        const { error } = await supabase
+          .from("approved_products")
+          .update(payload)
+          .eq("id", editingId);
+        if (error) throw error;
 
-      // Log the action
-      await supabase.from("admin_action_logs").insert({
-        admin_id: user?.id,
-        action_type: "add_approved_product",
-        target_type: "approved_product",
-        details: { product_name: formData.name },
-      });
+        await supabase.from("admin_action_logs").insert({
+          admin_id: user?.id,
+          action_type: "update_approved_product",
+          target_type: "approved_product",
+          target_id: editingId,
+          details: { product_name: formData.name },
+        });
+        toast.success("Product updated");
+      } else {
+        const { error } = await supabase.from("approved_products").insert({
+          ...payload,
+          created_by: user?.id,
+        });
+        if (error) throw error;
 
-      toast.success("Product added to approved catalog");
-      setFormData({
-        name: "",
-        description: "",
-        ingredients: "",
-        skin_types: "",
-        treats: "",
-        image_url: "",
-      });
+        await supabase.from("admin_action_logs").insert({
+          admin_id: user?.id,
+          action_type: "add_approved_product",
+          target_type: "approved_product",
+          details: { product_name: formData.name },
+        });
+        toast.success("Product added to approved catalog");
+      }
+
+      resetForm();
       setIsDialogOpen(false);
       fetchProducts();
     } catch (error) {
-      console.error("Error adding product:", error);
-      toast.error("Failed to add product");
+      console.error("Error saving product:", error);
+      toast.error("Failed to save product");
     } finally {
       setIsSubmitting(false);
     }
@@ -229,16 +258,16 @@ const ApprovedProductsManagement = () => {
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
             <span>Approved Products Catalog</span>
-            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <Dialog open={isDialogOpen} onOpenChange={(open) => { setIsDialogOpen(open); if (!open) resetForm(); }}>
               <DialogTrigger asChild>
-                <Button>
+                <Button onClick={resetForm}>
                   <Plus className="h-4 w-4 mr-2" />
                   Add Product
                 </Button>
               </DialogTrigger>
               <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
-                  <DialogTitle>Add Approved Product</DialogTitle>
+                  <DialogTitle>{editingId ? "Edit Approved Product" : "Add Approved Product"}</DialogTitle>
                   <DialogDescription>
                     Add a product to the approved catalog. Users can search for these products.
                   </DialogDescription>
@@ -376,10 +405,10 @@ const ApprovedProductsManagement = () => {
                       {isSubmitting ? (
                         <>
                           <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                          Adding...
+                          {editingId ? "Saving..." : "Adding..."}
                         </>
                       ) : (
-                        "Add Product"
+                        editingId ? "Save Changes" : "Add Product"
                       )}
                     </Button>
                   </DialogFooter>
@@ -484,6 +513,14 @@ const ApprovedProductsManagement = () => {
                         </p>
                       </TableCell>
                       <TableCell>
+                        <div className="flex items-center gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => openEdit(product)}
+                        >
+                          <Pencil className="h-4 w-4" />
+                        </Button>
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
                             <Button
@@ -513,6 +550,7 @@ const ApprovedProductsManagement = () => {
                             </AlertDialogFooter>
                           </AlertDialogContent>
                         </AlertDialog>
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))
