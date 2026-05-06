@@ -232,7 +232,8 @@ const Admin = () => {
           </TabsContent>
 
           <TabsContent value="landing-images">
-            <div className="space-y-8">
+            <div className="space-y-10">
+              <LandingContentManager />
               <LandingImagesManager />
               <TreatmentsManager />
             </div>
