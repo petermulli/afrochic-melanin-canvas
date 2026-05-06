@@ -122,12 +122,19 @@ const TreatmentsManager = () => {
           const isUploading = uploadingId === t.id;
           return (
             <Card key={t.id} className="p-4 space-y-3">
-              <div className="aspect-[3/4] bg-muted rounded-md overflow-hidden flex items-center justify-center">
-                {t.image_url ? (
-                  <img src={t.image_url} alt={t.label} className="w-full h-full object-cover" />
-                ) : (
-                  <ImageIcon className="h-10 w-10 text-muted-foreground/40" />
-                )}
+              <div className="flex gap-3">
+                <div className="w-20 h-24 shrink-0 bg-muted rounded-md overflow-hidden flex items-center justify-center">
+                  {t.image_url ? (
+                    <a href={t.image_url} target="_blank" rel="noreferrer">
+                      <img src={t.image_url} alt={t.label} className="w-full h-full object-cover" />
+                    </a>
+                  ) : (
+                    <ImageIcon className="h-6 w-6 text-muted-foreground/40" />
+                  )}
+                </div>
+                <div className="flex-1 text-xs text-muted-foreground self-center">
+                  Recommended 600×800 (3:4)
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-2">
