@@ -331,6 +331,27 @@ export type Database = {
         }
         Relationships: []
       }
+      landing_content: {
+        Row: {
+          content: Json
+          slot: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          content?: Json
+          slot: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          content?: Json
+          slot?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
       landing_images: {
         Row: {
           image_url: string

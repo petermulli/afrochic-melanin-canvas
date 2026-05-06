@@ -18,6 +18,7 @@ import SellerManagement from "@/components/admin/SellerManagement";
 import RecommendationsManagement from "@/components/admin/RecommendationsManagement";
 import LandingImagesManager from "@/components/admin/LandingImagesManager";
 import TreatmentsManager from "@/components/admin/TreatmentsManager";
+import LandingContentManager from "@/components/admin/LandingContentManager";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -231,7 +232,8 @@ const Admin = () => {
           </TabsContent>
 
           <TabsContent value="landing-images">
-            <div className="space-y-8">
+            <div className="space-y-10">
+              <LandingContentManager />
               <LandingImagesManager />
               <TreatmentsManager />
             </div>
