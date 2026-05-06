@@ -120,46 +120,48 @@ const LandingImagesManager = () => {
           Upload images for each section of the home page. Dimensions must match the listed ratio so the layout stays clean.
         </p>
       </div>
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
         {LANDING_IMAGE_SLOTS.map((spec) => {
           const current = images[spec.key];
           const isUploading = uploading === spec.key;
           return (
-            <Card key={spec.key} className="p-4 space-y-3">
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <h3 className="font-medium">{spec.label}</h3>
-                  <p className="text-xs text-muted-foreground">
-                    Required: {spec.width} × {spec.height}px • {spec.note}
-                  </p>
-                </div>
-              </div>
-              <div className="aspect-video bg-muted rounded-md overflow-hidden flex items-center justify-center">
+            <Card key={spec.key} className="p-3 flex gap-3 items-center">
+              <div className="w-20 h-20 shrink-0 bg-muted rounded-md overflow-hidden flex items-center justify-center">
                 {current ? (
-                  <img src={current} alt={spec.label} className="w-full h-full object-cover" />
+                  <a href={current} target="_blank" rel="noreferrer" title="Open full image">
+                    <img src={current} alt={spec.label} className="w-full h-full object-cover" />
+                  </a>
                 ) : (
-                  <ImageIcon className="h-10 w-10 text-muted-foreground/40" />
+                  <ImageIcon className="h-6 w-6 text-muted-foreground/40" />
                 )}
               </div>
-              <label className="block">
-                <input
-                  type="file"
-                  accept="image/jpeg,image/png,image/webp"
-                  className="hidden"
-                  disabled={isUploading}
-                  onChange={(e) => {
-                    const f = e.target.files?.[0];
-                    if (f) handleUpload(spec, f);
-                    e.target.value = "";
-                  }}
-                />
-                <Button type="button" asChild variant="outline" className="w-full" disabled={isUploading}>
-                  <span className="cursor-pointer">
-                    {isUploading ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Upload className="h-4 w-4 mr-2" />}
-                    {isUploading ? "Uploading..." : current ? "Replace Image" : "Upload Image"}
-                  </span>
-                </Button>
-              </label>
+              <div className="flex-1 min-w-0 space-y-2">
+                <div>
+                  <h3 className="font-medium text-sm truncate">{spec.label}</h3>
+                  <p className="text-[11px] text-muted-foreground">
+                    {spec.width}×{spec.height} • {spec.note}
+                  </p>
+                </div>
+                <label className="block">
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    className="hidden"
+                    disabled={isUploading}
+                    onChange={(e) => {
+                      const f = e.target.files?.[0];
+                      if (f) handleUpload(spec, f);
+                      e.target.value = "";
+                    }}
+                  />
+                  <Button type="button" asChild variant="outline" size="sm" className="w-full" disabled={isUploading}>
+                    <span className="cursor-pointer">
+                      {isUploading ? <Loader2 className="h-3 w-3 mr-1 animate-spin" /> : <Upload className="h-3 w-3 mr-1" />}
+                      {isUploading ? "Uploading..." : current ? "Replace" : "Upload"}
+                    </span>
+                  </Button>
+                </label>
+              </div>
             </Card>
           );
         })}
