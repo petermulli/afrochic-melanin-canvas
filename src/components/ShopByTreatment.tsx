@@ -1,21 +1,34 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useLandingImages } from "@/hooks/useLandingImages";
+import { supabase } from "@/integrations/supabase/client";
 
-const treatments = [
-  { label: "Dark Spots", query: "dark spots", slot: "treatment_dark_spots", image: "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=400&h=400&fit=crop" },
-  { label: "Acne", query: "acne", slot: "treatment_acne", image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&h=400&fit=crop" },
-  { label: "Dry Skin", query: "dry skin", slot: "treatment_dry_skin", image: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=400&h=400&fit=crop" },
-  { label: "Oily Skin", query: "oily skin", slot: "treatment_oily_skin", image: "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=400&h=400&fit=crop" },
-  { label: "Wrinkles", query: "wrinkles", slot: "treatment_wrinkles", image: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=400&h=400&fit=crop" },
-  { label: "Uneven Tone", query: "uneven tone", slot: "treatment_uneven_tone", image: "https://images.unsplash.com/photo-1596755389378-c31d21fd1273?w=400&h=400&fit=crop" },
-  { label: "Sensitivity", query: "sensitivity", slot: "treatment_sensitivity", image: "https://images.unsplash.com/photo-1619451334792-150fd785ee74?w=400&h=400&fit=crop" },
-  { label: "Sun Damage", query: "sun damage", slot: "treatment_sun_damage", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop" },
-];
+interface Treatment {
+  id: string;
+  label: string;
+  query: string;
+  image_url: string | null;
+  sort_order: number;
+  is_active: boolean;
+}
+
+const FALLBACK = "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=600&h=800&fit=crop";
 
 const ShopByTreatment = () => {
   const navigate = useNavigate();
-  const { images } = useLandingImages();
+  const [treatments, setTreatments] = useState<Treatment[]>([]);
+
+  useEffect(() => {
+    supabase
+      .from("treatments")
+      .select("*")
+      .eq("is_active", true)
+      .order("sort_order", { ascending: true })
+      .limit(4)
+      .then(({ data }) => setTreatments((data ?? []) as Treatment[]));
+  }, []);
+
+  if (!treatments.length) return null;
 
   return (
     <section className="py-16 md:py-24 bg-background">
@@ -40,7 +53,7 @@ const ShopByTreatment = () => {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-6 max-w-5xl mx-auto">
           {treatments.map((t, i) => (
             <motion.button
-              key={t.label}
+              key={t.id}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -51,7 +64,7 @@ const ShopByTreatment = () => {
               className="group relative overflow-hidden rounded-2xl aspect-[3/4] cursor-pointer"
             >
               <img
-                src={images[t.slot] || t.image}
+                src={t.image_url || FALLBACK}
                 alt={t.label}
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 loading="lazy"

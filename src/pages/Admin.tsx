@@ -17,6 +17,7 @@ import SellerApplicationsManagement from "@/components/SellerApplicationsManagem
 import SellerManagement from "@/components/admin/SellerManagement";
 import RecommendationsManagement from "@/components/admin/RecommendationsManagement";
 import LandingImagesManager from "@/components/admin/LandingImagesManager";
+import TreatmentsManager from "@/components/admin/TreatmentsManager";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -230,7 +231,10 @@ const Admin = () => {
           </TabsContent>
 
           <TabsContent value="landing-images">
-            <LandingImagesManager />
+            <div className="space-y-8">
+              <LandingImagesManager />
+              <TreatmentsManager />
+            </div>
           </TabsContent>
 
           <TabsContent value="users">
