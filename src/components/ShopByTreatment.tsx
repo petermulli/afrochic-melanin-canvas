@@ -17,6 +17,7 @@ const FALLBACK = "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w
 
 const ShopByTreatment = () => {
   const navigate = useNavigate();
+  const { get } = useLandingContent();
   const [treatments, setTreatments] = useState<Treatment[]>([]);
 
   useEffect(() => {
@@ -41,13 +42,13 @@ const ShopByTreatment = () => {
           className="text-center mb-12"
         >
           <p className="text-xs uppercase tracking-[0.3em] text-primary mb-3">
-            Targeted Solutions
+            {get("shop_by_treatment", "eyebrow", "Targeted Solutions")}
           </p>
           <h2 className="text-3xl md:text-5xl font-serif tracking-tight mb-4">
-            Shop by Treatment
+            {get("shop_by_treatment", "headline", "Shop by Treatment")}
           </h2>
           <p className="text-muted-foreground text-sm md:text-base max-w-md mx-auto">
-            Find the perfect products for your specific skin concerns
+            {get("shop_by_treatment", "subtext", "Find the perfect products for your specific skin concerns")}
           </p>
         </motion.div>
 
