@@ -1,7 +1,7 @@
 export interface ContentField {
   key: string;
   label: string;
-  type: "text" | "textarea" | "url";
+  type: "text" | "textarea" | "url" | "icon";
   default: string;
 }
 
@@ -31,6 +31,44 @@ export const LANDING_CONTENT_SLOTS: ContentSlot[] = [
     title: "Marquee Strip 1",
     fields: [
       { key: "text", label: "Text", type: "textarea", default: "Free Shipping On Orders Over KES 5,000 • Same Day Delivery In Nairobi • Genuine Products Only" },
+    ],
+  },
+  {
+    slot: "trust_banner",
+    title: "Trust Banner (4 benefits with icons)",
+    fields: [
+      { key: "icon1", label: "Benefit 1 — Icon", type: "icon", default: "truck" },
+      { key: "title1", label: "Benefit 1 — Title", type: "text", default: "Free Shipping" },
+      { key: "subtitle1", label: "Benefit 1 — Subtitle", type: "text", default: "On orders over KES 5,000" },
+      { key: "icon2", label: "Benefit 2 — Icon", type: "icon", default: "shield" },
+      { key: "title2", label: "Benefit 2 — Title", type: "text", default: "100% Genuine" },
+      { key: "subtitle2", label: "Benefit 2 — Subtitle", type: "text", default: "Verified products only" },
+      { key: "icon3", label: "Benefit 3 — Icon", type: "icon", default: "refresh" },
+      { key: "title3", label: "Benefit 3 — Title", type: "text", default: "Easy Returns" },
+      { key: "subtitle3", label: "Benefit 3 — Subtitle", type: "text", default: "30-day return policy" },
+      { key: "icon4", label: "Benefit 4 — Icon", type: "icon", default: "headphones" },
+      { key: "title4", label: "Benefit 4 — Title", type: "text", default: "24/7 Support" },
+      { key: "subtitle4", label: "Benefit 4 — Subtitle", type: "text", default: "We're here to help" },
+    ],
+  },
+  {
+    slot: "featured_collections",
+    title: "Featured Collections (3 cards)",
+    fields: [
+      { key: "eyebrow", label: "Eyebrow", type: "text", default: "Curated For You" },
+      { key: "headline", label: "Headline", type: "text", default: "Shop Collections" },
+      { key: "tag1", label: "Card 1 — Tag", type: "text", default: "Popular" },
+      { key: "title1", label: "Card 1 — Title", type: "text", default: "Glow-Up Essentials" },
+      { key: "desc1", label: "Card 1 — Description", type: "textarea", default: "Everything you need for radiant, even-toned skin" },
+      { key: "link1", label: "Card 1 — Link", type: "url", default: "/products?group=skincare" },
+      { key: "tag2", label: "Card 2 — Tag", type: "text", default: "Essential" },
+      { key: "title2", label: "Card 2 — Title", type: "text", default: "Sun Protection" },
+      { key: "desc2", label: "Card 2 — Description", type: "textarea", default: "No white cast. No greasiness. Just protection." },
+      { key: "link2", label: "Card 2 — Link", type: "url", default: "/products?group=sunprotection" },
+      { key: "tag3", label: "Card 3 — Tag", type: "text", default: "Trending" },
+      { key: "title3", label: "Card 3 — Title", type: "text", default: "Hair Care Heroes" },
+      { key: "desc3", label: "Card 3 — Description", type: "textarea", default: "Nourish, strengthen, and style with confidence" },
+      { key: "link3", label: "Card 3 — Link", type: "url", default: "/products?group=haircare" },
     ],
   },
   {
