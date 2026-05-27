@@ -41,7 +41,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Loader2, Eye, LayoutDashboard, Users, Package, ShoppingCart, Shield, ClipboardList, Clock, CheckSquare, FileSearch, Store, UserCheck, Sparkles, Image as ImageIcon } from "lucide-react";
+import { Loader2, Eye, LayoutDashboard, Users, Package, ShoppingCart, Shield, ClipboardList, Clock, CheckSquare, FileSearch, Store, UserCheck, Sparkles, Pencil } from "lucide-react";
 
 interface Order {
   id: string;
@@ -175,8 +175,8 @@ const Admin = () => {
               <span className="hidden sm:inline">Analytics</span>
             </TabsTrigger>
             <TabsTrigger value="landing-images" className="flex items-center gap-2">
-              <ImageIcon className="h-4 w-4" />
-              <span className="hidden sm:inline">Landing</span>
+              <Pencil className="h-4 w-4" />
+              <span className="hidden sm:inline">Edit Landing</span>
             </TabsTrigger>
             <TabsTrigger value="users" className="flex items-center gap-2">
               <Users className="h-4 w-4" />
@@ -232,10 +232,23 @@ const Admin = () => {
           </TabsContent>
 
           <TabsContent value="landing-images">
-            <div className="space-y-10">
+            <div className="space-y-8">
+              <div className="border-b pb-4">
+                <h2 className="text-3xl font-semibold flex items-center gap-2">
+                  <Pencil className="h-6 w-6 text-primary" />
+                  Edit Landing Page
+                </h2>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Full control over every section of the home page — text, images, icons, links and treatment tiles.
+                </p>
+              </div>
               <LandingContentManager />
-              <LandingImagesManager />
-              <TreatmentsManager />
+              <div className="border-t pt-8">
+                <LandingImagesManager />
+              </div>
+              <div className="border-t pt-8">
+                <TreatmentsManager />
+              </div>
             </div>
           </TabsContent>
 

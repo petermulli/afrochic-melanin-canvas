@@ -9,6 +9,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { toast } from "sonner";
 import { Loader2, Save } from "lucide-react";
 import { LANDING_CONTENT_SLOTS } from "@/lib/landingContentSchema";
+import { LANDING_ICON_KEYS, LANDING_ICON_MAP } from "@/lib/landingIcons";
 
 const LandingContentManager = () => {
   const [content, setContent] = useState<Record<string, Record<string, string>>>({});
@@ -79,6 +80,27 @@ const LandingContentManager = () => {
                         value={content[s.slot]?.[f.key] ?? ""}
                         onChange={(e) => update(s.slot, f.key, e.target.value)}
                       />
+                    ) : f.type === "icon" ? (
+                      <div className="space-y-2">
+                        <div className="grid grid-cols-8 sm:grid-cols-12 gap-1.5 p-2 border rounded-md max-h-48 overflow-y-auto">
+                          {LANDING_ICON_KEYS.map((k) => {
+                            const Icon = LANDING_ICON_MAP[k];
+                            const selected = (content[s.slot]?.[f.key] ?? "") === k;
+                            return (
+                              <button
+                                key={k}
+                                type="button"
+                                onClick={() => update(s.slot, f.key, k)}
+                                title={k}
+                                className={`aspect-square rounded-md flex items-center justify-center border transition ${selected ? "border-primary bg-primary/10 ring-1 ring-primary" : "border-transparent hover:bg-muted"}`}
+                              >
+                                <Icon className="h-4 w-4" />
+                              </button>
+                            );
+                          })}
+                        </div>
+                        <p className="text-[11px] text-muted-foreground">Selected: <span className="font-mono">{content[s.slot]?.[f.key] || "—"}</span></p>
+                      </div>
                     ) : (
                       <Input
                         value={content[s.slot]?.[f.key] ?? ""}
