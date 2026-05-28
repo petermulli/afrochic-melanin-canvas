@@ -7,7 +7,7 @@ import ProductCrossSell from "@/components/ProductCrossSell";
 import ProductAlternatives from "@/components/ProductAlternatives";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Check, ShoppingCart, ArrowLeft, Loader2, Star, Store, MapPin, Droplet, ShieldCheck } from "lucide-react";
+import { Check, ShoppingCart, ArrowLeft, Loader2, Star, Store, MapPin, Droplet, ShieldCheck, Minus, Plus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useCart } from "@/contexts/CartContext";
 import { useCurrency } from "@/contexts/CurrencyContext";
