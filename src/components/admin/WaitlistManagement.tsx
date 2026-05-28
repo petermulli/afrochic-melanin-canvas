@@ -48,17 +48,6 @@ const WaitlistManagement = () => {
 
   useEffect(() => {
     fetchWaitlist();
-
-    const channel = supabase
-      .channel('waitlist-changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'waitlist' }, () => {
-        fetchWaitlist();
-      })
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
   }, []);
 
   const fetchWaitlist = async () => {
