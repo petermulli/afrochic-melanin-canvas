@@ -51,17 +51,8 @@ const ProductCard = ({ product, compact = false }: ProductCardProps) => {
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (product.shades && product.shades.length > 0) {
-      navigate(`/product/${product.id}`);
-    } else {
-      addItem({
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        image: product.images[0],
-      });
-      toast.success(`${product.name} added to cart`);
-    }
+    // Always send users to the product page so they can pick shade, quantity, etc.
+    navigate(`/product/${product.id}`);
   };
 
   return (

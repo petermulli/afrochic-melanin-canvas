@@ -7,7 +7,7 @@ import ProductCrossSell from "@/components/ProductCrossSell";
 import ProductAlternatives from "@/components/ProductAlternatives";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Check, ShoppingCart, ArrowLeft, Loader2, Star, Store, MapPin, Droplet, ShieldCheck } from "lucide-react";
+import { Check, ShoppingCart, ArrowLeft, Loader2, Star, Store, MapPin, Droplet, ShieldCheck, Minus, Plus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useCart } from "@/contexts/CartContext";
 import { useCurrency } from "@/contexts/CurrencyContext";
@@ -47,6 +47,7 @@ const ProductDetail = () => {
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedShade, setSelectedShade] = useState<string | null>(null);
+  const [quantity, setQuantity] = useState(1);
   const [isApproved, setIsApproved] = useState(false);
 
   useEffect(() => {
@@ -99,14 +100,16 @@ const ProductDetail = () => {
       return;
     }
 
-    addItem({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      image: product.images[0],
-      shade: selectedShade || undefined,
-    });
-    toast.success(`${product.name} added to cart`);
+    for (let i = 0; i < quantity; i++) {
+      addItem({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.images[0],
+        shade: selectedShade || undefined,
+      });
+    }
+    toast.success(`${quantity} × ${product.name} added to cart`);
   };
 
   if (loading) {
@@ -296,6 +299,35 @@ const ProductDetail = () => {
 
             {/* Cross-Sell Recommendations */}
             <ProductCrossSell productId={product.id} productName={product.name} />
+
+            {/* Quantity Selector */}
+            <div className="space-y-3">
+              <h3 className="text-sm font-semibold uppercase tracking-wide">Quantity</h3>
+              <div className="flex items-center gap-3">
+                <div className="flex items-center border-2 border-foreground">
+                  <button
+                    type="button"
+                    onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                    className="p-3 hover:bg-foreground hover:text-background transition-colors"
+                    aria-label="Decrease quantity"
+                  >
+                    <Minus className="h-4 w-4" />
+                  </button>
+                  <span className="px-6 py-3 min-w-[3rem] text-center font-medium">{quantity}</span>
+                  <button
+                    type="button"
+                    onClick={() => setQuantity((q) => q + 1)}
+                    className="p-3 hover:bg-foreground hover:text-background transition-colors"
+                    aria-label="Increase quantity"
+                  >
+                    <Plus className="h-4 w-4" />
+                  </button>
+                </div>
+                <span className="text-sm text-muted-foreground">
+                  Subtotal: <span className="font-semibold text-foreground">{formatPrice(product.price * quantity)}</span>
+                </span>
+              </div>
+            </div>
 
             {/* Add to Cart */}
             <Button
