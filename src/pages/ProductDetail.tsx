@@ -47,6 +47,7 @@ const ProductDetail = () => {
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedShade, setSelectedShade] = useState<string | null>(null);
+  const [quantity, setQuantity] = useState(1);
   const [isApproved, setIsApproved] = useState(false);
 
   useEffect(() => {
