@@ -100,14 +100,16 @@ const ProductDetail = () => {
       return;
     }
 
-    addItem({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      image: product.images[0],
-      shade: selectedShade || undefined,
-    });
-    toast.success(`${product.name} added to cart`);
+    for (let i = 0; i < quantity; i++) {
+      addItem({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.images[0],
+        shade: selectedShade || undefined,
+      });
+    }
+    toast.success(`${quantity} × ${product.name} added to cart`);
   };
 
   if (loading) {
