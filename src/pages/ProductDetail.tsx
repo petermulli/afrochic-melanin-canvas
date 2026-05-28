@@ -300,6 +300,35 @@ const ProductDetail = () => {
             {/* Cross-Sell Recommendations */}
             <ProductCrossSell productId={product.id} productName={product.name} />
 
+            {/* Quantity Selector */}
+            <div className="space-y-3">
+              <h3 className="text-sm font-semibold uppercase tracking-wide">Quantity</h3>
+              <div className="flex items-center gap-3">
+                <div className="flex items-center border-2 border-foreground">
+                  <button
+                    type="button"
+                    onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                    className="p-3 hover:bg-foreground hover:text-background transition-colors"
+                    aria-label="Decrease quantity"
+                  >
+                    <Minus className="h-4 w-4" />
+                  </button>
+                  <span className="px-6 py-3 min-w-[3rem] text-center font-medium">{quantity}</span>
+                  <button
+                    type="button"
+                    onClick={() => setQuantity((q) => q + 1)}
+                    className="p-3 hover:bg-foreground hover:text-background transition-colors"
+                    aria-label="Increase quantity"
+                  >
+                    <Plus className="h-4 w-4" />
+                  </button>
+                </div>
+                <span className="text-sm text-muted-foreground">
+                  Subtotal: <span className="font-semibold text-foreground">{formatPrice(product.price * quantity)}</span>
+                </span>
+              </div>
+            </div>
+
             {/* Add to Cart */}
             <Button
               size="lg"
