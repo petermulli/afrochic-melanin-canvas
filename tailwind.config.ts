@@ -20,7 +20,7 @@ export default {
       fontFamily: {
         serif: ['Cormorant Garamond', 'Georgia', 'serif'],
         sans: ['DM Sans', 'system-ui', 'sans-serif'],
-        display: ['"SF Pro Display"', '-apple-system', 'BlinkMacSystemFont', '"Inter Tight"', 'system-ui', 'sans-serif'],
+        display: ['Montserrat', '"Proxima Nova"', '"Arial Black"', '"SF Pro Display"', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",

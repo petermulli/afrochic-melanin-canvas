@@ -123,21 +123,21 @@
 
   h1 {
     @apply text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display;
-    font-weight: 600;
+    font-weight: 900;
     letter-spacing: -0.04em;
     line-height: 1.05;
   }
 
   h2 {
     @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display;
-    font-weight: 600;
+    font-weight: 800;
     letter-spacing: -0.03em;
     line-height: 1.1;
   }
 
   h3 {
     @apply text-xl sm:text-2xl md:text-3xl font-display;
-    font-weight: 600;
+    font-weight: 800;
     letter-spacing: -0.02em;
     line-height: 1.2;
   }
@@ -145,7 +145,8 @@
   /* Legacy .font-serif usage maps to the same Apple-style display stack so
      existing components inherit the smooth typography automatically. */
   .font-serif {
-    font-family: '"SF Pro Display"', -apple-system, BlinkMacSystemFont, '"Inter Tight"', system-ui, sans-serif !important;
+    font-family: 'Montserrat', '"Proxima Nova"', '"Arial Black"', -apple-system, BlinkMacSystemFont, system-ui, sans-serif !important;
+    font-weight: 800;
     letter-spacing: -0.025em;
   }
 
