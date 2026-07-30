@@ -13,6 +13,7 @@ interface Treatment {
   label: string;
   query: string;
   image_url: string | null;
+  image_url_2: string | null;
   sort_order: number;
   is_active: boolean;
 }
@@ -74,9 +75,9 @@ const TreatmentsManager = () => {
     setItems((prev) => [...prev, data as Treatment]);
   };
 
-  const handleUpload = async (t: Treatment, file: File) => {
+  const handleUpload = async (t: Treatment, file: File, slot: 1 | 2 = 1) => {
     if (file.size > MAX_BYTES) return toast.error("Max 8MB");
-    setUploadingId(t.id);
+    setUploadingId(`${t.id}-${slot}`);
     try {
       const ext = file.name.split(".").pop() ?? "jpg";
       const path = `treatment-${t.id}-${Date.now()}.${ext}`;
@@ -85,12 +86,13 @@ const TreatmentsManager = () => {
         .upload(path, file, { cacheControl: "3600", upsert: false });
       if (upErr) throw upErr;
       const { data: pub } = supabase.storage.from("landing-images").getPublicUrl(path);
+      const field = slot === 1 ? "image_url" : "image_url_2";
       const { error: dbErr } = await supabase
         .from("treatments")
-        .update({ image_url: pub.publicUrl })
+        .update({ [field]: pub.publicUrl })
         .eq("id", t.id);
       if (dbErr) throw dbErr;
-      updateField(t.id, { image_url: pub.publicUrl });
+      updateField(t.id, { [field]: pub.publicUrl } as Partial<Treatment>);
       toast.success("Image updated");
     } catch (e: any) {
       toast.error(e.message ?? "Upload failed");
@@ -109,7 +111,7 @@ const TreatmentsManager = () => {
         <div>
           <h2 className="text-2xl font-semibold">Shop by Treatment</h2>
           <p className="text-sm text-muted-foreground mt-1">
-            Manage the 4 treatment tiles on the landing page. Recommended image size 600×800 (Portrait 3:4).
+            Manage the 4 treatment tiles on the landing page. Each tile can hold two images that alternate. Recommended square 800×800.
           </p>
         </div>
         <Button onClick={addNew} variant="outline">
@@ -119,7 +121,8 @@ const TreatmentsManager = () => {
 
       <div className="grid gap-4 md:grid-cols-2">
         {items.map((t) => {
-          const isUploading = uploadingId === t.id;
+          const isUploading1 = uploadingId === `${t.id}-1`;
+          const isUploading2 = uploadingId === `${t.id}-2`;
           return (
             <Card key={t.id} className="p-4 space-y-3">
               <div className="flex gap-3">
@@ -132,8 +135,17 @@ const TreatmentsManager = () => {
                     <ImageIcon className="h-6 w-6 text-muted-foreground/40" />
                   )}
                 </div>
+                <div className="w-20 h-24 shrink-0 bg-muted rounded-md overflow-hidden flex items-center justify-center">
+                  {t.image_url_2 ? (
+                    <a href={t.image_url_2} target="_blank" rel="noreferrer">
+                      <img src={t.image_url_2} alt={`${t.label} alternate`} className="w-full h-full object-cover" />
+                    </a>
+                  ) : (
+                    <ImageIcon className="h-6 w-6 text-muted-foreground/40" />
+                  )}
+                </div>
                 <div className="flex-1 text-xs text-muted-foreground self-center">
-                  Recommended 600×800 (3:4)
+                  Two images alternate on the tile. Recommended square 800×800.
                 </div>
               </div>
 
@@ -160,23 +172,42 @@ const TreatmentsManager = () => {
                 </div>
               </div>
 
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <label className="flex-1">
                   <input
                     type="file"
                     accept="image/jpeg,image/png,image/webp"
                     className="hidden"
-                    disabled={isUploading}
+                    disabled={isUploading1}
                     onChange={(e) => {
                       const f = e.target.files?.[0];
-                      if (f) handleUpload(t, f);
+                      if (f) handleUpload(t, f, 1);
                       e.target.value = "";
                     }}
                   />
-                  <Button type="button" asChild variant="outline" className="w-full" disabled={isUploading}>
+                  <Button type="button" asChild variant="outline" className="w-full" disabled={isUploading1}>
                     <span className="cursor-pointer">
-                      {isUploading ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Upload className="h-4 w-4 mr-2" />}
-                      {isUploading ? "Uploading..." : "Image"}
+                      {isUploading1 ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Upload className="h-4 w-4 mr-2" />}
+                      {isUploading1 ? "Uploading..." : "Image 1"}
+                    </span>
+                  </Button>
+                </label>
+                <label className="flex-1">
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    className="hidden"
+                    disabled={isUploading2}
+                    onChange={(e) => {
+                      const f = e.target.files?.[0];
+                      if (f) handleUpload(t, f, 2);
+                      e.target.value = "";
+                    }}
+                  />
+                  <Button type="button" asChild variant="outline" className="w-full" disabled={isUploading2}>
+                    <span className="cursor-pointer">
+                      {isUploading2 ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Upload className="h-4 w-4 mr-2" />}
+                      {isUploading2 ? "Uploading..." : "Image 2"}
                     </span>
                   </Button>
                 </label>
