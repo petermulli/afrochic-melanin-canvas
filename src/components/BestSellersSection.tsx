@@ -52,7 +52,7 @@ const BestSellersSection = () => {
 
       const sortedProducts = Object.values(productSales)
         .sort((a, b) => b.total_quantity - a.total_quantity)
-        .slice(0, 4);
+        .slice(0, 12);
 
       if (sortedProducts.length > 0) {
         const productIds = sortedProducts.map((p) => p.product_id);
@@ -65,7 +65,7 @@ const BestSellersSection = () => {
         setTopProducts(orderedProducts);
       } else {
         const { data: featured, error: featuredError } = await supabase
-          .from("products").select("*").eq("featured", true).limit(4);
+          .from("products").select("*").eq("featured", true).limit(12);
         if (featuredError) throw featuredError;
         setTopProducts(featured || []);
       }
@@ -73,7 +73,7 @@ const BestSellersSection = () => {
       console.error("Error fetching top products:", error);
       try {
         const { data: featured } = await supabase
-          .from("products").select("*").eq("featured", true).limit(4);
+          .from("products").select("*").eq("featured", true).limit(12);
         setTopProducts(featured || []);
       } catch {
         setTopProducts([]);
@@ -128,14 +128,14 @@ const BestSellersSection = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 md:gap-6">
           {topProducts.map((product, index) => (
             <motion.div
               key={product.id}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              transition={{ duration: 0.5, delay: (index % 6) * 0.06 }}
               className="group cursor-pointer"
               onClick={() => navigate(`/product/${product.id}`)}
             >

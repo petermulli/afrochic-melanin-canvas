@@ -1,0 +1,1 @@
+ALTER TABLE public.treatments ADD COLUMN IF NOT EXISTS image_url_2 text;

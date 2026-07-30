@@ -778,6 +778,7 @@ export type Database = {
           created_at: string
           id: string
           image_url: string | null
+          image_url_2: string | null
           is_active: boolean
           label: string
           query: string
@@ -788,6 +789,7 @@ export type Database = {
           created_at?: string
           id?: string
           image_url?: string | null
+          image_url_2?: string | null
           is_active?: boolean
           label: string
           query: string
@@ -798,6 +800,7 @@ export type Database = {
           created_at?: string
           id?: string
           image_url?: string | null
+          image_url_2?: string | null
           is_active?: boolean
           label?: string
           query?: string

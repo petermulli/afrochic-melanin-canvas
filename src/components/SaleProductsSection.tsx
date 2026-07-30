@@ -106,9 +106,19 @@ const SaleProductsSection = () => {
                 <img
                   src={product.images[0]}
                   alt={product.name}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className={`w-full h-full object-cover transition-all duration-500 group-hover:scale-105 ${
+                    product.images[1] ? "group-hover:opacity-0" : ""
+                  }`}
                   loading="lazy"
                 />
+                {product.images[1] && (
+                  <img
+                    src={product.images[1]}
+                    alt={`${product.name} alternate view`}
+                    className="absolute inset-0 w-full h-full object-cover opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                )}
                 <div className="absolute top-3 left-3 bg-accent text-accent-foreground text-[10px] uppercase tracking-wider px-3 py-1 font-bold flex items-center gap-1">
                   <Percent className="h-3 w-3" />
                   Sale
