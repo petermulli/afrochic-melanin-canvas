@@ -125,7 +125,7 @@ const Sell = () => {
   };
 
   const ALLOWED_FILE_TYPES = ['image/jpeg', 'image/png', 'image/heic', 'image/heif'];
-  const MAX_IMAGES = 5;
+  const MAX_IMAGES = 10;
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -362,7 +362,7 @@ const Sell = () => {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   {/* Product Images */}
                   <div className="space-y-3">
-                    <Label>Product Images * <span className="text-muted-foreground font-normal">(max 5, JPEG/PNG/HEIC)</span></Label>
+                    <Label>Product Images * <span className="text-muted-foreground font-normal">(up to 10, JPEG/PNG/HEIC)</span></Label>
                     <div className="flex gap-3 flex-wrap">
                       {formData.images.map((url, idx) => (
                         <div key={idx} className="relative group">
@@ -380,7 +380,7 @@ const Sell = () => {
                           </button>
                         </div>
                       ))}
-                      {formData.images.length < 5 && (
+                      {formData.images.length < MAX_IMAGES && (
                         <label className="w-24 h-24 border-2 border-dashed rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-primary transition-colors">
                           <ImagePlus className="h-6 w-6 text-muted-foreground" />
                           <span className="text-xs text-muted-foreground mt-1">Add</span>
@@ -395,7 +395,7 @@ const Sell = () => {
                         </label>
                       )}
                     </div>
-                    <p className="text-xs text-muted-foreground">{formData.images.length}/5 images</p>
+                    <p className="text-xs text-muted-foreground">{formData.images.length}/{MAX_IMAGES} images</p>
                     {uploading && <p className="text-sm text-muted-foreground">Uploading...</p>}
                   </div>
 
