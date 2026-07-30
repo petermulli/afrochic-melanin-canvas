@@ -9,11 +9,55 @@ interface Treatment {
   label: string;
   query: string;
   image_url: string | null;
+  image_url_2: string | null;
   sort_order: number;
   is_active: boolean;
 }
 
-const FALLBACK = "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=600&h=800&fit=crop";
+const FALLBACK = "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=1200&h=900&fit=crop";
+
+const TreatmentTile = ({ t, i, onClick }: { t: Treatment; i: number; onClick: () => void }) => {
+  const images = [t.image_url || FALLBACK, t.image_url_2].filter(Boolean) as string[];
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    if (images.length < 2) return;
+    const id = setInterval(() => setActive((a) => (a + 1) % images.length), 3500 + i * 400);
+    return () => clearInterval(id);
+  }, [images.length, i]);
+
+  return (
+    <motion.button
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: i * 0.06, duration: 0.5 }}
+      onClick={onClick}
+      className="group relative overflow-hidden rounded-2xl aspect-square w-full cursor-pointer"
+    >
+      {images.map((src, idx) => (
+        <img
+          key={src + idx}
+          src={src}
+          alt={t.label}
+          className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 ${
+            idx === active ? "opacity-100" : "opacity-0"
+          }`}
+          loading="lazy"
+        />
+      ))}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-all duration-500 group-hover:from-black/80" />
+      <div className="absolute inset-0 flex flex-col items-center justify-end pb-6 px-3">
+        <span className="text-white text-sm md:text-base font-semibold tracking-wide drop-shadow-lg transition-transform duration-300 group-hover:-translate-y-1">
+          {t.label}
+        </span>
+        <span className="text-white/0 group-hover:text-white/80 text-xs mt-1 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
+          Shop Now →
+        </span>
+      </div>
+    </motion.button>
+  );
+};
 
 const ShopByTreatment = () => {
   const navigate = useNavigate();
@@ -52,35 +96,14 @@ const ShopByTreatment = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-6 max-w-5xl mx-auto">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-6">
           {treatments.map((t, i) => (
-            <motion.button
+            <TreatmentTile
               key={t.id}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.06, duration: 0.5 }}
-              onClick={() =>
-                navigate(`/products?treatment=${encodeURIComponent(t.query)}`)
-              }
-              className="group relative overflow-hidden rounded-2xl aspect-[3/4] cursor-pointer"
-            >
-              <img
-                src={t.image_url || FALLBACK}
-                alt={t.label}
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-all duration-500 group-hover:from-black/80" />
-              <div className="absolute inset-0 flex flex-col items-center justify-end pb-6 px-3">
-                <span className="text-white text-sm md:text-base font-semibold tracking-wide drop-shadow-lg transition-transform duration-300 group-hover:-translate-y-1">
-                  {t.label}
-                </span>
-                <span className="text-white/0 group-hover:text-white/80 text-xs mt-1 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
-                  Shop Now →
-                </span>
-              </div>
-            </motion.button>
+              t={t}
+              i={i}
+              onClick={() => navigate(`/products?treatment=${encodeURIComponent(t.query)}`)}
+            />
           ))}
         </div>
       </div>
