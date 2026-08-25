@@ -12,6 +12,7 @@ import ShopByTreatment from "@/components/ShopByTreatment";
 import CommunitySection from "@/components/CommunitySection";
 import ReviewsCarousel from "@/components/ReviewsCarousel";
 import TrustBanner from "@/components/TrustBanner";
+import SafetyCheck from "@/components/SafetyCheck";
 import FeaturedCollections from "@/components/FeaturedCollections";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -123,6 +124,9 @@ const Index = () => {
           </AnimatePresence>
         </div>
       </section>
+
+      {/* ===== PRODUCT SAFETY CHECK ===== */}
+      <SafetyCheck />
 
       {/* ===== TRUST BANNER ===== */}
       <TrustBanner />

@@ -43,7 +43,7 @@ const Products = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("search") ?? "");
   const [waitlistOpen, setWaitlistOpen] = useState(false);
   const [sortBy, setSortBy] = useState("alphabetical");
   const [brandFilter, setBrandFilter] = useState("");
