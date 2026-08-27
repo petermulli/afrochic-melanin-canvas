@@ -38,13 +38,21 @@ interface Listing {
 
 const SUGGESTIONS = ["Niacinamide serum", "Shea butter", "SPF 50", "Retinol", "Vitamin C"];
 
-const SafetyCheck = () => {
+interface SafetyCheckProps {
+  externalQuery?: string;
+}
+
+const SafetyCheck = ({ externalQuery = "" }: SafetyCheckProps) => {
   const [term, setTerm] = useState("");
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [approved, setApproved] = useState<ApprovedProduct[]>([]);
   const [listings, setListings] = useState<Listing[]>([]);
   const { formatPrice } = useCurrency();
+
+  useEffect(() => {
+    if (externalQuery) setTerm(externalQuery);
+  }, [externalQuery]);
 
   useEffect(() => {
     const t = setTimeout(() => setQuery(term.trim()), 350);
@@ -99,7 +107,7 @@ const SafetyCheck = () => {
   );
 
   return (
-    <section className="relative z-20 -mt-16 md:-mt-24 px-4 sm:px-6 lg:px-8 pb-16">
+    <section id="safety-check" className="relative z-20 -mt-16 md:-mt-24 px-4 sm:px-6 lg:px-8 pb-16">
       <div className="container mx-auto max-w-4xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
