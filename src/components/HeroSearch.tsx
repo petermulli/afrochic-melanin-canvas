@@ -118,7 +118,7 @@ const HeroSearch = ({ onSearch }: HeroSearchProps) => {
         />
       </form>
 
-      <div className="flex flex-wrap items-center gap-2 mt-3">
+      <div className="flex flex-wrap items-center justify-center gap-2 mt-3">
         {SUGGESTIONS.map((s) => (
           <button
             key={s}

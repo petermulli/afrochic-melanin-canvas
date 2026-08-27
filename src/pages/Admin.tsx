@@ -200,8 +200,9 @@ const Admin = () => {
             </TabsTrigger>
             <TabsTrigger value="approved" className="flex items-center gap-2">
               <CheckSquare className="h-4 w-4" />
-              <span className="hidden sm:inline">Catalog</span>
+              <span className="hidden sm:inline">Vetted</span>
             </TabsTrigger>
+
             <TabsTrigger value="orders" className="flex items-center gap-2">
               <ShoppingCart className="h-4 w-4" />
               <span className="hidden sm:inline">Orders</span>
@@ -273,8 +274,21 @@ const Admin = () => {
           </TabsContent>
 
           <TabsContent value="approved">
-            <ApprovedProductsManagement />
+            <div className="space-y-6">
+              <div className="border-b pb-4">
+                <h2 className="text-3xl font-semibold flex items-center gap-2">
+                  <CheckSquare className="h-6 w-6 text-primary" />
+                  Vetted Products
+                </h2>
+                <p className="text-sm text-muted-foreground mt-1">
+                  This register powers the homepage safety search. Anything added here is what customers
+                  see when they check whether a product is safe for their skin.
+                </p>
+              </div>
+              <ApprovedProductsManagement />
+            </div>
           </TabsContent>
+
 
           <TabsContent value="orders">
             <div className="bg-card rounded-lg shadow-lg p-6">
