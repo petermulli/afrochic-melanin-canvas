@@ -13,6 +13,7 @@ import CommunitySection from "@/components/CommunitySection";
 import ReviewsCarousel from "@/components/ReviewsCarousel";
 import TrustBanner from "@/components/TrustBanner";
 import SafetyCheck from "@/components/SafetyCheck";
+import HeroSearch from "@/components/HeroSearch";
 import FeaturedCollections from "@/components/FeaturedCollections";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,6 +28,15 @@ const Index = () => {
   const { get } = useLandingContent();
 
   const slideImg = (key: string, fallback: string) => images[key] || fallback;
+
+  const [safetyQuery, setSafetyQuery] = useState("");
+
+  const runSafetySearch = (t: string) => {
+    setSafetyQuery(t);
+    setTimeout(() => {
+      document.getElementById("safety-check")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 80);
+  };
 
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -101,6 +111,8 @@ const Index = () => {
                 {heroSubtext}
               </p>
 
+              <HeroSearch onSearch={runSafetySearch} />
+
               <div className="flex flex-col sm:flex-row gap-3 pt-2">
                 <Button
                   size="lg"
@@ -126,7 +138,7 @@ const Index = () => {
       </section>
 
       {/* ===== PRODUCT SAFETY CHECK ===== */}
-      <SafetyCheck />
+      <SafetyCheck externalQuery={safetyQuery} />
 
       {/* ===== TRUST BANNER ===== */}
       <TrustBanner />
