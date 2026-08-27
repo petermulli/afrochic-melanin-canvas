@@ -89,11 +89,11 @@ const Index = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -40 }}
               transition={{ duration: 0.5 }}
-              className="max-w-2xl space-y-5 md:space-y-6"
+              className="max-w-3xl mx-auto flex flex-col items-center text-center space-y-5 md:space-y-6"
             >
               <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.15 }}
                 className="inline-flex items-stretch overflow-hidden rounded-full text-[10px] sm:text-xs font-medium tracking-wide shadow-sm backdrop-blur-sm"
               >
@@ -103,17 +103,20 @@ const Index = () => {
                 </span>
               </motion.div>
 
-              <h1 className="font-display text-background whitespace-pre-line text-[2.75rem] sm:text-6xl md:text-7xl lg:text-[7.5rem] font-medium leading-[0.95] tracking-[-0.05em]">
+              <h1 className="font-display text-background whitespace-pre-line text-[2.75rem] sm:text-6xl md:text-7xl lg:text-[6.5rem] font-medium leading-[0.95] tracking-[-0.05em]">
                 {heroHeadline}
               </h1>
 
-              <p className="text-base md:text-lg text-background/90 max-w-md leading-relaxed font-display font-normal tracking-[-0.005em]">
+              <p className="text-base md:text-lg text-background/90 max-w-xl mx-auto leading-relaxed font-display font-normal tracking-[-0.005em]">
                 {heroSubtext}
               </p>
 
-              <HeroSearch onSearch={runSafetySearch} />
+              <div className="w-full flex justify-center">
+                <HeroSearch onSearch={runSafetySearch} />
+              </div>
 
-              <div className="flex flex-col sm:flex-row gap-3 pt-2">
+              <div className="flex flex-col sm:flex-row justify-center gap-3 pt-2">
+
                 <Button
                   size="lg"
                   onClick={() => navigate(heroCtaLink)}
