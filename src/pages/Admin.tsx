@@ -200,8 +200,9 @@ const Admin = () => {
             </TabsTrigger>
             <TabsTrigger value="approved" className="flex items-center gap-2">
               <CheckSquare className="h-4 w-4" />
-              <span className="hidden sm:inline">Catalog</span>
+              <span className="hidden sm:inline">Vetted</span>
             </TabsTrigger>
+
             <TabsTrigger value="orders" className="flex items-center gap-2">
               <ShoppingCart className="h-4 w-4" />
               <span className="hidden sm:inline">Orders</span>
