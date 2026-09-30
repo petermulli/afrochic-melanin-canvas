@@ -122,7 +122,7 @@ const BestSellersSection = () => {
           <span className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3 block font-bold">
             Loved by 10,000+ customers
           </span>
-          <h2 className="font-serif">Best Sellers</h2>
+          <h2 className="font-display font-black text-gradient-warm">Best Sellers</h2>
           <p className="text-muted-foreground text-sm mt-2 max-w-md mx-auto">
             Our most-purchased products this month. Don't miss what everyone's raving about.
           </p>
@@ -136,10 +136,10 @@ const BestSellersSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: (index % 6) * 0.06 }}
-              className="group cursor-pointer"
+              className="group cursor-pointer rounded-lg border border-transparent bg-card p-2 transition-all duration-300 hover:-translate-y-1 hover:border-primary/20 hover:shadow-elevated"
               onClick={() => navigate(`/product/${product.id}`)}
             >
-              <div className="relative aspect-square overflow-hidden bg-muted mb-3">
+               <div className="relative aspect-square overflow-hidden rounded-md bg-muted mb-3">
                 <img
                   src={product.images[0]}
                   alt={product.name}
@@ -156,7 +156,7 @@ const BestSellersSection = () => {
                   <Button
                     onClick={(e) => handleAddToCart(e, product)}
                     size="sm"
-                    className="w-full bg-foreground text-background hover:bg-foreground/90 rounded-none text-xs uppercase tracking-wider font-bold"
+                    className="w-full bg-primary text-primary-foreground hover:bg-rust rounded-none text-xs uppercase tracking-wider font-bold"
                   >
                     <ShoppingCart className="h-3 w-3 mr-1.5" />
                     Add to Cart
@@ -174,7 +174,7 @@ const BestSellersSection = () => {
                   ))}
                   <span className="text-[10px] text-muted-foreground ml-1">(4.9)</span>
                 </div>
-                <p className="text-sm font-bold text-foreground">
+                <p className="text-sm font-black text-accent">
                   {formatPrice(product.price)}
                 </p>
               </div>
@@ -193,7 +193,7 @@ const BestSellersSection = () => {
             variant="outline"
             size="lg"
             onClick={() => navigate("/products")}
-            className="rounded-none px-10 py-5 uppercase tracking-widest text-xs border-2 border-foreground hover:bg-foreground hover:text-background transition-all font-bold"
+            className="rounded-none px-10 py-5 uppercase tracking-widest text-xs border-2 border-accent text-accent hover:bg-accent hover:text-accent-foreground transition-all font-bold"
           >
             View All Products
           </Button>

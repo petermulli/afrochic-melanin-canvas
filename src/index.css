@@ -4,64 +4,64 @@
 
 @layer base {
   :root {
-    /* Teal/Gold/Red African-inspired palette */
-    --background: 0 0% 100%;
-    --foreground: 195 30% 10%;
+    /* Sunset-led palette, inspired by the user's mountain reference */
+    --background: 30 50% 99%;
+    --foreground: 203 87% 14%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 195 30% 10%;
+    --card: 30 50% 99%;
+    --card-foreground: 203 87% 14%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 195 30% 10%;
+    --popover: 30 50% 99%;
+    --popover-foreground: 203 87% 14%;
 
-    /* Primary - Golden Yellow (#F2AB27) */
-    --primary: 40 89% 55%;
-    --primary-foreground: 0 0% 100%;
+    /* Primary - Sunset orange (#E96E35) */
+    --primary: 18 80% 56%;
+    --primary-foreground: 203 87% 14%;
 
-    /* Secondary - Warm cream */
-    --secondary: 40 30% 95%;
-    --secondary-foreground: 195 30% 10%;
+    --secondary: 30 100% 95%;
+    --secondary-foreground: 203 87% 14%;
 
     /* Muted */
-    --muted: 40 15% 96%;
-    --muted-foreground: 195 10% 45%;
+    --muted: 190 28% 94%;
+    --muted-foreground: 198 34% 36%;
 
-    /* Accent - Deep Teal (#065473) */
-    --accent: 195 93% 24%;
+    /* Accent - Mountain teal (#0A7890) */
+    --accent: 190 87% 30%;
     --accent-foreground: 0 0% 100%;
 
-    /* Sale/urgency red (#F21F0C) */
-    --sale: 5 91% 50%;
+    --sale: 18 80% 56%;
     --sale-foreground: 0 0% 100%;
 
-    --destructive: 0 95% 34%;
+    --destructive: 5 74% 44%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 40 15% 88%;
-    --input: 40 15% 88%;
-    --ring: 40 89% 55%;
+    --border: 193 24% 84%;
+    --input: 193 24% 84%;
+    --ring: 18 80% 56%;
 
     --radius: 0.5rem;
 
     /* Custom tokens */
-    --olive: 195 93% 24%;
-    --chartreuse: 195 80% 35%;
-    --rust: 30 73% 50%;
-    --charcoal: 195 30% 10%;
-    --cream: 40 30% 97%;
-    --warm-grey: 40 10% 93%;
-    --amber: 30 73% 50%;
-    --deep-red: 0 95% 34%;
-    --golden: 40 89% 55%;
-    --fire-red: 5 91% 50%;
+    --olive: 190 87% 30%;
+    --chartreuse: 190 68% 38%;
+    --rust: 30 100% 60%;
+    --charcoal: 203 87% 14%;
+    --cream: 30 50% 97%;
+    --warm-grey: 190 24% 91%;
+    --amber: 30 100% 60%;
+    --deep-red: 203 87% 21%;
+    --golden: 30 100% 60%;
+    --fire-red: 18 80% 56%;
 
     /* Announcement bar */
-    --announcement: 30 73% 50%;
-    --announcement-foreground: 0 0% 100%;
+    --announcement: 203 87% 21%;
+    --announcement-foreground: 30 50% 99%;
 
     /* Shadows */
-    --shadow-soft: 0 2px 20px -5px hsl(195 30% 10% / 0.06);
-    --shadow-elevated: 0 10px 40px -10px hsl(195 30% 10% / 0.1);
+    --shadow-soft: 0 8px 24px -12px hsl(203 87% 14% / 0.14);
+    --shadow-elevated: 0 20px 48px -18px hsl(203 87% 14% / 0.28);
+    --gradient-sunset: linear-gradient(135deg, hsl(var(--rust)), hsl(var(--primary)));
+    --gradient-mountain: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--deep-red)));
 
     /* Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -118,27 +118,27 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-display;
     font-feature-settings: 'kern' 1, 'liga' 1, 'ss01' 1;
-    letter-spacing: -0.025em;
+    letter-spacing: 0;
   }
 
   h1 {
     @apply text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display;
     font-weight: 900;
-    letter-spacing: -0.04em;
+    letter-spacing: 0;
     line-height: 1.05;
   }
 
   h2 {
     @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display;
     font-weight: 800;
-    letter-spacing: -0.03em;
+    letter-spacing: 0;
     line-height: 1.1;
   }
 
   h3 {
     @apply text-xl sm:text-2xl md:text-3xl font-display;
     font-weight: 800;
-    letter-spacing: -0.02em;
+    letter-spacing: 0;
     line-height: 1.2;
   }
 
@@ -147,7 +147,7 @@
   .font-serif {
     font-family: 'Montserrat', '"Proxima Nova"', '"Arial Black"', -apple-system, BlinkMacSystemFont, system-ui, sans-serif !important;
     font-weight: 800;
-    letter-spacing: -0.025em;
+    letter-spacing: 0;
   }
 
   img {
@@ -195,5 +195,22 @@
 
   .text-gradient-warm {
     @apply bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent;
+  }
+
+  .bg-sunset {
+    background: var(--gradient-sunset);
+  }
+
+  .bg-mountain {
+    background: var(--gradient-mountain);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      scroll-behavior: auto !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }

@@ -69,8 +69,8 @@ const HeroSearch = ({ onSearch }: HeroSearchProps) => {
         }}
         className="relative"
       >
-        <div className="flex items-center gap-2 rounded-full bg-background/85 backdrop-blur-xl border border-background/40 shadow-2xl pl-5 pr-2 h-14 sm:h-16 transition-shadow focus-within:bg-background focus-within:shadow-[0_12px_40px_-8px_hsl(var(--foreground)/0.35)]">
-          <Search className="h-5 w-5 text-muted-foreground flex-shrink-0" />
+        <div className="flex items-center gap-2 rounded-full bg-background/95 backdrop-blur-xl border-2 border-primary/40 shadow-elevated pl-5 pr-2 h-14 sm:h-16 transition-all focus-within:border-primary focus-within:bg-background focus-within:shadow-elevated">
+          <Search className="h-5 w-5 text-accent flex-shrink-0" />
           <input
             value={term}
             onChange={(e) => setTerm(e.target.value)}
@@ -101,7 +101,7 @@ const HeroSearch = ({ onSearch }: HeroSearchProps) => {
           <button
             type="submit"
             aria-label="Check product"
-            className="hidden sm:inline-flex items-center justify-center h-10 px-5 rounded-full bg-primary text-primary-foreground text-xs uppercase tracking-[0.15em] font-semibold hover:bg-primary/90 transition-colors"
+            className="hidden sm:inline-flex items-center justify-center h-10 px-5 rounded-full bg-primary text-primary-foreground text-xs uppercase tracking-widest font-black hover:bg-rust transition-colors"
           >
             Check
           </button>
@@ -126,7 +126,7 @@ const HeroSearch = ({ onSearch }: HeroSearchProps) => {
               setTerm(s);
               submit(s);
             }}
-            className="text-[11px] sm:text-xs px-3 py-1.5 rounded-full bg-background/20 backdrop-blur-md border border-background/30 text-background hover:bg-background/35 transition-colors"
+            className="text-[11px] sm:text-xs px-3 py-1.5 rounded-full bg-deep-red/70 backdrop-blur-md border border-background/40 text-background hover:bg-accent transition-colors"
           >
             {s}
           </button>

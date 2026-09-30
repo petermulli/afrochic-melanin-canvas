@@ -58,7 +58,7 @@ const SaleProductsSection = () => {
 
   if (isLoading) {
     return (
-      <section className="py-16 md:py-24 bg-accent/5">
+      <section className="py-16 md:py-24 bg-secondary">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-center h-[300px]">
             <motion.div animate={{ rotate: 360 }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }}>
@@ -73,7 +73,7 @@ const SaleProductsSection = () => {
   if (saleProducts.length === 0) return null;
 
   return (
-    <section className="py-16 md:py-24 bg-accent/5">
+    <section className="py-16 md:py-24 bg-secondary">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           className="text-center mb-10"
@@ -85,7 +85,7 @@ const SaleProductsSection = () => {
           <span className="text-xs uppercase tracking-[0.3em] text-accent mb-3 block font-bold">
             Deals End Soon — Don't Miss Out
           </span>
-          <h2 className="font-serif">Sale Products</h2>
+          <h2 className="font-display font-black text-gradient-warm">Sale Products</h2>
           <p className="text-muted-foreground text-sm mt-2 max-w-md mx-auto">
             Grab these featured products at the best prices. Limited availability.
           </p>
@@ -99,10 +99,10 @@ const SaleProductsSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group cursor-pointer"
+              className="group cursor-pointer rounded-lg border border-primary/10 bg-card p-2 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-elevated"
               onClick={() => navigate(`/product/${product.id}`)}
             >
-              <div className="relative aspect-square overflow-hidden bg-muted mb-3">
+              <div className="relative aspect-square overflow-hidden rounded-md bg-muted mb-3">
                 <img
                   src={product.images[0]}
                   alt={product.name}
@@ -144,7 +144,7 @@ const SaleProductsSection = () => {
                 <h3 className="font-sans font-medium text-sm text-foreground group-hover:text-accent transition-colors line-clamp-2">
                   {product.name}
                 </h3>
-                <p className="text-sm font-bold text-accent">
+                <p className="text-sm font-black text-accent">
                   {formatPrice(product.price)}
                 </p>
               </div>
