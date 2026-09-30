@@ -78,7 +78,7 @@ const Index = () => {
             alt={heroHeadline}
             className="w-full h-full object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-foreground/70 via-foreground/60 to-foreground/75" />
+          <div className="absolute inset-0 bg-gradient-to-b from-deep-red/80 via-deep-red/55 to-accent/75" />
         </div>
 
         <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 w-full">
@@ -95,7 +95,7 @@ const Index = () => {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.15 }}
-                className="inline-flex items-stretch overflow-hidden rounded-full text-[10px] sm:text-xs font-medium tracking-wide shadow-sm backdrop-blur-sm"
+                className="inline-flex items-stretch overflow-hidden rounded-full text-[10px] sm:text-xs font-bold tracking-wide shadow-soft backdrop-blur-sm"
               >
                 <span className="bg-background/95 text-foreground px-4 py-2">{heroUrgency}</span>
                 <span className="bg-primary text-primary-foreground uppercase tracking-[0.2em] px-4 py-2">
@@ -103,11 +103,11 @@ const Index = () => {
                 </span>
               </motion.div>
 
-              <h1 className="font-display text-background whitespace-pre-line text-[2.75rem] sm:text-6xl md:text-7xl lg:text-[6.5rem] font-medium leading-[0.95] tracking-[-0.05em]">
+              <h1 className="font-display text-background whitespace-pre-line text-[2.75rem] sm:text-6xl md:text-7xl lg:text-[6.5rem] font-black leading-[0.95]">
                 {heroHeadline}
               </h1>
 
-              <p className="text-base md:text-lg text-background/90 max-w-xl mx-auto leading-relaxed font-display font-normal tracking-[-0.005em]">
+              <p className="text-base md:text-lg text-background/90 max-w-xl mx-auto leading-relaxed font-sans font-medium">
                 {heroSubtext}
               </p>
 
@@ -120,7 +120,7 @@ const Index = () => {
                 <Button
                   size="lg"
                   onClick={() => navigate(heroCtaLink)}
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 sm:px-10 py-6 text-sm uppercase tracking-[0.2em] font-semibold rounded-full shadow-lg group"
+                  className="bg-primary text-primary-foreground hover:bg-rust px-8 sm:px-10 py-6 text-sm uppercase tracking-widest font-black rounded-full shadow-elevated group"
                 >
                   {heroCta}
                   <ArrowRight className="ml-3 h-4 w-4 group-hover:translate-x-1 transition-transform" />
@@ -129,7 +129,7 @@ const Index = () => {
                   variant="outline"
                   size="lg"
                   onClick={() => navigate(heroSecondaryCtaLink)}
-                  className="bg-background text-foreground border-2 border-background hover:bg-background/90 hover:text-foreground rounded-full px-8 py-6 text-sm uppercase tracking-[0.2em] font-semibold"
+                  className="bg-background text-accent border-2 border-background hover:bg-secondary hover:text-accent rounded-full px-8 py-6 text-sm uppercase tracking-widest font-black"
                 >
                   <ShoppingBag className="mr-2 h-4 w-4" />
                   {heroSecondaryCta}
@@ -152,7 +152,7 @@ const Index = () => {
       {/* ===== MARQUEE STRIP 1 ===== */}
       <MarqueeStrip
         text={get("marquee_1", "text", "Free Shipping On Orders Over KES 5,000 • Same Day Delivery In Nairobi • Genuine Products Only")}
-        className="bg-amber text-white"
+        className="bg-primary text-primary-foreground"
         speed="25s"
       />
 
@@ -216,7 +216,7 @@ const Index = () => {
       {/* ===== MARQUEE STRIP 2 ===== */}
       <MarqueeStrip
         text={get("marquee_2", "text", "Trusted By 10,000+ Customers • 100% Genuine Products • Expert-Curated Selection")}
-        className="bg-deep-red text-white"
+        className="bg-deep-red text-background"
         speed="30s"
       />
 

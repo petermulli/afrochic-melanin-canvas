@@ -113,14 +113,14 @@ const SafetyCheck = ({ externalQuery = "" }: SafetyCheckProps) => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="rounded-3xl border border-border bg-background/90 backdrop-blur-xl shadow-2xl p-6 sm:p-8"
+          className="rounded-lg border border-accent/20 bg-background/95 backdrop-blur-xl shadow-elevated p-6 sm:p-8 overflow-hidden before:block before:h-1.5 before:bg-sunset before:-mx-8 before:-mt-8 before:mb-7"
         >
           <div className="text-center space-y-2 mb-6">
             <span className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.25em] text-accent font-semibold">
               <ShieldCheck className="h-3.5 w-3.5" />
               Product Safety Check
             </span>
-            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-semibold tracking-[-0.03em]">
+            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-black">
               Is this product safe for your skin?
             </h2>
             <p className="text-sm text-muted-foreground max-w-xl mx-auto">
@@ -185,8 +185,8 @@ const SafetyCheck = ({ externalQuery = "" }: SafetyCheckProps) => {
                     <div
                       className={`rounded-2xl p-5 border ${
                         verdictSafe
-                          ? "border-accent/30 bg-accent/5"
-                          : "border-amber/40 bg-amber/5"
+                          ? "border-accent/30 bg-accent/10"
+                          : "border-primary/40 bg-secondary"
                       }`}
                     >
                       <div className="flex items-start gap-4">
@@ -287,7 +287,7 @@ const SafetyCheck = ({ externalQuery = "" }: SafetyCheckProps) => {
                             <Link
                               key={l.id}
                               to={`/product/${l.id}`}
-                              className="group flex items-center gap-3 rounded-2xl border border-border p-3 hover:border-primary hover:shadow-md transition-all"
+                              className="group flex items-center gap-3 rounded-lg border border-border p-3 hover:-translate-y-0.5 hover:border-primary hover:shadow-soft transition-all"
                             >
                               <div className="h-16 w-16 rounded-xl overflow-hidden bg-muted flex-shrink-0">
                                 {l.images?.[0] && (

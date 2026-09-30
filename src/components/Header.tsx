@@ -27,13 +27,13 @@ const Header = () => {
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
+    <header className="sticky top-0 z-50 bg-background/90 backdrop-blur-xl border-b border-accent/15 shadow-soft">
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <NavLink to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity min-w-0 flex-shrink">
             <img src={logo} alt="Kenyashipment" className="h-8 sm:h-10 md:h-12 w-auto flex-shrink-0" />
-            <span className="text-base sm:text-xl md:text-2xl font-semibold tracking-tight text-foreground truncate">
+            <span className="text-base sm:text-xl md:text-2xl font-black text-foreground truncate">
               Kenya<span className="text-primary">shipment</span>
             </span>
           </NavLink>
@@ -76,10 +76,10 @@ const Header = () => {
               </Button>
             </NavLink>
             <NavLink to="/cart" className="relative">
-              <Button variant="ghost" size="icon" className="relative hover:bg-muted">
+              <Button variant="ghost" size="icon" className="relative hover:bg-secondary hover:text-accent">
                 <ShoppingCart className="h-5 w-5" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center font-medium">
+                  <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center font-bold ring-2 ring-background">
                     {cartCount}
                   </span>
                 )}
@@ -95,7 +95,7 @@ const Header = () => {
               </Button>
             </NavLink>
             <NavLink to="/cart" className="relative">
-              <Button variant="ghost" size="icon" className="relative hover:bg-muted h-9 w-9">
+                <Button variant="ghost" size="icon" className="relative hover:bg-secondary hover:text-accent h-9 w-9">
                 <ShoppingCart className="h-5 w-5" />
                 {cartCount > 0 && (
                   <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center font-medium">

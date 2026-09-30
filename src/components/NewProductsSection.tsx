@@ -58,7 +58,7 @@ const NewProductsSection = () => {
 
   if (isLoading) {
     return (
-      <section className="py-16 md:py-24 bg-muted/30">
+      <section className="py-16 md:py-24 bg-muted/40">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-center h-[300px]">
             <motion.div animate={{ rotate: 360 }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }}>
@@ -85,7 +85,7 @@ const NewProductsSection = () => {
           <span className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3 block font-bold">
             Just Dropped — Be First To Try
           </span>
-          <h2 className="font-serif">New Arrivals</h2>
+          <h2 className="font-display font-black text-gradient-warm">New Arrivals</h2>
           <p className="text-muted-foreground text-sm mt-2 max-w-md mx-auto">
             Fresh products added this week. Get them before they sell out.
           </p>
@@ -99,10 +99,10 @@ const NewProductsSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group cursor-pointer"
+              className="group cursor-pointer rounded-lg border border-transparent bg-card p-2 transition-all duration-300 hover:-translate-y-1 hover:border-accent/20 hover:shadow-elevated"
               onClick={() => navigate(`/product/${product.id}`)}
             >
-              <div className="relative aspect-square overflow-hidden bg-muted mb-3">
+              <div className="relative aspect-square overflow-hidden rounded-md bg-muted mb-3">
                 <img
                   src={product.images[0]}
                   alt={product.name}
@@ -117,7 +117,7 @@ const NewProductsSection = () => {
                   <Button
                     onClick={(e) => handleAddToCart(e, product)}
                     size="sm"
-                    className="w-full bg-foreground text-background hover:bg-foreground/90 rounded-none text-xs uppercase tracking-wider font-bold"
+                    className="w-full bg-primary text-primary-foreground hover:bg-rust rounded-none text-xs uppercase tracking-wider font-bold"
                   >
                     <ShoppingCart className="h-3 w-3 mr-1.5" />
                     Add to Cart
@@ -134,7 +134,7 @@ const NewProductsSection = () => {
                 <h3 className="font-sans font-medium text-sm text-foreground group-hover:text-primary transition-colors line-clamp-2">
                   {product.name}
                 </h3>
-                <p className="text-sm font-bold text-foreground">
+                <p className="text-sm font-black text-accent">
                   {formatPrice(product.price)}
                 </p>
               </div>
