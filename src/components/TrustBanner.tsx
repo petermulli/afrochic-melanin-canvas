@@ -14,8 +14,8 @@ const TrustBanner = () => {
   ];
 
   return (
-    <section className="py-6 md:py-8 bg-muted/50 border-y border-border">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-8 md:py-10 bg-muted/50 border-y border-border">
+      <div className="storefront-shell">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
           {benefits.map((b, i) => {
             const Icon = getLandingIcon(b.iconKey, Truck);
@@ -26,9 +26,9 @@ const TrustBanner = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="flex items-center gap-3 justify-center"
+                className="flex items-center gap-3 justify-center md:border-r md:border-border last:border-0"
               >
-                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-amber/15 flex items-center justify-center">
+                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-amber/15 flex items-center justify-center md:border-r md:border-border last:border-0">
                   <Icon className="h-5 w-5 text-amber" />
                 </div>
                 <div>

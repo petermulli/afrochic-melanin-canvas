@@ -71,17 +71,17 @@ const Index = () => {
       <Header />
 
       {/* ===== HERO SECTION ===== */}
-      <section className="relative h-[88vh] md:h-screen flex items-center overflow-hidden">
+      <section className="relative min-h-[620px] md:min-h-[640px] md:aspect-[3/2] md:max-h-[900px] flex items-center overflow-hidden py-16 md:py-20">
         <div className="absolute inset-0">
           <img
             src={heroImage}
             alt={heroHeadline}
             className="w-full h-full object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-deep-red/80 via-deep-red/55 to-accent/75" />
+          <div className="absolute inset-0 bg-gradient-to-b from-deep-red/55 via-deep-red/35 to-deep-red/65" />
         </div>
 
-        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="relative z-10 storefront-shell w-full">
           <AnimatePresence mode="wait">
             <motion.div
               key="hero"
@@ -175,7 +175,7 @@ const Index = () => {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-foreground/40 to-transparent" />
           <div className="absolute bottom-6 left-6 right-6">
-            <span className="inline-block bg-fire-red text-white text-[10px] uppercase tracking-wider px-3 py-1 font-bold mb-2">
+            <span className="inline-block bg-fire-red text-primary-foreground text-[10px] uppercase tracking-wider px-3 py-1 font-bold mb-2">
               {get("routine_cta", "badge", "Most Popular")}
             </span>
           </div>
@@ -264,7 +264,7 @@ const Index = () => {
           />
           <div className="absolute inset-0 bg-foreground/85" />
         </div>
-        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative z-10 storefront-shell">
           <motion.div
             className="max-w-3xl mx-auto text-center space-y-8"
             initial={{ opacity: 0, y: 30 }}
@@ -310,7 +310,7 @@ const Index = () => {
 
       {/* ===== NEWSLETTER ===== */}
       <section className="py-20 md:py-28 bg-muted">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="storefront-shell">
           <motion.div
             className="max-w-2xl mx-auto text-center space-y-6"
             initial={{ opacity: 0, y: 30 }}
@@ -352,7 +352,7 @@ const Index = () => {
 
       {/* ===== BECOME A SELLER CTA ===== */}
       <section className="py-20 bg-primary">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="storefront-shell">
           <motion.div
             className="max-w-3xl mx-auto text-center space-y-6"
             initial={{ opacity: 0, y: 30 }}
@@ -372,7 +372,7 @@ const Index = () => {
             <Button
               size="lg"
               onClick={() => navigate(get("seller_cta", "ctaLink", "/become-seller"))}
-              className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-none px-10 py-6 uppercase tracking-widest text-sm font-bold group"
+              className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-none px-10 py-6 uppercase tracking-widest text-sm font-bold group"
             >
               {get("seller_cta", "cta", "Become a Seller")}
               <ArrowRight className="ml-3 h-4 w-4 group-hover:translate-x-1 transition-transform" />

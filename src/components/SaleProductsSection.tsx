@@ -48,18 +48,13 @@ const SaleProductsSection = () => {
 
   const handleAddToCart = (e: React.MouseEvent, product: Product) => {
     e.stopPropagation();
-    if (product.shades && product.shades.length > 0) {
-      navigate(`/product/${product.id}`);
-    } else {
-      addItem({ id: product.id, name: product.name, price: product.price, image: product.images[0] });
-      toast.success(`${product.name} added to cart`);
-    }
+    navigate(`/product/${product.id}`);
   };
 
   if (isLoading) {
     return (
-      <section className="py-16 md:py-24 bg-secondary">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-12 md:py-[60px] bg-secondary">
+        <div className="storefront-shell">
           <div className="flex items-center justify-center h-[300px]">
             <motion.div animate={{ rotate: 360 }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }}>
               <Sparkles className="h-10 w-10 text-accent/50" />
@@ -73,8 +68,8 @@ const SaleProductsSection = () => {
   if (saleProducts.length === 0) return null;
 
   return (
-    <section className="py-16 md:py-24 bg-secondary">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-12 md:py-[60px] bg-secondary">
+      <div className="storefront-shell">
         <motion.div
           className="text-center mb-10"
           initial={{ opacity: 0, y: 20 }}
@@ -83,11 +78,11 @@ const SaleProductsSection = () => {
           transition={{ duration: 0.6 }}
         >
           <span className="text-xs uppercase tracking-[0.3em] text-accent mb-3 block font-bold">
-            Deals End Soon — Don't Miss Out
+            Featured finds
           </span>
           <h2 className="font-display font-black text-gradient-warm">Sale Products</h2>
           <p className="text-muted-foreground text-sm mt-2 max-w-md mx-auto">
-            Grab these featured products at the best prices. Limited availability.
+            Compare featured products and explore current offers.
           </p>
         </motion.div>
 
@@ -123,14 +118,14 @@ const SaleProductsSection = () => {
                   <Percent className="h-3 w-3" />
                   Sale
                 </div>
-                <div className="absolute inset-x-0 bottom-0 p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                <div className="absolute inset-x-0 bottom-0 p-3 translate-y-0 lg:translate-y-full lg:group-hover:translate-y-0 lg:group-focus-within:translate-y-0 transition-transform duration-300">
                   <Button
                     onClick={(e) => handleAddToCart(e, product)}
                     size="sm"
                     className="w-full bg-accent text-accent-foreground hover:bg-accent/90 rounded-none text-xs uppercase tracking-wider font-bold"
                   >
                     <ShoppingCart className="h-3 w-3 mr-1.5" />
-                    Add to Cart
+                    Choose options
                   </Button>
                 </div>
               </div>
@@ -147,6 +142,9 @@ const SaleProductsSection = () => {
                 <p className="text-sm font-black text-accent">
                   {formatPrice(product.price)}
                 </p>
+                {product.original_price && product.original_price > product.price && (
+                  <p className="text-xs text-muted-foreground"><span className="line-through mr-2">{formatPrice(product.original_price)}</span><span className="text-accent font-bold">Save {Math.round((1 - product.price / product.original_price) * 100)}%</span></p>
+                )}
               </div>
             </motion.div>
           ))}

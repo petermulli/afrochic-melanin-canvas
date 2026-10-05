@@ -85,18 +85,13 @@ const BestSellersSection = () => {
 
   const handleAddToCart = (e: React.MouseEvent, product: Product) => {
     e.stopPropagation();
-    if (product.shades && product.shades.length > 0) {
-      navigate(`/product/${product.id}`);
-    } else {
-      addItem({ id: product.id, name: product.name, price: product.price, image: product.images[0] });
-      toast.success(`${product.name} added to cart`);
-    }
+    navigate(`/product/${product.id}`);
   };
 
   if (isLoading) {
     return (
-      <section className="py-16 md:py-24 bg-background">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-12 md:py-[60px] bg-background">
+        <div className="storefront-shell">
           <div className="flex items-center justify-center h-[300px]">
             <motion.div animate={{ rotate: 360 }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }}>
               <Sparkles className="h-10 w-10 text-primary/50" />
@@ -110,8 +105,8 @@ const BestSellersSection = () => {
   if (topProducts.length === 0) return null;
 
   return (
-    <section className="py-16 md:py-24 bg-background">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-12 md:py-[60px] bg-background">
+      <div className="storefront-shell">
         <motion.div
           className="text-center mb-10"
           initial={{ opacity: 0, y: 20 }}
@@ -120,15 +115,15 @@ const BestSellersSection = () => {
           transition={{ duration: 0.6 }}
         >
           <span className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3 block font-bold">
-            Loved by 10,000+ customers
+            Discover customer favourites
           </span>
           <h2 className="font-display font-black text-gradient-warm">Best Sellers</h2>
           <p className="text-muted-foreground text-sm mt-2 max-w-md mx-auto">
-            Our most-purchased products this month. Don't miss what everyone's raving about.
+            Explore our featured skincare picks.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
           {topProducts.map((product, index) => (
             <motion.div
               key={product.id}
@@ -152,14 +147,14 @@ const BestSellersSection = () => {
                   </div>
                 )}
                 {/* Quick add overlay */}
-                <div className="absolute inset-x-0 bottom-0 p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                <div className="absolute inset-x-0 bottom-0 p-3 translate-y-0 lg:translate-y-full lg:group-hover:translate-y-0 lg:group-focus-within:translate-y-0 transition-transform duration-300">
                   <Button
                     onClick={(e) => handleAddToCart(e, product)}
                     size="sm"
                     className="w-full bg-primary text-primary-foreground hover:bg-rust rounded-none text-xs uppercase tracking-wider font-bold"
                   >
                     <ShoppingCart className="h-3 w-3 mr-1.5" />
-                    Add to Cart
+                    Choose options
                   </Button>
                 </div>
               </div>
@@ -168,12 +163,6 @@ const BestSellersSection = () => {
                 <h3 className="font-sans font-medium text-sm text-foreground group-hover:text-primary transition-colors line-clamp-2">
                   {product.name}
                 </h3>
-                <div className="flex items-center gap-0.5">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-3 w-3 fill-primary text-primary" />
-                  ))}
-                  <span className="text-[10px] text-muted-foreground ml-1">(4.9)</span>
-                </div>
                 <p className="text-sm font-black text-accent">
                   {formatPrice(product.price)}
                 </p>

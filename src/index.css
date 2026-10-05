@@ -77,8 +77,8 @@
     --popover: 195 25% 10%;
     --popover-foreground: 40 30% 97%;
 
-    --primary: 40 89% 55%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 18 80% 56%;
+    --primary-foreground: 203 87% 14%;
 
     --secondary: 195 15% 18%;
     --secondary-foreground: 40 30% 97%;
@@ -94,7 +94,7 @@
 
     --border: 195 15% 20%;
     --input: 195 15% 20%;
-    --ring: 40 89% 55%;
+    --ring: 18 80% 56%;
   }
 }
 
@@ -145,7 +145,7 @@
   /* Legacy .font-serif usage maps to the same Apple-style display stack so
      existing components inherit the smooth typography automatically. */
   .font-serif {
-    font-family: 'Montserrat', '"Proxima Nova"', '"Arial Black"', -apple-system, BlinkMacSystemFont, system-ui, sans-serif !important;
+    font-family: 'League Spartan', 'Montserrat', '"Proxima Nova"', '"Arial Black"', -apple-system, BlinkMacSystemFont, system-ui, sans-serif !important;
     font-weight: 800;
     letter-spacing: 0;
   }
@@ -212,5 +212,15 @@
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
     }
+  }
+}
+@layer utilities {
+  .storefront-shell {
+    width: calc(100% - 120px);
+    max-width: 1440px;
+    margin-inline: auto;
+  }
+  @media (max-width: 767px) {
+    .storefront-shell { width: calc(100% - 32px); }
   }
 }

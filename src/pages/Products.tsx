@@ -286,7 +286,7 @@ const Products = () => {
     <div className="min-h-screen flex flex-col">
       <Header />
 
-      <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <main className="flex-1 storefront-shell py-12">
         {/* Header - only show if there's a specific filter title */}
         {getPageTitle() && (
           <div className="text-center mb-8 md:mb-12 animate-fade-in-up">
@@ -297,7 +297,7 @@ const Products = () => {
         )}
 
         {/* Search and Filters Bar */}
-        <div className="max-w-xl mx-auto mb-6 md:mb-8 animate-fade-in-up px-2">
+        <div className="max-w-4xl mx-auto mb-6 md:mb-8 animate-fade-in-up px-2">
           <div className="flex gap-2">
             <div className="relative flex-1">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
@@ -421,7 +421,7 @@ const Products = () => {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4 md:gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
               {filteredProducts.map((product, index) => (
                 <div
                   key={product.id}
