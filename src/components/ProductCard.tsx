@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
-import { ShoppingCart, Store, ShieldCheck } from "lucide-react";
+import { ShoppingCart, Store } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { useCurrency } from "@/contexts/CurrencyContext";
 import { toast } from "sonner";
@@ -70,7 +70,7 @@ const ProductCard = ({ product, compact = false }: ProductCardProps) => {
         setImageIndex(0);
       }}
     >
-      <div className={`relative ${compact ? 'aspect-[3/4]' : 'aspect-square'} overflow-hidden rounded-md bg-muted ${compact ? 'mb-2' : 'mb-3'}`}>
+      <div className={`relative ${compact ? 'aspect-square' : 'aspect-square'} overflow-hidden rounded-md bg-muted ${compact ? 'mb-2' : 'mb-3'}`}>
         <img
           src={product.images[imageIndex]}
           alt={product.name}
@@ -88,9 +88,9 @@ const ProductCard = ({ product, compact = false }: ProductCardProps) => {
             <OfficialStoreBadge variant="compact" />
           </div>
         )}
-        <div className="absolute bottom-2 left-2 inline-flex items-center gap-1 bg-background/90 px-2 py-1 text-[9px] font-bold uppercase text-accent backdrop-blur-sm">
-          <ShieldCheck className="h-3 w-3" /> Vetted
-        </div>
+        {product.benefits?.[0] && (
+          <span className="absolute bottom-2 left-2 right-2 bg-background/90 px-2 py-1 text-xs text-accent backdrop-blur-sm truncate">{product.benefits[0]}</span>
+        )}
       </div>
       <div className={compact ? 'space-y-1' : 'space-y-2'}>
         {shopName && (
@@ -124,7 +124,7 @@ const ProductCard = ({ product, compact = false }: ProductCardProps) => {
           onClick={handleAddToCart}
           variant="outline"
           size={compact ? "sm" : "default"}
-          className={`w-full rounded-none border-2 border-primary bg-primary text-primary-foreground hover:bg-rust transition-all duration-300 ${compact ? 'text-xs py-1' : ''}`}
+          className={`w-full rounded-none border-2 border-primary bg-transparent text-foreground hover:bg-primary hover:text-primary-foreground transition-all duration-300 ${compact ? 'text-xs py-1' : ''}`}
         >
           <ShoppingCart className={compact ? "h-3 w-3 mr-1" : "h-4 w-4 mr-2"} />
           Choose options

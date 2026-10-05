@@ -145,7 +145,7 @@ const ProductDetail = () => {
     <div className="min-h-screen flex flex-col">
       <Header />
 
-      <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+      <main className="flex-1 storefront-shell py-8 md:py-12">
         <Button
           variant="ghost"
           onClick={() => navigate("/products")}
@@ -158,7 +158,7 @@ const ProductDetail = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           {/* LEFT COLUMN: Smaller Image + Seller Link */}
           <div className="space-y-4 animate-fade-in-up">
-            <div className="aspect-[4/5] max-w-xs mx-auto rounded-2xl overflow-hidden bg-muted">
+            <div className="aspect-square max-w-md mx-auto rounded-lg overflow-hidden bg-muted">
               <img
                 src={product.images[selectedImage]}
                 alt={product.name}
@@ -166,7 +166,7 @@ const ProductDetail = () => {
               />
             </div>
             {product.images.length > 1 && (
-              <div className="grid grid-cols-4 gap-3 max-w-xs mx-auto">
+              <div className="grid grid-cols-4 gap-3 max-w-md mx-auto">
                 {product.images.map((image, index) => (
                   <button
                     key={index}
@@ -187,7 +187,7 @@ const ProductDetail = () => {
             {sellerProfile && product.seller_id && (
               <Link
                 to={`/shop/${product.seller_id}`}
-                className="flex items-center gap-3 p-4 bg-muted/50 rounded-xl hover:bg-muted transition-colors group max-w-xs mx-auto"
+                className="flex items-center gap-3 p-4 bg-muted/50 rounded-xl hover:bg-muted transition-colors group max-w-md mx-auto"
               >
                 <div className="bg-primary/10 p-2.5 rounded-full">
                   <Store className="h-5 w-5 text-primary" />
@@ -215,8 +215,8 @@ const ProductDetail = () => {
           {/* RIGHT COLUMN: Product Info + Cross-Sell + Add to Cart + Reviews */}
           <div className="space-y-6 animate-fade-in-up" style={{ animationDelay: "100ms" }}>
             <div>
-              <h1 className="text-3xl md:text-4xl font-light tracking-tight mb-2">{product.name}</h1>
-              <p className="text-2xl md:text-3xl font-semibold text-primary">
+              <h1 className="text-3xl md:text-4xl font-bold mb-2">{product.name}</h1>
+              <p className="text-2xl md:text-3xl font-bold text-accent">
                 {formatPrice(product.price)}
               </p>
             </div>

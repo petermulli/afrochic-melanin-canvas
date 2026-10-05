@@ -48,18 +48,13 @@ const NewProductsSection = () => {
 
   const handleAddToCart = (e: React.MouseEvent, product: Product) => {
     e.stopPropagation();
-    if (product.shades && product.shades.length > 0) {
-      navigate(`/product/${product.id}`);
-    } else {
-      addItem({ id: product.id, name: product.name, price: product.price, image: product.images[0] });
-      toast.success(`${product.name} added to cart`);
-    }
+    navigate(`/product/${product.id}`);
   };
 
   if (isLoading) {
     return (
-      <section className="py-16 md:py-24 bg-muted/40">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-12 md:py-[60px] bg-muted/40">
+        <div className="storefront-shell">
           <div className="flex items-center justify-center h-[300px]">
             <motion.div animate={{ rotate: 360 }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }}>
               <Sparkles className="h-10 w-10 text-primary/50" />
@@ -73,8 +68,8 @@ const NewProductsSection = () => {
   if (newProducts.length === 0) return null;
 
   return (
-    <section className="py-16 md:py-24 bg-muted/30">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-12 md:py-[60px] bg-muted/30">
+      <div className="storefront-shell">
         <motion.div
           className="text-center mb-10"
           initial={{ opacity: 0, y: 20 }}
@@ -87,7 +82,7 @@ const NewProductsSection = () => {
           </span>
           <h2 className="font-display font-black text-gradient-warm">New Arrivals</h2>
           <p className="text-muted-foreground text-sm mt-2 max-w-md mx-auto">
-            Fresh products added this week. Get them before they sell out.
+            Explore the latest additions to our catalogue.
           </p>
         </motion.div>
 
@@ -113,14 +108,14 @@ const NewProductsSection = () => {
                   <Clock className="h-3 w-3" />
                   New
                 </div>
-                <div className="absolute inset-x-0 bottom-0 p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                <div className="absolute inset-x-0 bottom-0 p-3 translate-y-0 lg:translate-y-full lg:group-hover:translate-y-0 lg:group-focus-within:translate-y-0 transition-transform duration-300">
                   <Button
                     onClick={(e) => handleAddToCart(e, product)}
                     size="sm"
                     className="w-full bg-primary text-primary-foreground hover:bg-rust rounded-none text-xs uppercase tracking-wider font-bold"
                   >
                     <ShoppingCart className="h-3 w-3 mr-1.5" />
-                    Add to Cart
+                    Choose options
                   </Button>
                 </div>
               </div>

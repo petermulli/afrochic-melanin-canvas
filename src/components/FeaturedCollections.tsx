@@ -28,10 +28,10 @@ const FeaturedCollections = () => {
   }));
 
   return (
-    <section className="py-16 md:py-24 bg-background">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-12 md:py-[60px] bg-background">
+      <div className="storefront-shell">
         <motion.div
-          className="text-center mb-10"
+          className="text-left mb-8"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -42,7 +42,7 @@ const FeaturedCollections = () => {
           <h2 className="font-serif">{headline}</h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
           {collections.map((col, i) => (
             <motion.div
               key={i}
@@ -51,7 +51,7 @@ const FeaturedCollections = () => {
               viewport={{ once: true }}
               transition={{ delay: i * 0.15 }}
               onClick={() => navigate(col.link)}
-              className="group cursor-pointer relative overflow-hidden aspect-[3/4]"
+              className="group cursor-pointer relative overflow-hidden aspect-[5/6]"
             >
               <img
                 src={col.image}
@@ -72,7 +72,7 @@ const FeaturedCollections = () => {
                 <Button
                   variant="outline"
                   size="sm"
-                  className="border-background/60 text-background hover:bg-background hover:text-foreground rounded-none uppercase tracking-widest text-[10px] font-bold group-hover:bg-background group-hover:text-foreground transition-all"
+                  className="bg-transparent border-background/60 text-background hover:bg-background hover:text-foreground rounded-none uppercase tracking-widest text-[10px] font-bold group-hover:bg-background group-hover:text-foreground transition-all"
                 >
                   Shop Now
                   <ArrowRight className="ml-2 h-3 w-3 group-hover:translate-x-1 transition-transform" />
