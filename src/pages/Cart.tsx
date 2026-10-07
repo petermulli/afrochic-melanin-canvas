@@ -44,7 +44,7 @@ const Cart = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_360px] gap-8 lg:gap-16 items-start">
           {/* Cart Items */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="space-y-6">
             {items.map((item, index) => (
               <div
                 key={`${item.id}-${item.shade}`}
@@ -103,7 +103,7 @@ const Cart = () => {
           </div>
 
           {/* Order Summary */}
-          <div className="lg:col-span-1">
+          <div>
             <div
               className="bg-muted p-6 md:p-8 border-t-4 border-primary sticky top-24 animate-fade-in-up"
               style={{ animationDelay: "100ms" }}
