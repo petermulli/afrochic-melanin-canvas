@@ -70,14 +70,14 @@ const Header = () => {
               </NavLink>
             )}
             <CurrencySelector />
-            <NavLink to={user ? "/account" : "/auth"}>
-              <Button variant="ghost" size="icon" className="hover:bg-muted">
+            <NavLink to={user ? "/account" : "/auth"} aria-label={user ? "My account" : "Sign in"}>
+              <Button variant="ghost" size="icon" className="h-11 w-11 rounded-none hover:bg-muted" aria-label={user ? "My account" : "Sign in"}>
                 <User className="h-5 w-5" />
               </Button>
             </NavLink>
-            <NavLink to="/cart" className="relative">
-              <Button variant="ghost" size="icon" className="relative hover:bg-secondary hover:text-accent">
-                <ShoppingCart className="h-5 w-5" />
+            <NavLink to="/cart" className="relative" aria-label="Shopping cart">
+              <Button variant="ghost" size="icon" className="relative h-11 w-11 rounded-none hover:bg-secondary hover:text-accent" aria-label="Shopping cart">
+                <ShoppingCart className="h-[18px] w-[18px] stroke-[1.7]" />
                 {cartCount > 0 && (
                   <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center font-bold ring-2 ring-background">
                     {cartCount}
@@ -90,13 +90,13 @@ const Header = () => {
           {/* Mobile Menu Button */}
           <div className="flex items-center gap-0.5 sm:gap-1 md:hidden flex-shrink-0">
             <NavLink to={user ? "/account" : "/auth"}>
-              <Button variant="ghost" size="icon" className="hover:bg-muted h-9 w-9">
+              <Button variant="ghost" size="icon" className="hover:bg-muted h-10 w-10 rounded-none">
                 <User className="h-5 w-5" />
               </Button>
             </NavLink>
             <NavLink to="/cart" className="relative">
-                <Button variant="ghost" size="icon" className="relative hover:bg-secondary hover:text-accent h-9 w-9">
-                <ShoppingCart className="h-5 w-5" />
+                <Button variant="ghost" size="icon" className="relative hover:bg-secondary hover:text-accent h-10 w-10 rounded-none" aria-label="Shopping cart">
+                <ShoppingCart className="h-[18px] w-[18px] stroke-[1.7]" />
                 {cartCount > 0 && (
                   <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center font-medium">
                     {cartCount}
@@ -108,7 +108,7 @@ const Header = () => {
               variant="ghost"
               size="icon"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="hover:bg-muted h-9 w-9"
+              className="hover:bg-muted h-10 w-10 rounded-none"
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
