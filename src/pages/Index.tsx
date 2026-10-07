@@ -71,7 +71,7 @@ const Index = () => {
       <Header />
 
       {/* ===== HERO SECTION ===== */}
-      <section className="relative min-h-[620px] md:min-h-[640px] md:aspect-[3/2] md:max-h-[900px] flex items-center overflow-hidden py-16 md:py-20">
+      <section className="relative min-h-[calc(100svh-96px)] md:min-h-[calc(100svh-112px)] flex items-center overflow-hidden py-14 md:py-20">
         <div className="absolute inset-0">
           <img
             src={heroImage}
@@ -89,13 +89,13 @@ const Index = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -40 }}
               transition={{ duration: 0.5 }}
-              className="max-w-3xl mx-auto flex flex-col items-center text-center space-y-5 md:space-y-6"
+              className="max-w-4xl mx-auto flex flex-col items-center text-center space-y-5 md:space-y-7"
             >
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.15 }}
-                className="inline-flex items-stretch overflow-hidden rounded-full text-[10px] sm:text-xs font-bold tracking-wide shadow-soft backdrop-blur-sm"
+                className="inline-flex items-stretch overflow-hidden text-[10px] sm:text-xs font-bold tracking-wide shadow-soft backdrop-blur-sm"
               >
                 <span className="bg-background/95 text-foreground px-4 py-2">{heroUrgency}</span>
                 <span className="bg-primary text-primary-foreground uppercase tracking-[0.2em] px-4 py-2">
@@ -103,7 +103,7 @@ const Index = () => {
                 </span>
               </motion.div>
 
-              <h1 className="font-display text-background whitespace-pre-line text-[2.75rem] sm:text-6xl md:text-7xl lg:text-[6.5rem] font-black leading-[0.95]">
+              <h1 className="font-display text-background whitespace-pre-line text-[2.75rem] sm:text-6xl md:text-7xl lg:text-[6.75rem] font-black leading-[0.94] max-w-4xl">
                 {heroHeadline}
               </h1>
 
@@ -120,7 +120,7 @@ const Index = () => {
                 <Button
                   size="lg"
                   onClick={() => navigate(heroCtaLink)}
-                  className="bg-primary text-primary-foreground hover:bg-rust px-8 sm:px-10 py-6 text-sm uppercase tracking-widest font-black rounded-full shadow-elevated group"
+                  className="bg-primary text-primary-foreground hover:bg-rust min-w-52 px-8 sm:px-10 py-6 text-sm uppercase tracking-widest font-black rounded-none shadow-elevated group"
                 >
                   {heroCta}
                   <ArrowRight className="ml-3 h-4 w-4 group-hover:translate-x-1 transition-transform" />
@@ -129,7 +129,7 @@ const Index = () => {
                   variant="outline"
                   size="lg"
                   onClick={() => navigate(heroSecondaryCtaLink)}
-                  className="bg-background text-accent border-2 border-background hover:bg-secondary hover:text-accent rounded-full px-8 py-6 text-sm uppercase tracking-widest font-black"
+                  className="bg-background text-accent border-2 border-background hover:bg-secondary hover:text-accent rounded-none min-w-52 px-8 py-6 text-sm uppercase tracking-widest font-black"
                 >
                   <ShoppingBag className="mr-2 h-4 w-4" />
                   {heroSecondaryCta}

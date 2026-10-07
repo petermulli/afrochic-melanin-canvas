@@ -7,7 +7,7 @@ const AnnouncementBar = () => {
 
   return (
     <div
-      className="bg-fire-red text-white py-2 overflow-hidden cursor-pointer"
+      className="bg-fire-red text-sale-foreground py-2 overflow-hidden cursor-pointer"
       onClick={() => navigate("/products")}
     >
       <div className="flex whitespace-nowrap animate-marquee">
