@@ -8,4 +8,4 @@
 - [x] Verify key shopping interactions on desktop and mobile.
 - [x] Expand the homepage to Tone-inspired viewport proportions and sharper square controls.
 - [x] Restyle the cart layout, spacing, typography, and cart controls to match the reference proportions.
-- [ ] Verify the revised homepage and cart on desktop and mobile.
+- [x] Verify the revised homepage and cart on desktop and mobile.
